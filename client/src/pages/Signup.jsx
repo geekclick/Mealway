@@ -35,7 +35,7 @@ function Signup() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData.phn.length);
     if (formData.phn.length === 10) {
@@ -50,6 +50,24 @@ function Signup() {
     } else setError({ ...error, password_error: true });
 
     console.log("data is submited safely");
+
+    // Api connection 
+try {
+  
+    const response = await fetch('http://localhost:5000/api/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData),
+  })
+
+  console.log(response);
+
+  } catch (error) {
+    console.log("Api coonection error",error);
+}
+
   };
   const handleChange = (e) => {
     const { name, value } = e.target;

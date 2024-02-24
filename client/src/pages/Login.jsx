@@ -18,10 +18,26 @@ function Login() {
       setLoginButton(false);
     }
   };
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     console.log(name, value);
     setFormData({ ...formData, [name]: value });
+
+    try {
+  
+      const response = await fetch('http://localhost:5000/api/login', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData),
+    })
+  
+    console.log(response);
+  
+    } catch (error) {
+      console.log("Api coonection error",error);
+  }
   };
   useEffect(() => {
     handleSubmitButtonState();

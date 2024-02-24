@@ -4,9 +4,10 @@
   "description": "Mealway a street food locator to explore the local delicacies",
   "main": "server.js",
   "scripts": {
+    "start":"nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
+  "keywords": [ 
     "mealway",
     "street",
     "food"

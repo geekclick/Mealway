@@ -12,7 +12,7 @@ try {
 
 const register = async (req, res)=>{
 try {
-    const {fname,lname,email,password}=req.body;
+    const {fn,phn,email,password}=req.body;
     const userExits = await User.findOne({email});
 
     if(userExits) {
@@ -21,7 +21,7 @@ try {
         return;
     }
 
-    const data = await User.create({fname,lname,email,password});
+    const data = await User.create({fn,phn,email,password});
     const token = await data.generateToken();
     
     res.status(201).json({

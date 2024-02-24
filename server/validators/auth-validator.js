@@ -2,17 +2,22 @@ const {z}=require('zod')
 
 const signupSchema=z.object({
 
-    fname:z
+    fn:z
     .string({required_error:"name is required"})
     .trim()
     .min({message:"Name must be at least of 2 chars"})
     .max(255,{required_error:"Name must be at most 255 characters"}),
 
-    lname:z
-    .string({required_error:"lanme is required"})
+    // lname:z
+    // .string({required_error:"lanme is required"})
+    // .trim()
+    // .min(2,{message:"Name must be at least of 2 chars"})
+    // .max(255,{required_error:"Name must be at most 255 characters"}),
+    phn:z
+    .string({required_error:"phone number is required"})
     .trim()
-    .min(2,{message:"Name must be at least of 2 chars"})
-    .max(255,{required_error:"Name must be at most 255 characters"}),
+    .min(10,{message:"Phone number must be at least of 10 digits"})
+    .max(10,{required_error:"Phone number must be at most 10 digits"}),
 
     email:z
     .string({required_error:"email is required"})

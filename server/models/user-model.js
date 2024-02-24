@@ -3,12 +3,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
-    fname:{
+    fn:{
         type:String,
         required:true
     },
-    lname:{
-        type:String,
+    // lname:{
+    //     type:String,
+    //     required:true
+    // },
+    phn:{
+        type:Number,
         required:true
     },
     email:{
@@ -19,6 +23,10 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    // cpassword:{
+    //     type:String,
+    //     required:true
+    // },
     isAdmin:{
         type:Boolean,
         default:false
