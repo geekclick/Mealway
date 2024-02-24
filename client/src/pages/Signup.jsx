@@ -7,7 +7,7 @@ import { FaChevronLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { SiGmail } from "react-icons/si";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 function Signup() {
   const [formData, setFormData] = useState({
     fn: "",
@@ -16,6 +16,8 @@ function Signup() {
     password: "",
     cpassword: "",
   });
+  const navigate = useNavigate();
+
   const [loginButton, setLoginButton] = useState(false);
   const [error, setError] = useState({
     phn_error: false,
@@ -62,6 +64,16 @@ try {
     body: JSON.stringify(formData),
   })
 
+    if(response.ok){
+      setFormData({
+        fn: "",
+        phn: "",
+        email: "",
+        password: "",
+        cpassword: ""
+      });
+      navigate('/login');
+    }
   console.log(response);
 
   } catch (error) {
@@ -119,7 +131,7 @@ try {
           <div className="w-full space-y-2">
             <Label>Email</Label>
             <Input
-              placeholder="Enter your phone number"
+              placeholder="Enter your email"
               type="email"
               name="email"
               value={formData.email}
