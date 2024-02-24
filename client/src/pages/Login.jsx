@@ -56,12 +56,12 @@ function Login() {
           className="flex justify-center items-center flex-col space-y-6"
         >
           <div className="w-full space-y-2">
-            <Label>Phone number</Label>
+            <Label>Email</Label>
             <Input
-              placeholder="Enter your phone number"
-              type="number"
-              name="phn"
-              value={formData.phn}
+              placeholder="Enter your Email"
+              type="email"
+              name="email"
+              value={formData.email}
               onChange={(e) => handleChange(e)}
             />
           </div>
