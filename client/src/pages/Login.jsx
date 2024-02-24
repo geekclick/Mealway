@@ -24,20 +24,18 @@ function Login() {
     setFormData({ ...formData, [name]: value });
 
     try {
-  
-      const response = await fetch('http://localhost:5000/api/login', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData),
-    })
-  
-    console.log(response);
-  
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      console.log(response);
     } catch (error) {
-      console.log("Api coonection error",error);
-  }
+      console.log("Api coonection error", error);
+    }
   };
   useEffect(() => {
     handleSubmitButtonState();
@@ -87,10 +85,10 @@ function Login() {
           <hr className="w-[40%]" />
         </div>
         <div className="text-center space-y-3">
-          <Button className="bg-accent text-black border w-full">
+          {/* <Button className="bg-accent text-black border w-full">
             <SiGmail className="mx-4 scale-150" />
             Continue with Email
-          </Button>
+          </Button> */}
           <Button className="bg-[#5384EE] w-full">
             <FcGoogle className="mx-4 scale-150" />
             Continue with Google
