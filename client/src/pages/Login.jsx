@@ -12,7 +12,7 @@ function Login() {
   const [formData, setFormData] = useState({ phn: "", password: "" });
   const [loginButton, setLoginButton] = useState(false);
   const handleSubmitButtonState = () => {
-    if (formData.phn.trim() !== "" && formData.password.trim() !== "") {
+    if (formData.email.trim() !== "" && formData.password.trim() !== "") {
       setLoginButton(true);
     } else {
       setLoginButton(false);
