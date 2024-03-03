@@ -7,7 +7,7 @@ import { FaChevronLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { SiGmail } from "react-icons/si";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 function Signup() {
   const [formData, setFormData] = useState({
     fn: "",
@@ -16,6 +16,8 @@ function Signup() {
     password: "",
     cpassword: "",
   });
+  const navigate = useNavigate();
+
   const [loginButton, setLoginButton] = useState(false);
   const [error, setError] = useState({
     phn_error: false,
@@ -61,10 +63,22 @@ function Signup() {
         body: JSON.stringify(formData),
       });
 
-      console.log(response);
-    } catch (error) {
-      console.log("Api coonection error", error);
+    if(response.ok){
+      setFormData({
+        fn: "",
+        phn: "",
+        email: "",
+        password: "",
+        cpassword: ""
+      });
+      navigate('/login');
     }
+  console.log(response);
+
+  } catch (error) {
+    console.log("Api coonection error",error);
+}
+
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,88 +96,87 @@ function Signup() {
         </Link>
         <h1 className="text-center">Sign Up</h1>
       </div>
-      <div className="py-2 px-4">
-        <div className="py-10 px-4 drop-shadow-md space-y-10">
-          <form
-            action=""
-            className="flex justify-center items-center flex-col space-y-6"
-            onSubmit={(e) => handleSubmit(e)}
-          >
-            <div className="w-full space-y-2">
-              <Label>Full name</Label>
-              <Input
-                placeholder="Enter your full name"
-                type="text"
-                name="fn"
-                value={formData.fn}
-                onChange={(e) => handleChange(e)}
-              />
-            </div>
-            <div className="w-full space-y-2">
-              <Label>Phone number</Label>
-              <Input
-                placeholder="Enter your phone number"
-                type="number"
-                name="phn"
-                value={formData.phn}
-                onChange={(e) => handleChange(e)}
-              />
-              {error.phn_error && (
-                <small className="text-primary">
-                  Mobile Number Must be of 10 digits
-                </small>
-              )}
-            </div>
-            <div className="w-full space-y-2">
-              <Label>Email</Label>
-              <Input
-                placeholder="Enter your phone number"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={(e) => handleChange(e)}
-              />
-            </div>
-            <div className="w-full">
-              <Label>Password</Label>
-              <PasswordInput
-                value={formData.password}
-                onChange={(e) => handleChange(e)}
-              />
-            </div>
-            <div className="w-full">
-              <Label>Confirm Password</Label>
-              <PasswordInput
-                value={formData.cpassword}
-                onChange={(e) => handleChange(e)}
-                name="cpassword"
-              />
-              {error.password_error && (
-                <small className="text-primary text-left">
-                  Password must be matched
-                </small>
-              )}
-              <p className="m-2">
-                By clicking Sign up, you agree to the system's{" "}
-                <span className="text-primary">Terms and policies</span>
-              </p>
-            </div>
-            <Button
-              className="w-full"
-              variant={`${loginButton ? "" : "disabled"}`}
-              disabled={!loginButton}
-              type="submit"
-            >
-              Sign up
-            </Button>
-          </form>
-          <div className="flex justify-between items-center w-full">
-            <hr className="w-[40%]" />
-            <p>or</p>
-            <hr className="w-[40%]" />
+      <div className="py-10 px-4 drop-shadow-md space-y-10">
+        <form
+          action=""
+          className="flex justify-center items-center flex-col space-y-6"
+          onSubmit={(e) => handleSubmit(e)}
+        >
+          <div className="w-full space-y-2">
+            <Label>Full name</Label>
+            <Input
+              placeholder="Enter your full name"
+              type="text"
+              name="fn"
+              value={formData.fn}
+              onChange={(e) => handleChange(e)}
+            />
           </div>
-          <div className="text-center space-y-3">
-            {/* <Button className="bg-accent text-black border w-full">
+          <div className="w-full space-y-2">
+            <Label>Phone number</Label>
+            <Input
+              placeholder="Enter your phone number"
+              type="number"
+              name="phn"
+              value={formData.phn}
+              onChange={(e) => handleChange(e)}
+            />
+            {error.phn_error && (
+              <small className="text-primary">
+                Mobile Number Must be of 10 digits
+              </small>
+            )}
+          </div>
+          <div className="w-full space-y-2">
+            <Label>Email</Label>
+            <Input
+              placeholder="Enter your phone number"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="w-full">
+            <Label>Password</Label>
+            <PasswordInput
+              value={formData.password}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="w-full">
+            <Label>Confirm Password</Label>
+            <PasswordInput
+              value={formData.cpassword}
+              onChange={(e) => handleChange(e)}
+              name="cpassword"
+            />
+            {error.password_error && (
+              <small className="text-primary text-left">
+                Password must be matched
+              </small>
+            )}
+            <p className="m-2">
+              By clicking Sign up, you agree to the system's{" "}
+              <span className="text-primary">Terms and policies</span>
+            </p>
+          </div>
+          <Button
+            className="w-full"
+            variant={`${loginButton ? "" : "disabled"}`}
+            disabled={!loginButton}
+            type="submit"
+          >
+            Sign up
+          </Button>
+        </form>
+        <div className="flex justify-between items-center w-full">
+          <hr className="w-[40%]" />
+          <p>or</p>
+          <hr className="w-[40%]" />
+        </div>
+        <div className="text-center space-y-3">
+          <Button className="bg-accent text-black border w-full">
             <SiGmail className="mx-4 scale-150" />
             Continue with Email
           </Button> */}
