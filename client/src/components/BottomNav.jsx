@@ -13,8 +13,7 @@ const links = [
 ];
 
 function BottomNav() {
-  const currentPath = location.pathname.split("/")[1];
-  console.log(currentPath);
+  const currentPath = location.pathname.split("/");
   return (
     <nav className="fixed w-full z-50 bottom-0 bg-white flex justify-evenly items-center py-4 shadow-md shadow-black">
       {links.map((item, i) => {
@@ -23,7 +22,7 @@ function BottomNav() {
             to={`/${item.link}`}
             key={i}
             className={`flex flex-col justify-center items-center ${
-              currentPath == item.link ? "text-primary" : ""
+              currentPath[1] == item.link ? "text-primary" : ""
             }`}
           >
             {item.icon}

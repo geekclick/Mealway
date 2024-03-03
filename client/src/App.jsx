@@ -8,11 +8,13 @@ import Notification from "./pages/Notification";
 import SearchPage from "./pages/SearchPage";
 import Signup from "./pages/Signup";
 import { Routes, Route } from "react-router-dom";
+import Vendor from "./pages/Vendor";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/:id" element={<Vendor />} />
       <Route path="/favourite" element={<Favourite />} />
       <Route path="/order" element={<Home />} />
       <Route path="/reward" element={<Home />} />

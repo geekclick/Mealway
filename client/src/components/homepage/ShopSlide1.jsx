@@ -9,23 +9,23 @@ import { Link } from "react-router-dom";
 
 const prods = [
   {
-    name: "Pizza Hut",
+    name: "Elisandra Restaurant",
     img: "https://source.unsplash.com/210x140/?food,shop$1",
   },
   {
-    name: "Pizza Hut",
+    name: "Elisandra Restaurant",
     img: "https://source.unsplash.com/210x140/?food-shop$2",
   },
   {
-    name: "Pizza Hut",
+    name: "Elisandra Restaurant",
     img: "https://source.unsplash.com/210x140/?food_shop$3",
   },
   {
-    name: "Pizza Hut",
+    name: "Elisandra Restaurant",
     img: "https://source.unsplash.com/210x140/?subway$4",
   },
   {
-    name: "Pizza Hut",
+    name: "Elisandra Restaurant",
     img: "https://source.unsplash.com/210x140/?food$5",
   },
 ];
@@ -51,7 +51,10 @@ function ShopSlide1({ title }) {
             {prods.map((item, i) => {
               return (
                 <CarouselItem>
-                  <div className=" space-y-2">
+                  <Link
+                    to={`/${item.name.toLowerCase().split(" ").join("-")}`}
+                    className=" space-y-2"
+                  >
                     <img
                       src={item.img}
                       alt=""
@@ -64,7 +67,7 @@ function ShopSlide1({ title }) {
                         Restaurant
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 </CarouselItem>
               );
             })}
