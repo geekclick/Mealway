@@ -2,13 +2,18 @@ import PasswordInput from "@/components/PasswordInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { handleChange } from "@/helpers/handleChange";
+import { handleSignUp } from "@/services/auth-services";
 import React, { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { SiGmail } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 function Signup() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fn: "",
     phn: "",
@@ -16,13 +21,14 @@ function Signup() {
     password: "",
     cpassword: "",
   });
-  const navigate = useNavigate();
 
   const [loginButton, setLoginButton] = useState(false);
+
   const [error, setError] = useState({
     phn_error: false,
     password_error: false,
   });
+
   const handleSubmitButtonState = () => {
     if (
       formData.fn.trim() !== "" &&
@@ -52,36 +58,7 @@ function Signup() {
     } else setError({ ...error, password_error: true });
 
     console.log("data is submited safely");
-
-    // Api connection
-    try {
-      const response = await fetch("http://localhost:5000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setFormData({
-          fn: "",
-          phn: "",
-          email: "",
-          password: "",
-          cpassword: "",
-        });
-        navigate("/login");
-      }
-      console.log(response);
-    } catch (error) {
-      console.log("Api coonection error", error);
-    }
-  };
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    // console.log(formData.phn.length);
+    handleSignUp(e, formData, dispatch, navigate);
   };
   useEffect(() => {
     handleSubmitButtonState();
@@ -107,7 +84,7 @@ function Signup() {
               type="text"
               name="fn"
               value={formData.fn}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e, setFormData)}
             />
           </div>
           <div className="w-full space-y-2">
@@ -117,7 +94,7 @@ function Signup() {
               type="number"
               name="phn"
               value={formData.phn}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e, setFormData)}
             />
             {error.phn_error && (
               <small className="text-primary">
@@ -132,21 +109,21 @@ function Signup() {
               type="email"
               name="email"
               value={formData.email}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e, setFormData)}
             />
           </div>
           <div className="w-full">
             <Label>Password</Label>
             <PasswordInput
               value={formData.password}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e, setFormData)}
             />
           </div>
           <div className="w-full">
             <Label>Confirm Password</Label>
             <PasswordInput
               value={formData.cpassword}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e, setFormData)}
               name="cpassword"
             />
             {error.password_error && (

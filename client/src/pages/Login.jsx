@@ -2,14 +2,22 @@ import PasswordInput from "@/components/PasswordInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useEffect, useState } from "react";
+import { handleLogin } from "@/services/auth-services";
+import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { handleChange } from "@/helpers/handleChange";
 
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loginButton, setLoginButton] = useState(false);
+
   const handleSubmitButtonState = () => {
     if (formData.email.trim() !== "" && formData.password.trim() !== "") {
       setLoginButton(true);
@@ -17,25 +25,7 @@ function Login() {
       setLoginButton(false);
     }
   };
-  const handleChange = async (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    setFormData({ ...formData, [name]: value });
 
-    try {
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      console.log(response);
-    } catch (error) {
-      console.log("Api coonection error", error);
-    }
-  };
   useEffect(() => {
     handleSubmitButtonState();
   }, [formData]);
@@ -52,6 +42,7 @@ function Login() {
           <form
             action=""
             className="flex justify-center items-center flex-col space-y-6"
+            onSubmit={(e) => handleLogin(e, formData, dispatch, navigate)}
           >
             <div className="w-full space-y-2">
               <Label>Email</Label>
@@ -60,14 +51,14 @@ function Login() {
                 type="email"
                 name="email"
                 value={formData.email}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleChange(e, setFormData)}
               />
             </div>
             <div className="w-full">
               <Label>Password</Label>
               <PasswordInput
                 value={formData.password}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleChange(e, setFormData)}
               />
               <small className="text-primary">Forgot password?</small>
             </div>

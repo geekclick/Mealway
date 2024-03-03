@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import sidebarReducer from "./reducers/sidebarSlice";
+import authReducer from "./reducers/authSlice";
 
 const persistConfig = {
     key: "root",
@@ -13,6 +14,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     sidebarSlice: sidebarReducer,
+    authSlice: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
