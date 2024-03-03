@@ -12,8 +12,8 @@ function Notification() {
       </div>
       <div className="flex flex-col justify-center items-center py-16 space-y-4">
         <img src={Img} alt="" className="w-[100px]" />
-        <h3 className="text-primary">No Notification</h3>
-        <h5 className="text-center w-[330px]">
+        <h3 className="text-primary">No Notifications</h3>
+        <h5 className="text-center w-[300px]">
           Sorry, you have no notification right now, we will let you know if you
           got any
         </h5>

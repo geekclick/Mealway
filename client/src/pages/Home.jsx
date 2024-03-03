@@ -12,7 +12,7 @@ function Home() {
   return (
     <div className="">
       <Navbar />
-      <div className="py-20 space-y-10 px-6">
+      <div className="py-20 space-y-8 px-6">
         <SearchBar />
         <Offers />
         <NavGrid />
