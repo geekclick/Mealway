@@ -1,6 +1,7 @@
 import "./App.css";
 import Cart from "./pages/Cart";
 import EnterOtp from "./pages/EnterOtp";
+import Favourite from "./pages/Favourite";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Notification from "./pages/Notification";
@@ -11,7 +12,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/favourite" element={<Home />} />
+      <Route path="/favourite" element={<Favourite />} />
       <Route path="/order" element={<Home />} />
       <Route path="/reward" element={<Home />} />
       <Route path="/notification" element={<Notification />} />
