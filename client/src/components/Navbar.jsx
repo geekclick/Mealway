@@ -41,8 +41,8 @@ function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.pn" />
-                <AvatarFallback>AJ</AvatarFallback>
+                <AvatarImage src="" />
+                <AvatarFallback>AG</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
