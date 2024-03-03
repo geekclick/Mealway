@@ -63,22 +63,20 @@ function Signup() {
         body: JSON.stringify(formData),
       });
 
-    if(response.ok){
-      setFormData({
-        fn: "",
-        phn: "",
-        email: "",
-        password: "",
-        cpassword: ""
-      });
-      navigate('/login');
+      if (response.ok) {
+        setFormData({
+          fn: "",
+          phn: "",
+          email: "",
+          password: "",
+          cpassword: "",
+        });
+        navigate("/login");
+      }
+      console.log(response);
+    } catch (error) {
+      console.log("Api coonection error", error);
     }
-  console.log(response);
-
-  } catch (error) {
-    console.log("Api coonection error",error);
-}
-
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -176,21 +174,20 @@ function Signup() {
           <hr className="w-[40%]" />
         </div>
         <div className="text-center space-y-3">
-          <Button className="bg-accent text-black border w-full">
+          {/* <Button className="bg-accent text-black border w-full">
             <SiGmail className="mx-4 scale-150" />
             Continue with Email
           </Button> */}
-            <Button className="bg-[#5384EE] w-full">
-              <FcGoogle className="mx-4 scale-150" />
-              Continue with Google
-            </Button>
-            <p>
-              Already have an account?{" "}
-              <Link to="/login">
-                <span className="text-primary">Log in</span>
-              </Link>
-            </p>
-          </div>
+          <Button className="bg-[#5384EE] w-full">
+            <FcGoogle className="mx-4 scale-150" />
+            Continue with Google
+          </Button>
+          <p>
+            Already have an account?{" "}
+            <Link to="/login">
+              <span className="text-primary">Log in</span>
+            </Link>
+          </p>
         </div>
       </div>
     </section>
