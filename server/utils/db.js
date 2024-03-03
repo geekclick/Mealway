@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const URL = "mongodb://127.0.0.1:27017/MealWay"
+const URL = "mongodb://localhost:27017/MealWay"
 
 const connectionDB = async () => {
     try {
@@ -9,7 +9,7 @@ const connectionDB = async () => {
     } catch (error) {
         console.log(error);
         process.exit(0);
-        
+
     }
 };
 
