@@ -7,11 +7,13 @@ import Promo from "@/assets/promo.png";
 import ShopSlide1 from "@/components/homepage/ShopSlide1";
 import BottomNav from "@/components/BottomNav";
 import Recommended from "@/components/homepage/Recommended";
+import Sidebar from "@/components/Sidebar";
 
 function Home() {
   return (
     <div className="">
       <Navbar />
+      <Sidebar />
       <div className="py-20 space-y-8 px-6">
         <SearchBar />
         <Offers />
