@@ -1,17 +1,1 @@
-{ 
-  "name": "mealway",
-  "version": "1.0.0",
-  "description": "Mealway a street food locator to explore the local delicacies",
-  "main": "server.js",
-  "scripts": {
-    "start":"nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [ 
-    "mealway",
-    "street",
-    "food"
-  ],
-  "author": "Team Mealway",
-  "license": "ISC"
-}
+{"name":"mealway","version":"1.0.0","description":"Mealway a street food locator to explore the local delicacies","main":"server.js","scripts":{"start":"nodemon","test":"echo \"Error: no test specified\" && exit 1"},"keywords":["mealway","street","food"],"author":"Team Mealway","license":"ISC","dependencies":{"@google/maps":"^1.1.3"}}

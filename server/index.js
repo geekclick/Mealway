@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const connectionDB = require("./utils/db");
 const authRoute = require('./router/auth-router');
+const vandorRoute = require('./router/vendor-route');
 const cors = require('cors');
 
 const corsoptions = {
@@ -13,6 +14,7 @@ const corsoptions = {
 app.use(cors(corsoptions))
 app.use(express.json());
 app.use("/api",authRoute);
+app.use("/api",vandorRoute);
 
 const PORT = 5000;
 connectionDB().then(()=>{
