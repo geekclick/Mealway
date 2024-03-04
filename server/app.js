@@ -15,10 +15,3 @@ app.use(cors(corsoptions))
 app.use(express.json());
 app.use("/api", authRoute);
 app.use("/api", vandorRoute);
-
-const PORT = 5000;
-connectionDB().then(() => {
-  app.listen(PORT, () => {
-    console.log('listening on port', PORT);
-  });
-})
