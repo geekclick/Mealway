@@ -9,6 +9,8 @@ import SearchPage from "./pages/SearchPage";
 import Signup from "./pages/Signup";
 import { Routes, Route } from "react-router-dom";
 import Vendor from "./pages/Vendor";
+import Map from "./pages/Map";
+import Order from "./pages/Order";
 
 function App() {
   return (
@@ -16,11 +18,12 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/:id" element={<Vendor />} />
       <Route path="/favourite" element={<Favourite />} />
-      <Route path="/order" element={<Home />} />
+      <Route path="/order" element={<Order />} />
       <Route path="/reward" element={<Home />} />
       <Route path="/notification" element={<Notification />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/search" element={<SearchPage />} />
+      <Route path="/map" element={<Map />} />
 
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />

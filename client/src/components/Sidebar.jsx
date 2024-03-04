@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import profileImg from "@/assets/profileLogo.png";
 import { IoWalletOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { CiDiscount1 } from "react-icons/ci";
+import { CiDiscount1, CiShop } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 
@@ -63,17 +63,18 @@ function Sidebar() {
               My Address
             </li>
             <li className=" font-medium flex italic">
-              <CiDiscount1 className="text-primary text-2xl mx-2" /> Special
-              offer/ Promotion
+              <CiShop className="text-primary text-2xl mx-2" /> Register your
+              shop
             </li>
           </ul>
         </div>
         <div className="bg-[#BFC6CC] w-full h-px"></div>
         <div className="flex flex-col space-y-5 px-3">
-          <Link>Language</Link>
-          <Link>Order history</Link>
           <Link>Notification</Link>
-          <Link>Share infomation</Link>
+          <Link>Contact</Link>
+          <Link>Language</Link>
+          {/* <Link>Order history</Link> */}
+          <Link>Help</Link>
           <Link>Terms and policies</Link>
         </div>
       </div>
