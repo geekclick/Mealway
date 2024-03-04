@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const URL = "mongodb://localhost:27017/MealWay"
+const URL = process.env.MONGO_URI
 
 const connectionDB = async () => {
     try {
