@@ -1,4 +1,3 @@
-const { log } = require('console');
 const Vendor = require('../models/vendor-model.js');
 // const multer = require('multer');
 const path = require('path')
