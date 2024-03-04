@@ -10,6 +10,6 @@ export default defineConfig({
     },
   },
   server: {
-    proxy: { "/api": "https://mealway-backend-pecal21u9-geekclicks-projects.vercel.app" },
+    proxy: { "/api": "http://localhost:5000" },
   },
 })
