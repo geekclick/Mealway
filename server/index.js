@@ -6,19 +6,19 @@ const vandorRoute = require('./router/vendor-route');
 const cors = require('cors');
 
 const corsoptions = {
-  origin:'http://localhost:5173',
-  methods:"GET,POST,PUT,DELETE,OPTIONS,PATCH",
-  Credential:true,
+  origin: 'https://mealway-frontend-53rg2b43x-geekclicks-projects.vercel.app',
+  methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH",
+  Credential: true,
 }
 
 app.use(cors(corsoptions))
 app.use(express.json());
-app.use("/api",authRoute);
-app.use("/api",vandorRoute);
+app.use("/api", authRoute);
+app.use("/api", vandorRoute);
 
 const PORT = 5000;
-connectionDB().then(()=>{
-app.listen(PORT, () => {
-  console.log('listening on port', PORT);
-});
+connectionDB().then(() => {
+  app.listen(PORT, () => {
+    console.log('listening on port', PORT);
+  });
 })
