@@ -1,3 +1,4 @@
+import { RiMenu2Fill } from "react-icons/ri";
 import { FcMenu } from "react-icons/fc";
 import logo from "@/assets/logo2.png";
 import { VscBell } from "react-icons/vsc";
@@ -16,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { setIsLoggedIn } from "@/store/reducers/authSlice";
+import { IoCallOutline } from "react-icons/io5";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -23,8 +25,8 @@ function Navbar() {
   return (
     <nav className=" fixed w-full z-20 bg-white flex justify-between items-center p-5 py-3 shadow-md">
       <div className="flex items-center justify-center space-x-4">
-        <FcMenu
-          className="text-black text-4xl "
+        <RiMenu2Fill
+          className="text-black text-3xl "
           role="button"
           onClick={() => dispatch(setSidebar(true))}
         />
@@ -34,8 +36,11 @@ function Navbar() {
         <Link to={"/notification"}>
           <VscBell />
         </Link>
-        <Link to={"/cart"}>
+        {/* <Link to={"/cart"}>
           <SlHandbag />
+        </Link> */}
+        <Link to={"/contact"}>
+          <IoCallOutline />
         </Link>
         {isLoggedIn ? (
           <DropdownMenu>
@@ -49,6 +54,7 @@ function Navbar() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Shop</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem
                 role="button"

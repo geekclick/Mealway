@@ -20,8 +20,8 @@ function Home() {
         <NavGrid />
         <ProdSlide1 title={"What's delicious around here?"} />
         <img src={Promo} alt="" />
-        <ProdSlide1 title={"Highlights of March"} />
         <ShopSlide1 title={"Nearby Restaurants"} />
+        <ProdSlide1 title={"Highlights of March"} />
         <Recommended />
       </div>
       <BottomNav />
