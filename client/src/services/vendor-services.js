@@ -1,4 +1,4 @@
-import { setVendor } from "@/store/reducers/vendorSlice";
+import { setVendor, setVendorList } from "@/store/reducers/vendorSlice";
 import axios from "axios";
 
 export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) => {
@@ -22,5 +22,17 @@ export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) 
         }
     } catch (error) {
         console.log("Error in Shop Registration", error);
+    }
+}
+
+export const getVendorList = async (dispatch, navigate) => {
+    try {
+        const response = await axios.get("api/getAllVendors")
+        if (response) {
+            dispatch(setVendorList(response.data))
+            navigate("/")
+        }
+    } catch (error) {
+        console.log("Error in vendor list", error)
     }
 }
