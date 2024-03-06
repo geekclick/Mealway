@@ -11,6 +11,7 @@ import { Routes, Route } from "react-router-dom";
 import Vendor from "./pages/Vendor";
 import Map from "./pages/Map";
 import Order from "./pages/Order";
+import RegisterShop from "./pages/RegisterShop";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/map" element={<Map />} />
+      <Route path="/register-shop" element={<RegisterShop />} />
 
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />

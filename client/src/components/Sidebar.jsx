@@ -63,8 +63,10 @@ function Sidebar() {
               My Address
             </li>
             <li className=" font-medium flex italic">
-              <CiShop className="text-primary text-2xl mx-2" /> Register your
-              shop
+              <Link to={"/register-shop"} className="flex">
+                <CiShop className="text-primary text-2xl mx-2" /> Register your
+                shop
+              </Link>
             </li>
           </ul>
         </div>
