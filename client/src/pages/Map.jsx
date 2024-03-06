@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import map from "@/assets/map.png";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
+import MapComponent from "@/components/ui/MapComponent";
 
 function Map() {
   return (
@@ -23,15 +24,22 @@ function Map() {
             className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#ECF1F6] w-full h-10"
           />
         </div>
+       
       </div>
-      <div className={` bg-map bg-cover bg-center w-full h-screen`}>
+      <MapComponent/>
+      
+      <div className={`bg-center w-full h-screen`}>
         <Button variant="outline" className="absolute bottom-20 right-4">
           Scan Nearby
         </Button>
       </div>
+      
       <BottomNav />
     </section>
   );
 }
 
 export default Map;
+
+
+
