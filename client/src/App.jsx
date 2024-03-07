@@ -17,7 +17,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/:id" element={<Vendor />} />
+      <Route path="/vendor/:id" element={<Vendor />} />
       <Route path="/favourite" element={<Favourite />} />
       <Route path="/order" element={<Order />} />
       <Route path="/reward" element={<Home />} />

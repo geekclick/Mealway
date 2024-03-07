@@ -7,6 +7,8 @@ export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) 
         const response = await axios.post("/api/register-shop", vendorInfo);
         if (response) {
             dispatch(setVendor({
+                img: "",
+                coverImg: "",
                 name: "",
                 shopname: "",
                 location: "",
@@ -34,5 +36,22 @@ export const getVendorList = async (dispatch, navigate) => {
         }
     } catch (error) {
         console.log("Error in vendor list", error)
+    }
+}
+
+export const sendImagetoCloud = async (image) => {
+    const data = new FormData()
+    data.append("file", image)
+    data.append("upload_preset", "mealway")
+    data.append("cloud_name", "dxn3cmvet")
+
+    try {
+        const response = await axios.post("https://api.cloudinary.com/v1_1/dxn3cmvet/image/upload", data)
+        if (response) {
+            console.log("Image uploaded successfully!")
+            return response.data.url
+        }
+    } catch (error) {
+        console.log("Error in image upload", error)
     }
 }

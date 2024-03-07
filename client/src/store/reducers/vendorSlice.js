@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     vendorList: [{
+        img: "",
+        coverImg: "",
         name: "anuj",
         shopname: "anuj chi dukan",
         location: "",
@@ -13,6 +15,8 @@ const initialState = {
         menu: [],
     }],
     vendor: {
+        img: "",
+        coverImg: "",
         name: "",
         shopname: "",
         location: "",

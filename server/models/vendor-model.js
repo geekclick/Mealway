@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const VendorSchema = new mongoose.Schema({
+    img: {
+        type: String,
+        required: false
+    },
+    coverImg: {
+        type: String,
+        required: false
+    },
     name: {
         type: String,
         required: true

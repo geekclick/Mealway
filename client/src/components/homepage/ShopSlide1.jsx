@@ -63,13 +63,10 @@ function ShopSlide1({ title }) {
             {vendorList.map((item) => {
               return (
                 <CarouselItem key={item._id}>
-                  <Link
-                    to={`/${item.shopname.toLowerCase().split(" ").join("-")}`}
-                    className=" space-y-2"
-                  >
+                  <Link to={`/vendor/${item._id}`} className=" space-y-2">
                     <img
                       src={
-                        item.img ||
+                        item.coverImg ||
                         "https://imgs.search.brave.com/ToyQYoj6YnON9BI_e-yWUeFl1MxWK6Q56fComCLqEuw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAzLzQ1LzA1Lzky/LzM2MF9GXzM0NTA1/OTIzMl9DUGllVDhS/SVdPVWs0SnFCa2tX/a0lFVFlBa216MmI3/NS5qcGc"
                       }
                       alt=""
