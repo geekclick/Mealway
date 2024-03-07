@@ -25,7 +25,9 @@ function Map() {
           />
         </div>
       </div>
-      <MapComponent />
+      <MapComponent
+        className={"absolute z-10 w-full h-screen overflow-hidden"}
+      />
 
       <div className={`bg-center w-full h-screen`}>
         <Button variant="outline" className="absolute z-50 bottom-20 right-4">

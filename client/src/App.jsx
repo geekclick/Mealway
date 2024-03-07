@@ -12,12 +12,14 @@ import Vendor from "./pages/Vendor";
 import Map from "./pages/Map";
 import Order from "./pages/Order";
 import RegisterShop from "./pages/RegisterShop";
+import VendorInfo from "./pages/VendorInfo";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/vendor/:id" element={<Vendor />} />
+      <Route path="/vendor-info/:id" element={<VendorInfo />} />
       <Route path="/favourite" element={<Favourite />} />
       <Route path="/order" element={<Order />} />
       <Route path="/reward" element={<Home />} />

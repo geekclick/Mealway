@@ -1,5 +1,3 @@
-import banner from "@/assets/vendorBanner.png";
-import logo from "@/assets/vendorLogo.png";
 import { FaChevronLeft, FaStar } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
 import { BsExclamationCircle } from "react-icons/bs";
@@ -38,7 +36,9 @@ function Vendor() {
             <h4>{thisVendor.address}</h4>
             <h5 className="text-green-700">Opening</h5>
           </div>
-          <BsExclamationCircle className="text-xl text-muted-freground" />
+          <Link to={`/vendor-info/${thisVendor._id}`}>
+            <BsExclamationCircle className="text-xl text-muted-freground" />
+          </Link>
         </div>
         <div className="flex justify-between items-center">
           <p className="italic flex mt-1 text-muted-foreground">

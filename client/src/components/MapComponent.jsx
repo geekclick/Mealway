@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const MapComponent = () => {
+const MapComponent = ({ className }) => {
   useEffect(() => {
     let map = null; // Declare map variable outside the effect
 
@@ -32,7 +32,7 @@ const MapComponent = () => {
       //     width: "100%",
       //     overflow: "hidden",
       //   }}
-      className="absolute z-10 w-full h-screen overflow-hidden"
+      className={className}
     />
   );
 };
