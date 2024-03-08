@@ -4,7 +4,7 @@ import axios from "axios";
 export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) => {
     e.preventDefault()
     try {
-        const response = await axios.post("api/register-shop", vendorInfo);
+        const response = await axios.post("/api/register-shop", vendorInfo);
         if (response) {
             dispatch(setVendor({
                 img: "",
