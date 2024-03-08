@@ -23,7 +23,8 @@ function VendorInfo() {
       <div className="px-4 py-4 flex flex-col justify-center items-start space-y-6">
         <div className="w-full space-y-3">
           <MapComponent
-            className={" w-full rounded-lg h-[130px] overflow-hidden"}
+            className={" w-full rounded-lg h-[140px] overflow-hidden"}
+            vendors={[thisVendor]}
           />
           <p className="flex text-base">
             <TiLocation className="text-xl mx-1" />
@@ -44,13 +45,13 @@ function VendorInfo() {
           <h5 className="flex justify-between">
             Opening Time <span>:</span>{" "}
             <span className="text-primary">
-              {thisVendor.openCloseHours.open}
+              {thisVendor.openCloseHours?.open || "-"}
             </span>
           </h5>
           <h5 className="flex justify-between">
             Closing Time <span>:</span>{" "}
             <span className="text-primary">
-              {thisVendor.openCloseHours.close}
+              {thisVendor.openCloseHours?.close || "-"}
             </span>
           </h5>
         </div>

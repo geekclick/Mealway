@@ -1,58 +1,58 @@
 const mongoose = require('mongoose');
 
 const menuItemSchema = new mongoose.Schema({
-   name: {
-      type: String,
-      required: true
-    },
-    description: {
-      type: String,
-      required: true
-    },
-    category: {
-      type: String,
-      // enum: ['Street Food', 'Fast Food', 'Snacks', 'Desserts', 'Beverages'],
-      required: false
-    },
-    price: {
-      type: Number,
-      required: true
-    },
-    vendor: {
-      type: mongoose.Schema.Types.ObjectId, // Reference to Vendor model
-      ref: 'Vendor', // Indicates that this field references the Vendor model
-      required: false
-    },
-    image: {
-      type: String, // URL of the image
-      required: false
-    },
-    rating: {
-      type: Number,
-      default: 0
-    },
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    // enum: ['Street Food', 'Fast Food', 'Snacks', 'Desserts', 'Beverages'],
+    required: false
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  vendor: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to Vendor model
+    ref: 'Vendor', // Indicates that this field references the Vendor model
+    required: false
+  },
+  image: {
+    type: String, // URL of the image
+    required: false
+  },
+  rating: {
+    type: Number,
+    default: 0
+  },
 });
 
 const vendorSchema = new mongoose.Schema({
-   img: {
-      type: String,
-      required: false
+  img: {
+    type: String,
+    required: false
   },
   coverImg: {
-      type: String,
-      required: false
+    type: String,
+    required: false
   },
- name: {
+  name: {
     type: String,
     required: true,
     trim: true
- },
- shopname: {
+  },
+  shopname: {
     type: String,
     required: true,
     trim: true
- },
- location: {
+  },
+  location: {
     type: {
       type: String,
       enum: ['Point'],
@@ -63,29 +63,29 @@ const vendorSchema = new mongoose.Schema({
       required: false,
       index: '2dsphere'
     }
- },
+  },
 
- address:{
-   type: String,
-   required: true
- },
- description: {
+  address: {
+    type: String,
+    required: true
+  },
+  description: {
     type: String,
     trim: true
- },
- menu: {
+  },
+  menu: {
     type: [menuItemSchema],
     required: true
- },
- contact: {
-    type:Number,
+  },
+  contact: {
+    type: Number,
     required: true
- },
- openingHours: {
-    type: String,
-    // of: String,
+  },
+  openCloseHours: {
+    type: Map,
+    of: String,
     required: false
- }
+  }
 }
 );
 vendorSchema.index({ 'menu.name': 'text' });

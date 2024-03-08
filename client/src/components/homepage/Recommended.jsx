@@ -4,42 +4,42 @@ import { GoHeart } from "react-icons/go";
 const prods = [
   {
     name: "Pizza Hut",
-    img: "https://source.unsplash.com/327x142/?cake$1",
+    image: "https://source.unsplash.com/327x142/?cake$1",
   },
   {
     name: "Pizza Hut",
-    img: "https://source.unsplash.com/327x142/?cheese$2",
+    image: "https://source.unsplash.com/327x142/?cheese$2",
   },
   {
     name: "Pizza Hut",
-    img: "https://source.unsplash.com/327x142/?noodles$3",
+    image: "https://source.unsplash.com/327x142/?noodles$3",
   },
   {
     name: "Pizza Hut",
-    img: "https://source.unsplash.com/327x142/?pasta$4",
+    image: "https://source.unsplash.com/327x142/?pasta$4",
   },
   {
     name: "Pizza Hut",
-    img: "https://source.unsplash.com/327x142/?chicken$5",
+    image: "https://source.unsplash.com/327x142/?chicken$5",
   },
 ];
 
-function Recommended() {
+function Recommended({ list = prods }) {
   return (
     <section className=" space-y-4">
       <h2 className="text-[20px] italic text-left">Recommended For You </h2>
-      {prods.map((item) => {
+      {list.map((item, i) => {
         return (
-          <>
+          <div key={item._id || i}>
             <div className="space-y-2">
               <img
-                src={item.img}
+                src={item.image}
                 alt=""
                 className="rounded-lg rounded-b-none m-auto"
               />
               <div className="flex justify-between items-center">
                 <div>
-                  <h4 className="font-semibold">Pizza Hut</h4>
+                  <h4 className="font-semibold">{item.name}</h4>
                   <p className="italic w-full flex mt-1">
                     1.5 km | <FaStar className="text-yellow-500 mx-1" />{" "}
                     4.8(1.2k)
@@ -49,7 +49,7 @@ function Recommended() {
               </div>
             </div>
             <hr />
-          </>
+          </div>
         );
       })}
     </section>

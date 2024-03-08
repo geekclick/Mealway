@@ -16,7 +16,7 @@ export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) 
                 contact: "",
                 // ratings: "",
                 // reviews: "",
-                opnCloseHours: "",
+                openCloseHours: {},
                 menu: [],
             }))
             navigate("/");

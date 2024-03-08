@@ -1,4 +1,3 @@
-
 // import React, { useEffect } from "react";
 // import L from "leaflet";
 // import "leaflet/dist/leaflet.css";
@@ -40,7 +39,6 @@
 // };
 
 // export default MapComponent;
-
 
 // import React, { useEffect, useRef } from "react";
 // import L from "leaflet";
@@ -97,13 +95,14 @@
 
 // export default MapComponent;
 
-
-
 import React, { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const MapComponent = ({ vendors }) => {
+const MapComponent = ({
+  className = "absolute z-10 w-full h-screen overflow-hidden",
+  vendors,
+}) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -132,7 +131,9 @@ const MapComponent = ({ vendors }) => {
     vendors.forEach((vendor) => {
       const [lng, lat] = vendor.location.coordinates;
       const marker = L.marker([lat, lng]).addTo(map);
-      const popup = L.popup({ closeButton: false }).setContent(`<b>${vendor.shopname}</b><br>${vendor.name}`);
+      const popup = L.popup({ closeButton: false }).setContent(
+        `<b>${vendor.shopname}</b><br>${vendor.name}`
+      );
       marker.bindPopup(popup).openPopup();
 
       // Cool animation
@@ -157,17 +158,7 @@ const MapComponent = ({ vendors }) => {
     };
   }, [vendors]);
 
-  return (
-    <div id="map" className="absolute z-10 w-full h-screen overflow-hidden" />
-  );
+  return <div id="map" className={className} />;
 };
 
 export default MapComponent;
-
-
-
-
-
-
-
-

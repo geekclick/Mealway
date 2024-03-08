@@ -49,8 +49,8 @@ function Vendor() {
         </div>
       </div>
       <div className="p-6 space-y-8 pb-20">
-        <ProdSlide1 title="For You" />
-        <Recommended />
+        <ProdSlide1 title="For You" list={thisVendor.menu} />
+        <Recommended list={thisVendor.menu} />
       </div>
       <BottomNav />
     </section>

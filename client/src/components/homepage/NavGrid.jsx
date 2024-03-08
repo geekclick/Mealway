@@ -48,7 +48,11 @@ function NavGrid() {
     <div className="grid grid-cols-4 gap-4">
       {links.map((link, i) => {
         return (
-          <Link to={"/"} className="flex flex-col items-center justify-center">
+          <Link
+            to={"/"}
+            className="flex flex-col items-center justify-center"
+            key={i}
+          >
             <img src={link.img} alt="" />
             <p>{link.name}</p>
           </Link>

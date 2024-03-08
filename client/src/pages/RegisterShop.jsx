@@ -15,6 +15,7 @@ import {
 import { MdEdit } from "react-icons/md";
 import MenuDialog from "@/components/MenuDialog";
 import { Badge } from "@/components/ui/badge";
+import { getLocation } from "@/helpers/getLocation";
 
 function RegisterShop() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function RegisterShop() {
     coverImg: "",
     name: "",
     shopname: "",
-    location: "",
+    location: { type: "Point", coordinates: [] },
     address: "",
     contact: "",
     ratings: "",
@@ -61,12 +62,36 @@ function RegisterShop() {
       imgUrl = await sendImagetoCloud(image.img);
       coverImgUrl = await sendImagetoCloud(image.coverImg);
     }
+    console.log(formData);
     handleShopRegistration(
       e,
-      { ...formData, img: imgUrl, coverImg: coverImgUrl, menu: menuList },
+      {
+        ...formData,
+        img: imgUrl,
+        coverImg: coverImgUrl,
+        menu: menuList,
+      },
       dispatch,
       navigate
     );
+  };
+
+  const handleGetLocation = async () => {
+    try {
+      const userLocation = await getLocation();
+      console.log("User location:", userLocation);
+      // Now you can use the location object here
+      setFormData({
+        ...formData,
+        location: {
+          type: "Point",
+          coordinates: userLocation,
+        },
+      });
+      console.log(formData.location);
+    } catch (error) {
+      console.error("Error getting location:", error);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -172,15 +197,18 @@ function RegisterShop() {
               onChange={(e) => handleChange(e, setFormData)}
             />
           </div>
-          <div className="w-full space-y-2">
-            <Label>Location (Optional)</Label>
+          <div className="w-full flex flex-col space-y-2">
+            <Label>Location</Label>
             <Input
               placeholder="Enter your location"
               type="text"
-              name="email"
-              value={formData.email}
-              onChange={(e) => handleChange(e, setFormData)}
+              name="location"
+              value={formData.location.coordinates}
+              onChange={() => 0}
             />
+            <Button type="button" className="w-fit" onClick={handleGetLocation}>
+              Get Current Location
+            </Button>
           </div>
           <div className="w-full space-y-2">
             <Label>Address*</Label>
