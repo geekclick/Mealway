@@ -11,8 +11,8 @@ const menuItemSchema = new mongoose.Schema({
     },
     category: {
       type: String,
-      enum: ['Street Food', 'Fast Food', 'Snacks', 'Desserts', 'Beverages'],
-      required: true
+      // enum: ['Street Food', 'Fast Food', 'Snacks', 'Desserts', 'Beverages'],
+      required: false
     },
     price: {
       type: Number,
@@ -22,10 +22,6 @@ const menuItemSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId, // Reference to Vendor model
       ref: 'Vendor', // Indicates that this field references the Vendor model
       required: false
-    },
-    location: {
-      type: String,
-      required: true
     },
     image: {
       type: String, // URL of the image
@@ -86,9 +82,9 @@ const vendorSchema = new mongoose.Schema({
     required: true
  },
  openingHours: {
-    type: Map,
-    of: String,
-    required: true
+    type: String,
+    // of: String,
+    required: false
  }
 }
 );
