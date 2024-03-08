@@ -38,7 +38,7 @@ import { getVendorList } from "@/services/vendor-services";
 function ShopSlide1({ title }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { vendorList } = useSelector((state) => state.vendorSlice);
+  const vendorList = useSelector((state) => state.vendorSlice.vendorList) || [];
 
   useEffect(() => {
     getVendorList(dispatch, navigate);

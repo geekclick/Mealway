@@ -13,7 +13,7 @@ const initialState = {
         contact: "",
         ratings: "",
         reviews: "",
-        opnCloseHours: "",
+        openCloseHours: { open: "", close: "" },
         menu: [],
     },
 };

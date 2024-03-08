@@ -42,18 +42,22 @@ function VendorInfo() {
         <div className="h-[2px] w-full bg-[#BFC6CC] mt-6"></div>
         <div className=" space-y-4 w-11/12">
           <h5 className="flex justify-between">
-            Monday-Friday <span>:</span>{" "}
-            <span className="text-primary">10:00 - 22.00</span>
+            Opening Time <span>:</span>{" "}
+            <span className="text-primary">
+              {thisVendor.openCloseHours.open}
+            </span>
           </h5>
           <h5 className="flex justify-between">
-            Saturday-Sunday <span>:</span>{" "}
-            <span className="text-primary">12:00 - 20.00</span>
+            Closing Time <span>:</span>{" "}
+            <span className="text-primary">
+              {thisVendor.openCloseHours.close}
+            </span>
           </h5>
         </div>
         <div className="h-[2px] w-full bg-[#BFC6CC] mt-6"></div>
         <div className="flex justify-between items-center w-11/12">
           <h5>Phone Number </h5>
-          <h5 className="text-primary">+91 1122334455</h5>
+          <h5 className="text-primary">+91 {thisVendor.contact}</h5>
         </div>
       </div>
     </section>
