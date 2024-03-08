@@ -15,7 +15,7 @@ function Map() {
 
     const searchVendorsByFood = async () => {
         try {
-            const response = await axios.post('/api/serachVendor', { foodItem: searchTerm });
+            const response = await axios.post('/api/searchVendor', { foodItem: searchTerm });
             setVendors(response.data);
             console.log(response.data);
         } catch (error) {
