@@ -129,7 +129,7 @@ const MapComponent = ({
 
     // Render markers for vendors with cool animation
     vendors.forEach((vendor) => {
-      const [lng, lat] = vendor.location.coordinates;
+      const [lat,lng] = vendor.location.coordinates;
       const marker = L.marker([lat, lng]).addTo(map);
       const popup = L.popup({ closeButton: false }).setContent(
         `<b>${vendor.shopname}</b><br>${vendor.name}`
@@ -149,8 +149,8 @@ const MapComponent = ({
     // Zoom to the last marker location with smooth animation
     if (vendors.length > 0) {
       const lastVendor = vendors[vendors.length - 1];
-      const [lastLng, lastLat] = lastVendor.location.coordinates;
-      map.flyTo([lastLat, lastLng], 12, { duration: 2 }); // Smooth animation for 2 seconds (adjust as needed)
+      const [lastLat,lastLng] = lastVendor.location.coordinates;
+      map.flyTo([lastLat,lastLng], 12, { duration: 2 }); // Smooth animation for 2 seconds (adjust as needed)
     }
 
     return () => {
