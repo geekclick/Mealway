@@ -1,8 +1,9 @@
+
 import React, { useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const MapComponent = ({ className }) => {
+const MapComponent = ({ vendors }) => {
   useEffect(() => {
     let map = null; // Declare map variable outside the effect
 
@@ -16,6 +17,13 @@ const MapComponent = ({ className }) => {
       }).addTo(map);
     }
 
+    // Render markers for vendors
+    vendors.forEach((vendor) => {
+      L.marker([vendor.location.lat, vendor.location.lng])
+        .addTo(map)
+        .bindPopup(`<b>${vendor.shopname}</b><br>${vendor.name}`);
+    });
+
     // Cleanup function when the component is unmounted
     return () => {
       if (map) {
@@ -23,17 +31,10 @@ const MapComponent = ({ className }) => {
         map = null; // Reset map variable
       }
     };
-  }, []);
+  }, [vendors]); // Update effect when vendors change
+
   return (
-    <div
-      id="map"
-      //   style={{
-      //     height: "calc(100vh - 100px)",
-      //     width: "100%",
-      //     overflow: "hidden",
-      //   }}
-      className={className}
-    />
+    <div id="map" className="absolute z-10 w-full h-screen overflow-hidden" />
   );
 };
 
