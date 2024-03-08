@@ -33,7 +33,7 @@ function RegisterShop() {
     contact: "",
     ratings: "",
     reviews: "",
-    opnCloseHours: "",
+    openCloseHours: { open: "", close: "" },
     menu: [],
   });
 
@@ -75,6 +75,14 @@ function RegisterShop() {
     console.log(file);
     setImage({ ...image, [name]: file });
     console.log(image);
+  };
+
+  const handleHours = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      openCloseHours: { ...formData.openCloseHours, [name]: value },
+    });
   };
 
   useEffect(() => {
@@ -196,13 +204,26 @@ function RegisterShop() {
           </div>
           <div className="w-full space-y-2">
             <Label>Open Close Hours</Label>
-            <Input
-              placeholder="Enter your Open hours"
-              type="text"
-              name="opnCloseHours"
-              value={formData.opnCloseHours}
-              onChange={(e) => handleChange(e, setFormData)}
-            />
+            <div className="flex items-center space-x-10">
+              <h5>Opening time:</h5>
+              <Input
+                className="w-fit"
+                type="time"
+                name="open"
+                value={formData.openCloseHours.open}
+                onChange={handleHours}
+              />
+            </div>
+            <div className="flex items-center space-x-12">
+              <h5>Closing time:</h5>
+              <Input
+                className="w-fit"
+                type="time"
+                name="close"
+                value={formData.openCloseHours.close}
+                onChange={handleHours}
+              />
+            </div>
           </div>
           <div className="w-full justify-start items-start flex flex-col space-y-2">
             <Label>Menu</Label>
