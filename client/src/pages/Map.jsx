@@ -6,28 +6,29 @@ import map from "@/assets/map.png";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import MapComponent from "@/components/MapComponent";
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Map() {
   const [vendors, setVendors] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-    const searchVendorsByFood = async () => {
-        try {
-            const response = await axios.post('/api/searchVendor', { foodItem: searchTerm });
-            setVendors(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error searching vendors:', error);
-        }
-    };
+  const searchVendorsByFood = async () => {
+    try {
+      const response = await axios.post("/api/searchVendor", {
+        foodItem: searchTerm,
+      });
+      setVendors(response.data);
+    } catch (error) {
+      console.error("Error searching vendors:", error);
+    }
+  };
 
-    const handleSearch = () => {
-        if (searchTerm.trim() !== '') {
-            searchVendorsByFood();
-        }
-    };
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      searchVendorsByFood();
+    }
+  };
 
   return (
     <section>
@@ -51,7 +52,11 @@ function Map() {
       <MapComponent vendors={vendors} />
 
       <div className={`bg-center w-full h-screen`}>
-        <Button variant="outline" className="absolute z-50 bottom-20 right-4" onClick={handleSearch}>
+        <Button
+          variant="outline"
+          className="absolute z-50 bottom-20 right-4"
+          onClick={handleSearch}
+        >
           Scan Nearby
         </Button>
       </div>
@@ -62,4 +67,3 @@ function Map() {
 }
 
 export default Map;
-

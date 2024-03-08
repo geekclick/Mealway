@@ -31,15 +31,11 @@ function MenuDialog({ children }) {
     e.preventDefault();
     const imgUrl = await sendImagetoCloud(image);
     dispatch(addMenu({ ...formData, image: imgUrl }));
-    console.log(formData);
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setImage(file);
-    console.log(image);
-    console.log(image);
   };
   return (
     <Dialog>
