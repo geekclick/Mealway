@@ -22,7 +22,7 @@ function RegisterShop() {
   const navigate = useNavigate();
   const imgRef = useRef(null);
   const coverImgRef = useRef(null);
-  const { menuList } = useSelector((state) => state.vendorSlice);
+  const { menuList } = useSelector((state) => state.menuSlice);
 
   const [formData, setFormData] = useState({
     img: "",
@@ -62,7 +62,6 @@ function RegisterShop() {
       imgUrl = await sendImagetoCloud(image.img);
       coverImgUrl = await sendImagetoCloud(image.coverImg);
     }
-    console.log(formData);
     handleShopRegistration(
       e,
       {
@@ -79,8 +78,6 @@ function RegisterShop() {
   const handleGetLocation = async () => {
     try {
       const userLocation = await getLocation();
-      console.log("User location:", userLocation);
-      // Now you can use the location object here
       setFormData({
         ...formData,
         location: {
@@ -88,7 +85,6 @@ function RegisterShop() {
           coordinates: userLocation,
         },
       });
-      console.log(formData.location);
     } catch (error) {
       console.error("Error getting location:", error);
     }
@@ -97,9 +93,7 @@ function RegisterShop() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const name = e.target.name;
-    console.log(file);
     setImage({ ...image, [name]: file });
-    console.log(image);
   };
 
   const handleHours = (e) => {

@@ -16,21 +16,3 @@ export const getLocation = () => {
         }
     });
 };
-
-
-// export const getLocation = async () => {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(
-//             (position) => {
-//                 const latitude = position.coords.latitude;
-//                 const longitude = position.coords.longitude;
-//                 return [latitude, longitude];
-//             },
-//             (error) => {
-//                 console.log(error.message);
-//             }
-//         );
-//     } else {
-//         console.log('Geolocation is not supported by this browser.');
-//     }
-// };

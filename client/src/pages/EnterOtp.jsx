@@ -32,7 +32,6 @@ function EnterOtp() {
   };
   const handleChange = async (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setFormData({ ...formData, [name]: value });
 
     try {

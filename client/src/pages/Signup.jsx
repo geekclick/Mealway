@@ -45,11 +45,9 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData.phn.length);
     if (formData.phn.length === 10) {
       setError({ ...error, phn_error: false });
     } else {
-      console.log("baby");
       setError({ ...error, phn_error: true });
     }
 
@@ -57,7 +55,6 @@ function Signup() {
       setError({ ...error, password_error: false });
     } else setError({ ...error, password_error: true });
 
-    console.log("data is submited safely");
     handleSignUp(e, formData, dispatch, navigate);
   };
   useEffect(() => {
