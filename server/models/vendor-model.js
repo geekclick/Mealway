@@ -68,6 +68,11 @@ const vendorSchema = new mongoose.Schema({
       index: '2dsphere'
     }
  },
+
+ address:{
+   type: String,
+   required: true
+ },
  description: {
     type: String,
     trim: true

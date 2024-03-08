@@ -4,7 +4,7 @@ const path = require('path')
 const addVendor = async (req,res)=>{
 
     try {
-        const { img, coverImg,name, shopname, location,description,menu,contact,openingHours } = req.body;
+        const { img, coverImg,name, shopname, location,address,description,menu,contact,openingHours } = req.body;
 
         const vendorExist = await Vendor.findOne({contact});
 
@@ -12,7 +12,7 @@ const addVendor = async (req,res)=>{
             return res.status(400).json({msg:"Vendor Already exits"});
         }
 
-        await Vendor.create({img, coverImg, name, shopname, location,description,menu,contact,openingHours });
+        await Vendor.create({img, coverImg, name, shopname, address,location,description,menu,contact,openingHours });
 
         res.status(200).json({msg:"Vendor Created Succesfully"});
     }catch (error) {
