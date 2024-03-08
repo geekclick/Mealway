@@ -6,19 +6,22 @@ import { Label } from "@/components/ui/label";
 import { handleChange } from "@/helpers/handleChange";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { BsPencilFill, BsPlus } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { BsPlus } from "react-icons/bs";
 import {
   handleShopRegistration,
   sendImagetoCloud,
 } from "@/services/vendor-services";
 import { MdEdit } from "react-icons/md";
+import MenuDialog from "@/components/MenuDialog";
+import { Badge } from "@/components/ui/badge";
 
 function RegisterShop() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const imgRef = useRef(null);
   const coverImgRef = useRef(null);
+  const { menuList } = useSelector((state) => state.vendorSlice);
 
   const [formData, setFormData] = useState({
     img: "",
@@ -52,11 +55,15 @@ function RegisterShop() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = await sendImagetoCloud(image.img);
-    const coverImgUrl = await sendImagetoCloud(image.coverImg);
+    let imgUrl = "";
+    let coverImgUrl = "";
+    if (image.img != "" && image.coverImg != "") {
+      imgUrl = await sendImagetoCloud(image.img);
+      coverImgUrl = await sendImagetoCloud(image.coverImg);
+    }
     handleShopRegistration(
       e,
-      { ...formData, img: imgUrl, coverImg: coverImgUrl },
+      { ...formData, img: imgUrl, coverImg: coverImgUrl, menu: menuList },
       dispatch,
       navigate
     );
@@ -199,9 +206,21 @@ function RegisterShop() {
           </div>
           <div className="w-full justify-start items-start flex flex-col space-y-2">
             <Label>Menu</Label>
-            <Button>
-              <BsPlus /> Add Menu
-            </Button>
+            <div className="flex space-x-3 flex-wrap space-y-2">
+              <MenuDialog>
+                <Button variant="outline">
+                  <BsPlus className="text-xl mx-1" /> Add Menu
+                </Button>
+              </MenuDialog>
+              {menuList &&
+                menuList.map((item) => {
+                  return (
+                    <Badge className="w-fit h-[35px] flex justify-center m-auto font-medium capitalize">
+                      {item.name}
+                    </Badge>
+                  );
+                })}
+            </div>
           </div>
 
           <Button

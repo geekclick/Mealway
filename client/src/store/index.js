@@ -9,8 +9,8 @@ import vendorReducer from "./reducers/vendorSlice";
 const persistConfig = {
     key: "root",
     storage,
-    // whitelist: ["auth"], // List of reducers to persist (optional)
-    blacklist: ["sidebarSlice"],
+    whitelist: ["authSlice"], // List of reducers to persist (optional)
+    // blacklist: ["sidebarSlice"],
 };
 
 const rootReducer = combineReducers({

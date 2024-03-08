@@ -18,10 +18,6 @@ const foodSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  ingredients: {
-    type: [String],
-    required: true
-  },
   vendor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Vendor', // Assuming you have a Vendor model for the food vendor

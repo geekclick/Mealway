@@ -1,19 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    vendorList: [{
-        img: "",
-        coverImg: "",
-        name: "anuj",
-        shopname: "anuj chi dukan",
-        location: "",
-        address: "ghara jawal",
-        contact: "1234567898",
-        ratings: "",
-        reviews: "",
-        opnCloseHours: "",
-        menu: [],
-    }],
+    menuList: [],
+    vendorList: [],
     vendor: {
         img: "",
         coverImg: "",
@@ -39,9 +28,12 @@ const vendorSlice = createSlice({
         setVendor: (state, action) => {
             state.vendor = action.payload;
         },
+        addMenu: (state, action) => {
+            state.menuList.push(action.payload)
+        }
     },
 });
 
-export const { setVendorList, setVendor } = vendorSlice.actions;
+export const { setVendorList, setVendor, addMenu } = vendorSlice.actions;
 
 export default vendorSlice.reducer;

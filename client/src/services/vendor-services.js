@@ -49,7 +49,7 @@ export const sendImagetoCloud = async (image) => {
         const response = await axios.post("https://api.cloudinary.com/v1_1/dxn3cmvet/image/upload", data)
         if (response) {
             console.log("Image uploaded successfully!")
-            return response.data.url
+            return response.data.secure_url
         }
     } catch (error) {
         console.log("Error in image upload", error)
