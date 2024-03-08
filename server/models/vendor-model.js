@@ -91,4 +91,4 @@ vendorSchema.index({ 'menu.name': 'text' });
 // Create a 2dsphere index for the location field
 vendorSchema.index({ location: '2dsphere' });
 
-module.exports = Vendor;
+module.exports = mongoose.model('Vendor', vendorSchema);
