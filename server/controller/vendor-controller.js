@@ -72,6 +72,8 @@ const getAllVendors = async (req, res) => {
     }
 };
 
+// -------------------------------------- ******Get vendor by foods *********** -----------------------------//
+
 const getVendorsByFood = async (req, res) => {
 
     try {
@@ -105,8 +107,33 @@ const getVendorsByFood = async (req, res) => {
     }
 };
 
+// ********************************** Randomly get the food from the database ********************************//
+
+const getRandomFood = async (req, res) => {
+    try {
+        // Use aggregation pipeline to randomly select menu items
+        const menuItems = await Vendor.aggregate([
+          { $unwind: '$menu' }, // Deconstruct the menu array
+          { $sample: { size: 5 } }, // Randomly select 5 menu items
+          { $project: { _id: 0, menu: 1 } } // Project only the menu items
+        ]);
+    
+        // If no menu items found, return a 404 Not Found response
+        if (!menuItems || menuItems.length === 0) {
+          return res.status(404).json({ message: 'No menu items found' });
+        }
+    
+        // Extract the menu items from the aggregation result and return as JSON response
+        res.json(menuItems.map(item => item.menu));
+      } catch (error) {
+        // Handle errors
+        console.error('Error fetching random menu items:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+};
 
 
 
 
-module.exports = { addVendor, getAllVendors, deleteSelectedVendor, updateSelectedVendor, getVendorsByFood };
+
+module.exports = { addVendor, getAllVendors, deleteSelectedVendor, updateSelectedVendor, getVendorsByFood,getRandomFood };
