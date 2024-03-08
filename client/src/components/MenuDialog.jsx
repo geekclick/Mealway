@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 import { useRef, useState } from "react";
 import { sendImagetoCloud } from "@/services/vendor-services";
 import { useDispatch } from "react-redux";
-import { addMenu } from "@/store/reducers/vendorSlice";
+import { addMenu } from "@/store/reducers/menuSlice";
 import { DialogClose } from "@radix-ui/react-dialog";
 
 function MenuDialog({ children }) {
@@ -31,6 +31,13 @@ function MenuDialog({ children }) {
     e.preventDefault();
     const imgUrl = await sendImagetoCloud(image);
     dispatch(addMenu({ ...formData, image: imgUrl }));
+    setFormData({
+      name: "",
+      description: "",
+      category: "",
+      price: "",
+      image: "",
+    });
   };
 
   const handleImageChange = (e) => {

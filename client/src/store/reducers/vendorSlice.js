@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    menuList: [],
     vendorList: [],
     vendor: {
         img: "",
@@ -28,12 +27,9 @@ const vendorSlice = createSlice({
         setVendor: (state, action) => {
             state.vendor = action.payload;
         },
-        addMenu: (state, action) => {
-            state.menuList.push(action.payload)
-        }
     },
 });
 
-export const { setVendorList, setVendor, addMenu } = vendorSlice.actions;
+export const { setVendorList, setVendor } = vendorSlice.actions;
 
 export default vendorSlice.reducer;

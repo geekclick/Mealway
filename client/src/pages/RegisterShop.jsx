@@ -22,7 +22,7 @@ function RegisterShop() {
   const navigate = useNavigate();
   const imgRef = useRef(null);
   const coverImgRef = useRef(null);
-  const { menuList } = useSelector((state) => state.vendorSlice);
+  const { menuList } = useSelector((state) => state.menuSlice);
 
   const [formData, setFormData] = useState({
     img: "",

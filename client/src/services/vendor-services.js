@@ -1,3 +1,4 @@
+import { setMenuList } from "@/store/reducers/menuSlice";
 import { setVendor, setVendorList } from "@/store/reducers/vendorSlice";
 import axios from "axios";
 
@@ -19,10 +20,12 @@ export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) 
                 openCloseHours: {},
                 menu: [],
             }))
+            dispatch(setMenuList([]))
             navigate("/");
             console.log("Vendor Added!")
         }
     } catch (error) {
+        dispatch(setMenuList([]))
         console.log("Error in Shop Registration", error);
     }
 }
