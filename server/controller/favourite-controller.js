@@ -2,6 +2,8 @@ const Favourite = require('../models/favouriteSchema');
 const Vendor = require('../models/vendor-model');
 const Food = require('../models/food-model');
 
+//------------------------ addVendorToFavorites -----------------------------//
+
 const addVendorToFavorites = async (req, res) => {
   // const { vendorId } = req.params;
   const { vendorId } = req.body;
@@ -33,6 +35,7 @@ const addVendorToFavorites = async (req, res) => {
 
     // Save the changes to the favorite record
     await favorite.save();
+    console.log("Ids of the favorite vendors", favorite.vendors);
 
     // Populate the vendor details in the favorite record
     favorite = await Favourite.findById(favorite._id).populate('vendors');
@@ -48,6 +51,7 @@ const addVendorToFavorites = async (req, res) => {
   }
 };
 
+//-------------------------- removeVendorFromFavorites -----------------------------//
 const removeVendorFromFavorites = async (req, res) => {
   const { vendorId } = req.body; // Assuming vendorId is in request body
   const { userId } = req.body;
@@ -81,6 +85,8 @@ const removeVendorFromFavorites = async (req, res) => {
   }
 };
 
+//-------------------------- addFoodToFavorites -----------------------------//
+
 const addFoodToFavorites = async (req, res) => {
   const { foodId } = req.body; // Assuming food ID is in request body
   const { userId } = req.body;
@@ -109,11 +115,13 @@ const addFoodToFavorites = async (req, res) => {
     // Save the changes to the favorite record
     await favorite.save();
 
+
     // favorite = await Favourite.findById(favorite._id).populate('foods');
     favorite = await Favourite.findById(favorite._id).populate('foods');
 
     // Return the favorite object with populated food details
     res.status(200).json(favorite);
+
 
   } catch (err) {
     console.error(err);
@@ -121,5 +129,27 @@ const addFoodToFavorites = async (req, res) => {
   }
 };
 
+//-------------------------- removeFoodFromFavorites -----------------------------//
 
-module.exports = { addVendorToFavorites, removeVendorFromFavorites, addFoodToFavorites };
+const removeFoodFromFavorites = async (req, res) => {
+  const { foodId, userId } = req.body;
+
+  try {
+    const favorite = await Favourite.findOneAndUpdate(
+      { user: userId },
+      { $pull: { foods: foodId } },
+      { new: true }
+    );
+
+    if (!favorite) {
+      return res.status(404).json({ error: 'Favorite not found' });
+    }
+
+    res.status(200).json(favorite);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports = { addVendorToFavorites, removeVendorFromFavorites, addFoodToFavorites, removeFoodFromFavorites };

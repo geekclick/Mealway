@@ -1,25 +1,50 @@
 const Vendor = require('../models/vendor-model.js');
-const path = require('path')
+const Food=require('../models/food-model.js')
+
 
 const addVendor = async (req, res) => {
-
     try {
         const { img, coverImg, name, shopname, location, address, description, menu, contact, openCloseHours } = req.body;
 
         const vendorExist = await Vendor.findOne({ contact });
 
         if (vendorExist) {
-            return res.status(400).json({ msg: "Vendor Already exits" });
+            return res.status(400).json({ msg: "Vendor already exists" });
         }
 
-        await Vendor.create({ img, coverImg, name, shopname, address, location, description, menu, contact, openCloseHours });
+        // Create an array to store the created menu items
+        const createdMenuItems = [];
 
-        res.status(200).json({ msg: "Vendor Created Succesfully" });
+        // Iterate through the menu array provided in the request body
+        for (const menuItemData of menu) {
+            // Create a new Food object for each menu item
+            const newMenuItem = await Food.create(menuItemData);
+
+            // Store the created Food object in the menu array of the Vendor model
+            createdMenuItems.push(newMenuItem);
+        }
+
+        // Create the vendor with the provided data and the created menu items
+        const newVendor = await Vendor.create({
+            img,
+            coverImg,
+            name,
+            shopname,
+            address,
+            location,
+            description,
+            menu: createdMenuItems,
+            contact,
+            openCloseHours
+        });
+
+        res.status(200).json({ msg: "Vendor created successfully", vendor: newVendor });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ msg: "Internal Server Error", error });
-        console.log(error);
     }
 };
+
 
 // --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
 
