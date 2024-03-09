@@ -1,37 +1,6 @@
 const mongoose = require('mongoose');
+const menuItemSchema=require('./food-model')
 
-const menuItemSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  category: {
-    type: String,
-    // enum: ['Street Food', 'Fast Food', 'Snacks', 'Desserts', 'Beverages'],
-    required: false
-  },
-  price: {
-    type: Number,
-    required: true
-  },
-  vendor: {
-    type: mongoose.Schema.Types.ObjectId, // Reference to Vendor model
-    ref: 'Vendor', // Indicates that this field references the Vendor model
-    required: false
-  },
-  image: {
-    type: String, // URL of the image
-    required: false
-  },
-  rating: {
-    type: Number,
-    default: 0
-  },
-});
 
 const vendorSchema = new mongoose.Schema({
   img: {
@@ -73,10 +42,7 @@ const vendorSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  menu: {
-    type: [menuItemSchema],
-    required: true
-  },
+  menu: [menuItemSchema],
   contact: {
     type: Number,
     required: true
@@ -89,7 +55,6 @@ const vendorSchema = new mongoose.Schema({
 }
 );
 vendorSchema.index({ 'menu.name': 'text' });
-// Create a 2dsphere index for the location field
 vendorSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('Vendor', vendorSchema);
