@@ -10,6 +10,7 @@ router.route("/updateFood").post(foodForm.updateSelectedFood );
 
 router.route("/addVendortoF").post(favouriteForm.addVendorToFavorites);
 router.route("/removeVendortoF").post(favouriteForm.removeVendorFromFavorites);
+router.route("/addFoodtoF").post(favouriteForm.addFoodToFavorites);
 
 
 module.exports = router;

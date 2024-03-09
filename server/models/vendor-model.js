@@ -42,7 +42,11 @@ const vendorSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  menu: [menuItemSchema],
+  // menu: [menuItemSchema],
+  menu: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Food' // Assuming a model named 'Food'
+  }],
   contact: {
     type: Number,
     required: true
