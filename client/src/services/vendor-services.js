@@ -2,8 +2,7 @@ import { setMenuList } from "@/store/reducers/menuSlice";
 import { setVendor, setVendorList } from "@/store/reducers/vendorSlice";
 import axios from "axios";
 
-export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) => {
-    e.preventDefault()
+export const handleShopRegistration = async (vendorInfo, dispatch, navigate) => {
     try {
         const response = await axios.post("/api/register-shop", vendorInfo);
         if (response) {
@@ -15,9 +14,8 @@ export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) 
                 location: "",
                 address: "",
                 contact: "",
-                // ratings: "",
-                // reviews: "",
-                openCloseHours: {},
+                openingHour: "",
+                closingHour: "",
                 menu: [],
             }))
             dispatch(setMenuList([]))
@@ -42,11 +40,12 @@ export const getVendorList = async (dispatch, navigate) => {
     }
 }
 
-export const sendImagetoCloud = async (image) => {
+export const sendImagetoCloud = async (image, folderName) => {
     const data = new FormData()
     data.append("file", image)
     data.append("upload_preset", "mealway")
     data.append("cloud_name", "dxn3cmvet")
+    data.append("folder", folderName);
 
     try {
         const response = await axios.post("https://api.cloudinary.com/v1_1/dxn3cmvet/image/upload", data)

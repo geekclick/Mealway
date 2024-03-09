@@ -12,7 +12,7 @@ const home = (req, res) => {
 
 const register = async (req, res) => {
     try {
-        const { fn, phn, email, password } = req.body;
+        const { fullName, phoneNumber, email, password } = req.body;
         const userExits = await User.findOne({ email });
 
         if (userExits) {
@@ -21,7 +21,7 @@ const register = async (req, res) => {
             return;
         }
 
-        const data = await User.create({ fn, phn, email, password });
+        const data = await User.create({ fullName, phoneNumber, email, password });
         const token = await data.generateToken();
 
         res.status(201).json({
@@ -45,13 +45,13 @@ const login = async (req, res) => {
             console.log("Inavlid ");
         }
 
-            if (userExits && userExits.comparePassword(password)) {
-                res.status(200).json({
-                    msg: "Login successful",
-                    token: await userExits.generateToken(),
-                    userId: userExits._id.toString(),
-                })
-            }
+        if (userExits && userExits.comparePassword(password)) {
+            res.status(200).json({
+                msg: "Login successful",
+                token: await userExits.generateToken(),
+                userId: userExits._id.toString(),
+            })
+        }
 
         else {
             res.status(401).send({ msg: "Invalid email or password" })

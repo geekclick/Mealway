@@ -29,7 +29,7 @@ function MenuDialog({ children }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = await sendImagetoCloud(image);
+    const imgUrl = await sendImagetoCloud(image, "menu-images");
     dispatch(addMenu({ ...formData, image: imgUrl }));
     setFormData({
       name: "",
