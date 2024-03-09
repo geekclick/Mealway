@@ -1,30 +1,9 @@
+import { getMenuList } from "@/services/menu-services";
 import { FaStar } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
 
-const prods = [
-  {
-    name: "Pizza Hut",
-    image: "https://source.unsplash.com/327x142/?cake$1",
-  },
-  {
-    name: "Pizza Hut",
-    image: "https://source.unsplash.com/327x142/?cheese$2",
-  },
-  {
-    name: "Pizza Hut",
-    image: "https://source.unsplash.com/327x142/?noodles$3",
-  },
-  {
-    name: "Pizza Hut",
-    image: "https://source.unsplash.com/327x142/?pasta$4",
-  },
-  {
-    name: "Pizza Hut",
-    image: "https://source.unsplash.com/327x142/?chicken$5",
-  },
-];
-
-function Recommended({ list = prods }) {
+const menuList = await getMenuList();
+function Recommended({ list = menuList }) {
   return (
     <section className=" space-y-4">
       <h2 className="text-[20px] italic text-left">Recommended For You </h2>
