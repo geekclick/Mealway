@@ -47,6 +47,38 @@ const addVendorToFavorites = async (req, res) => {
   }
 };
 
+const removeVendorFromFavorites = async (req, res) => {
+  const { vendorId } = req.body; // Assuming vendorId is in request body
+  const { userId } = req.body;
+
+  try {
+    console.log("Received request to remove vendor:", vendorId, "from favorites for user:", userId);
+
+    const favorite = await Favourite.findOne({ user: userId });
+
+    if (!favorite) {
+      return res.status(404).json({ error: 'Favorites not found for user' });
+    }
+
+    const vendorIndex = favorite.vendors.indexOf(vendorId);
+
+    if (vendorIndex === -1) {
+      return res.status(404).json({ error: 'Vendor not found in favorites' });
+    }
+
+    favorite.vendors.splice(vendorIndex, 1);
+
+    await favorite.save();
+
+    // Populate the updated vendor list
+    let favourite = await Favourite.findById(favorite._id).populate('vendors');
+
+    res.status(200).json(favourite);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error: ' + err.message });
+  }
+};
 
 
-module.exports = { addVendorToFavorites };
+module.exports = { addVendorToFavorites, removeVendorFromFavorites };

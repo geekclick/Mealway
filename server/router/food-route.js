@@ -9,7 +9,7 @@ router.route("/deleteFood").delete(foodForm.deleteSelectedFood );
 router.route("/updateFood").post(foodForm.updateSelectedFood );
 
 router.route("/addVendortoF").post(favouriteForm.addVendorToFavorites);
-router.route("/removeVendortoF").delete(favouriteForm.removeVendorFromFavorites);
+router.route("/removeVendortoF").post(favouriteForm.removeVendorFromFavorites);
 
 
 module.exports = router;
