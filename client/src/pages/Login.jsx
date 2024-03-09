@@ -1,34 +1,46 @@
 import PasswordInput from "@/components/PasswordInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { handleLogin } from "@/services/auth-services";
-import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { handleChange } from "@/helpers/handleChange";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { loginSchema } from "@/schemas/authSchema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [loginButton, setLoginButton] = useState(false);
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSubmitButtonState = () => {
-    if (formData.email.trim() !== "" && formData.password.trim() !== "") {
-      setLoginButton(true);
-    } else {
-      setLoginButton(false);
-    }
-  };
+  const {
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = form;
 
-  useEffect(() => {
-    handleSubmitButtonState();
-  }, [formData]);
+  function onSubmit(values) {
+    handleLogin(values, dispatch, navigate, setError);
+  }
+
   return (
     <section>
       <div className="flex justify-center items-center shadow-md py-6">
@@ -39,37 +51,48 @@ function Login() {
       </div>
       <div className="py-2 px-4">
         <div className="py-10 px-4 drop-shadow-md space-y-10">
-          <form
-            action=""
-            className="flex justify-center items-center flex-col space-y-6"
-            onSubmit={(e) => handleLogin(e, formData, dispatch, navigate)}
-          >
-            <div className="w-full space-y-2">
-              <Label>Email</Label>
-              <Input
-                placeholder="Enter your Email"
-                type="email"
+          <Form {...form}>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
                 name="email"
-                value={formData.email}
-                onChange={(e) => handleChange(e, setFormData)}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="w-full">
-              <Label>Password</Label>
-              <PasswordInput
-                value={formData.password}
-                onChange={(e) => handleChange(e, setFormData)}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <PasswordInput
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
               <small className="text-primary">Forgot password?</small>
-            </div>
-            <Button
-              className="w-full"
-              variant={`${loginButton ? "" : "disabled"}`}
-              disabled={!loginButton}
-            >
-              Log in
-            </Button>
-          </form>
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Loading..." : "Log in"}
+              </Button>
+              {errors.root && (
+                <p className=" text-red-500 text-center mt-0">
+                  {errors.root.message}
+                </p>
+              )}
+            </form>
+          </Form>
           <div className="flex justify-between items-center w-full">
             <hr className="w-[40%]" />
             <p>or</p>

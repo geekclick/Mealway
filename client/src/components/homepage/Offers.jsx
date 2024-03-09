@@ -5,15 +5,11 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
-import v1 from "@/assets/carousel/v1.mp4";
-import v2 from "@/assets/carousel/v2.mp4";
-import v3 from "@/assets/carousel/v3.mp4";
-import v4 from "@/assets/carousel/v4.mp4";
-import v5 from "@/assets/carousel/v5.mp4";
-import v6 from "@/assets/carousel/v6.mp4";
-import v7 from "@/assets/carousel/v7.mp4";
-
-const videos = [v1, v2, v3, v4, v5, v6, v7];
+const videos = [
+  "https://res.cloudinary.com/dxn3cmvet/video/upload/v1709973483/slider-videos/krvbectfjulb1mvlcopm.mp4",
+  "https://res.cloudinary.com/dxn3cmvet/video/upload/v1709973991/slider-videos/f06pmykjdeqbb60enja2.mp4",
+  "https://res.cloudinary.com/dxn3cmvet/video/upload/v1709974028/slider-videos/ihsrybaymncd8lww7fnp.mp4",
+];
 
 function Offers() {
   return (

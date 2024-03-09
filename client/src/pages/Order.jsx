@@ -1,4 +1,3 @@
-import Img from "@/assets/order.svg";
 import BottomNav from "@/components/BottomNav";
 import { FaChevronLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -13,7 +12,13 @@ function Order() {
         <h1 className="text-center">Orders</h1>
       </div>
       <div className="flex flex-col justify-center items-center py-16 space-y-4">
-        <img src={Img} alt="" className="w-[150px]" />
+        <img
+          src={
+            "https://res.cloudinary.com/dxn3cmvet/image/upload/v1709974566/assets/itatpmhvon4rrm5k4e5t.svg"
+          }
+          alt=""
+          className="w-[150px]"
+        />
         <h3 className="text-primary">Comming Soon...</h3>
         <h5 className="text-center w-[300px]">
           Order feature will be available very soon, We will notify you when it

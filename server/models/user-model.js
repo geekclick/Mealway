@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const userSchema = mongoose.Schema({
-    fn: {
+    fullName: {
         type: String,
         required: true
     },
@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     //     type:String,
     //     required:true
     // },
-    phn: {
+    phoneNumber: {
         type: Number,
         required: true
     },

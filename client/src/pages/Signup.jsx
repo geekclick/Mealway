@@ -10,56 +10,40 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { signupSchema } from "@/schemas/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    fn: "",
-    phn: "",
-    email: "",
-    password: "",
-    cpassword: "",
+  const form = useForm({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      fullName: "",
+      phoneNumber: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
-
-  const [loginButton, setLoginButton] = useState(false);
-
-  const [error, setError] = useState({
-    phn_error: false,
-    password_error: false,
-  });
-
-  const handleSubmitButtonState = () => {
-    if (
-      formData.fn.trim() !== "" &&
-      formData.phn.trim() !== "" &&
-      formData.email.trim() !== "" &&
-      formData.password.trim() !== "" &&
-      formData.cpassword.trim() !== ""
-    ) {
-      setLoginButton(true);
-    } else {
-      setLoginButton(false);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (formData.phn.length === 10) {
-      setError({ ...error, phn_error: false });
-    } else {
-      setError({ ...error, phn_error: true });
-    }
-
-    if (formData.password === formData.cpassword) {
-      setError({ ...error, password_error: false });
-    } else setError({ ...error, password_error: true });
-
-    handleSignUp(e, formData, dispatch, navigate);
-  };
-  useEffect(() => {
-    handleSubmitButtonState();
-  }, [formData]);
+  const {
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = form;
+  function onSubmit(values) {
+    handleSignUp(values, dispatch, navigate, setError);
+  }
   return (
     <section>
       <div className="flex justify-center items-center shadow-md py-6">
@@ -69,79 +53,90 @@ function Signup() {
         <h1 className="text-center">Sign Up</h1>
       </div>
       <div className="py-10 px-4 drop-shadow-md space-y-10">
-        <form
-          action=""
-          className="flex justify-center items-center flex-col space-y-6"
-          onSubmit={(e) => handleSubmit(e)}
-        >
-          <div className="w-full space-y-2">
-            <Label>Full name</Label>
-            <Input
-              placeholder="Enter your full name"
-              type="text"
-              name="fn"
-              value={formData.fn}
-              onChange={(e) => handleChange(e, setFormData)}
+        <Form {...form}>
+          <form onSubmit={handleSubmit(onSubmit)} className=" space-y-6">
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your full name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="w-full space-y-2">
-            <Label>Phone number</Label>
-            <Input
-              placeholder="Enter your phone number"
-              type="number"
-              name="phn"
-              value={formData.phn}
-              onChange={(e) => handleChange(e, setFormData)}
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your phone number"
+                      {...field}
+                      type="number"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {error.phn_error && (
-              <small className="text-primary">
-                Mobile Number Must be of 10 digits
-              </small>
-            )}
-          </div>
-          <div className="w-full space-y-2">
-            <Label>Email</Label>
-            <Input
-              placeholder="Enter your phone number"
-              type="email"
+            <FormField
+              control={form.control}
               name="email"
-              value={formData.email}
-              onChange={(e) => handleChange(e, setFormData)}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="w-full">
-            <Label>Password</Label>
-            <PasswordInput
-              value={formData.password}
-              onChange={(e) => handleChange(e, setFormData)}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <PasswordInput placeholder="Create a password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="w-full">
-            <Label>Confirm Password</Label>
-            <PasswordInput
-              value={formData.cpassword}
-              onChange={(e) => handleChange(e, setFormData)}
-              name="cpassword"
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder="Confirm your password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {error.password_error && (
-              <small className="text-primary text-left">
-                Password must be matched
-              </small>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Loading..." : "Sign up"}
+            </Button>
+            {errors.root && (
+              <p className=" text-red-500 text-center mt-0">
+                {errors.root.message}
+              </p>
             )}
-            <p className="m-2">
-              By clicking Sign up, you agree to the system's{" "}
-              <span className="text-primary">Terms and policies</span>
-            </p>
-          </div>
-          <Button
-            className="w-full"
-            variant={`${loginButton ? "" : "disabled"}`}
-            disabled={!loginButton}
-            type="submit"
-          >
-            Sign up
-          </Button>
-        </form>
+          </form>
+        </Form>
         <div className="flex justify-between items-center w-full">
           <hr className="w-[40%]" />
           <p>or</p>

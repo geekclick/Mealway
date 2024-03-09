@@ -1,8 +1,7 @@
 import { setIsLoggedIn, setUser } from "@/store/reducers/authSlice";
 import axios from "axios";
 
-export const handleLogin = async (e,userInfo, dispatch, navigate) => {
-    e.preventDefault()
+export const handleLogin = async (userInfo, dispatch, navigate, setError) => {
     try {
         const response = await axios.post("/api/login", userInfo);
         if (response) {
@@ -12,21 +11,25 @@ export const handleLogin = async (e,userInfo, dispatch, navigate) => {
             console.log("Login Success")
         }
     } catch (error) {
-        console.log("Error in login", error);
+        setError('root', { message: error.response.data.msg })
     }
 }
 
-export const handleSignUp = async (e, userInfo, dispatch, navigate) => {
-    e.preventDefault();
+export const handleSignUp = async (userInfo, dispatch, navigate, setError) => {
     try {
         const response = await axios.post("/api/register", userInfo);
         if (response) {
-            dispatch(setUser({ fn: "", phn: "", email: "", password: "" }));
+            dispatch(setUser({
+                fullName: "",
+                phoneNumber: "",
+                email: "",
+                password: "",
+            }));
             dispatch(setIsLoggedIn(true));
             navigate("/");
             console.log("Register Success")
         }
     } catch (error) {
-        console.log("Error in register", error);
+        setError('root', { message: error.response.data.msg })
     }
 };

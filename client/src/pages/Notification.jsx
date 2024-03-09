@@ -1,6 +1,5 @@
 import { FaChevronLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Img from "@/assets/notification.png";
 function Notification() {
   return (
     <div>
@@ -11,7 +10,13 @@ function Notification() {
         <h1 className="text-center">Notification</h1>
       </div>
       <div className="flex flex-col justify-center items-center py-16 space-y-4">
-        <img src={Img} alt="" className="w-[100px]" />
+        <img
+          src={
+            "https://res.cloudinary.com/dxn3cmvet/image/upload/v1709974490/assets/ff863u5mcx47ovmek8m9.png"
+          }
+          alt=""
+          className="w-[100px]"
+        />
         <h3 className="text-primary">No Notifications</h3>
         <h5 className="text-center w-[300px]">
           Sorry, you have no notification right now, we will let you know if you

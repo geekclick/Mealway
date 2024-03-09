@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input } from "./ui/input";
 import { Eye, EyeOff } from "lucide-react";
 
-function PasswordInput({ value, onChange, name }) {
+const PasswordInput = React.forwardRef((field, ref) => {
   const [eye, setEye] = useState({
     icon: false,
     type: "password",
@@ -10,11 +10,10 @@ function PasswordInput({ value, onChange, name }) {
   return (
     <div className="relative">
       <Input
-        placeholder="Enter password"
+        placeholder="Enter your password"
         type={eye.type}
-        value={value}
-        onChange={onChange}
-        name={name}
+        {...field}
+        ref={ref}
       />
       {eye.icon ? (
         <Eye
@@ -29,7 +28,7 @@ function PasswordInput({ value, onChange, name }) {
       )}
     </div>
   );
-}
+});
 
 PasswordInput.defaultProps = {
   name: "password",

@@ -42,11 +42,12 @@ export const getVendorList = async (dispatch, navigate) => {
     }
 }
 
-export const sendImagetoCloud = async (image) => {
+export const sendImagetoCloud = async (image, folderName) => {
     const data = new FormData()
     data.append("file", image)
     data.append("upload_preset", "mealway")
     data.append("cloud_name", "dxn3cmvet")
+    data.append("folder", folderName);
 
     try {
         const response = await axios.post("https://api.cloudinary.com/v1_1/dxn3cmvet/image/upload", data)

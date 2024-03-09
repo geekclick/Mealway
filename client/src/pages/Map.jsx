@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input";
 import { FaChevronLeft } from "react-icons/fa";
 import { LuSearch } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import map from "@/assets/map.png";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import MapComponent from "@/components/MapComponent";

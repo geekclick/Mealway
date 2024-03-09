@@ -59,8 +59,8 @@ function RegisterShop() {
     let imgUrl = "";
     let coverImgUrl = "";
     if (image.img != "" && image.coverImg != "") {
-      imgUrl = await sendImagetoCloud(image.img);
-      coverImgUrl = await sendImagetoCloud(image.coverImg);
+      imgUrl = await sendImagetoCloud(image.img, "vendor-logo");
+      coverImgUrl = await sendImagetoCloud(image.coverImg, "vendor-cover");
     }
     handleShopRegistration(
       e,

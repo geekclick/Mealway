@@ -2,10 +2,9 @@ import { setSidebar } from "@/store/reducers/sidebarSlice";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import profileImg from "@/assets/profileLogo.png";
 import { IoWalletOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { CiDiscount1, CiShop } from "react-icons/ci";
+import { CiShop } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 
@@ -42,7 +41,7 @@ function Sidebar() {
       <div className=" space-y-8">
         {isLoggedIn ? (
           <div className="flex space-x-2">
-            <img src={profileImg} alt="" className="w-[48px] h-[48px]" />
+            <img src={""} alt="" className="w-[48px] h-[48px]" />
             <div className="flex flex-col -space-y-1">
               <h2 className="font-medium italic">Anuj Ghom</h2>
               <small>habhainakliemailhai@gmail.com</small>
