@@ -45,13 +45,13 @@ function VendorInfo() {
           <h5 className="flex justify-between">
             Opening Time <span>:</span>{" "}
             <span className="text-primary">
-              {thisVendor.openCloseHours?.open || "-"}
+              {thisVendor.openingHour || "-"}
             </span>
           </h5>
           <h5 className="flex justify-between">
             Closing Time <span>:</span>{" "}
             <span className="text-primary">
-              {thisVendor.openCloseHours?.close || "-"}
+              {thisVendor.closingHour || "-"}
             </span>
           </h5>
         </div>

@@ -4,7 +4,7 @@ const path = require('path')
 const addVendor = async (req, res) => {
 
     try {
-        const { img, coverImg, name, shopname, location, address, description, menu, contact, openCloseHours } = req.body;
+        const { img, coverImg, name, shopname, location, address, description, menu, contact, openingHour, closingHour } = req.body;
 
         const vendorExist = await Vendor.findOne({ contact });
 
@@ -12,7 +12,7 @@ const addVendor = async (req, res) => {
             return res.status(400).json({ msg: "Vendor Already exits" });
         }
 
-        await Vendor.create({ img, coverImg, name, shopname, address, location, description, menu, contact, openCloseHours });
+        await Vendor.create({ img, coverImg, name, shopname, address, location, description, menu, contact, openingHour, closingHour });
 
         res.status(200).json({ msg: "Vendor Created Succesfully" });
     } catch (error) {
@@ -42,7 +42,8 @@ const updateSelectedVendor = async (req, res) => {
                 name: req.body.name,
                 shopname: req.body.shopname,
                 address: req.body.address,
-                openCloseHours: req.body.openCloseHours,
+                openingHour: req.body.openingHour,
+                closingHour: req.body.closingHour,
                 menu: req.body.menu,
                 ratings: req.body.ratings,
             },
@@ -113,27 +114,27 @@ const getRandomFood = async (req, res) => {
     try {
         // Use aggregation pipeline to randomly select menu items
         const menuItems = await Vendor.aggregate([
-          { $unwind: '$menu' }, // Deconstruct the menu array
-          { $sample: { size: 5 } }, // Randomly select 5 menu items
-          { $project: { _id: 0, menu: 1 } } // Project only the menu items
+            { $unwind: '$menu' }, // Deconstruct the menu array
+            { $sample: { size: 5 } }, // Randomly select 5 menu items
+            { $project: { _id: 0, menu: 1 } } // Project only the menu items
         ]);
-    
+
         // If no menu items found, return a 404 Not Found response
         if (!menuItems || menuItems.length === 0) {
-          return res.status(404).json({ message: 'No menu items found' });
+            return res.status(404).json({ message: 'No menu items found' });
         }
-    
+
         // Extract the menu items from the aggregation result and return as JSON response
         res.json(menuItems.map(item => item.menu));
-      } catch (error) {
+    } catch (error) {
         // Handle errors
         console.error('Error fetching random menu items:', error);
         res.status(500).json({ message: 'Internal server error' });
-      }
+    }
 };
 
 
 
 
 
-module.exports = { addVendor, getAllVendors, deleteSelectedVendor, updateSelectedVendor, getVendorsByFood,getRandomFood };
+module.exports = { addVendor, getAllVendors, deleteSelectedVendor, updateSelectedVendor, getVendorsByFood, getRandomFood };
