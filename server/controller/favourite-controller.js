@@ -1,5 +1,6 @@
 const Favourite = require('../models/favouriteSchema');
 const Vendor = require('../models/vendor-model');
+const Food = require('../models/food-model');
 
 const addVendorToFavorites = async (req, res) => {
   // const { vendorId } = req.params;
@@ -80,5 +81,45 @@ const removeVendorFromFavorites = async (req, res) => {
   }
 };
 
+const addFoodToFavorites = async (req, res) => {
+  const { foodId } = req.body; // Assuming food ID is in request body
+  const { userId } = req.body;
 
-module.exports = { addVendorToFavorites, removeVendorFromFavorites };
+  try {
+    console.log("Received request to add food:", foodId, "to favorites for user:", userId);
+
+    // Find or create the favorite record for the user
+    let favorite = await Favourite.findOne({ user: userId });
+
+    // Handle case where favorite doesn't exist yet
+    if (!favorite || !favorite.foods) {
+      console.warn("Creating favorite without initial food. Consider validation logic.");
+      favorite = new Favourite({
+        user: userId,
+        foods: [] // Empty array to satisfy validation
+      });
+    } else {
+      // Existing favorite with foods array
+      console.log("Food section already exists");
+      if (!favorite.foods.includes(foodId)) {
+        favorite.foods.push(foodId);
+      }
+    }
+
+    // Save the changes to the favorite record
+    await favorite.save();
+
+    // favorite = await Favourite.findById(favorite._id).populate('foods');
+    favorite = await Favourite.findById(favorite._id).populate('foods');
+
+    // Return the favorite object with populated food details
+    res.status(200).json(favorite);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error: ' + err.message });
+  }
+};
+
+
+module.exports = { addVendorToFavorites, removeVendorFromFavorites, addFoodToFavorites };
