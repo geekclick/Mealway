@@ -1,50 +1,11 @@
-// import React, { useEffect } from "react";
-// import L from "leaflet";
-// import "leaflet/dist/leaflet.css";
-
-// const MapComponent = ({ vendors }) => {
-//   useEffect(() => {
-//     let map = null; // Declare map variable outside the effect
-
-//     if (!map) {
-//       // Check if map is not initialized
-//       map = L.map("map").setView([19.7515, 75.7139], 8); // Centered around Maharashtra
-
-//       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-//         attribution:
-//           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//       }).addTo(map);
-//     }
-
-//     // Render markers for vendors
-//     vendors.forEach((vendor) => {
-//       const [lng, lat] = vendor.location.coordinates;
-//       L.marker([vendor.location.lat, vendor.location.lng])
-//         .addTo(map)
-//         .bindPopup(`<b>${vendor.shopname}</b><br>${vendor.name}`);
-//     });
-
-//     // Cleanup function when the component is unmounted
-//     return () => {
-//       if (map) {
-//         map.remove(); // Remove the map instance
-//         map = null; // Reset map variable
-//       }
-//     };
-//   }, [vendors]); // Update effect when vendors change
-
-//   return (
-//     <div id="map" className="absolute z-10 w-full h-screen overflow-hidden" />
-//   );
-// };
-
-// export default MapComponent;
-
 // import React, { useEffect, useRef } from "react";
 // import L from "leaflet";
 // import "leaflet/dist/leaflet.css";
 
-// const MapComponent = ({ vendors }) => {
+// const MapComponent = ({
+//   className = "absolute z-10 w-full h-screen overflow-hidden",
+//   vendors,
+// }) => {
 //   const mapRef = useRef(null);
 
 //   useEffect(() => {
@@ -69,18 +30,30 @@
 //       }
 //     });
 
-//     // Render markers for vendors
+//     // Render markers for vendors with cool animation
 //     vendors.forEach((vendor) => {
-//       const [lng, lat] = vendor.location.coordinates;
+//       const [lat,lng] = vendor.location.coordinates;
 //       const marker = L.marker([lat, lng]).addTo(map);
-//       marker.bindPopup(`<b>${vendor.shopname}</b><br>${vendor.name}`);
+//       const popup = L.popup({ closeButton: false }).setContent(
+//         `<b>${vendor.shopname}</b><br>${vendor.name}`
+//       );
+//       marker.bindPopup(popup).openPopup();
+
+//       // Cool animation
+//       marker.on("mouseover", function () {
+//         marker.openPopup();
+//       });
+
+//       marker.on("mouseout", function () {
+//         marker.closePopup();
+//       });
 //     });
 
 //     // Zoom to the last marker location with smooth animation
 //     if (vendors.length > 0) {
 //       const lastVendor = vendors[vendors.length - 1];
-//       const [lastLng, lastLat] = lastVendor.location.coordinates;
-//       map.flyTo([lastLat, lastLng], 12, { duration: 2 }); // Smooth animation for 2 seconds (adjust as needed)
+//       const [lastLat,lastLng] = lastVendor.location.coordinates;
+//       map.flyTo([lastLat,lastLng], 12, { duration: 2 }); // Smooth animation for 2 seconds (adjust as needed)
 //     }
 
 //     return () => {
@@ -88,12 +61,11 @@
 //     };
 //   }, [vendors]);
 
-//   return (
-//     <div id="map" className="absolute z-10 w-full h-screen overflow-hidden" />
-//   );
+//   return <div id="map" className={className} />;
 // };
 
 // export default MapComponent;
+
 
 import React, { useEffect, useRef } from "react";
 import L from "leaflet";
@@ -102,6 +74,7 @@ import "leaflet/dist/leaflet.css";
 const MapComponent = ({
   className = "absolute z-10 w-full h-screen overflow-hidden",
   vendors,
+  searchedFoodLocation,
 }) => {
   const mapRef = useRef(null);
 
@@ -129,36 +102,42 @@ const MapComponent = ({
 
     // Render markers for vendors with cool animation
     vendors.forEach((vendor) => {
-      const [lat,lng] = vendor.location.coordinates;
+      const [lat, lng] = vendor.location.coordinates;
       const marker = L.marker([lat, lng]).addTo(map);
+
       const popup = L.popup({ closeButton: false }).setContent(
         `<b>${vendor.shopname}</b><br>${vendor.name}`
       );
-      marker.bindPopup(popup).openPopup();
+      marker.bindPopup(popup);
 
-      // Cool animation
-      marker.on("mouseover", function () {
-        marker.openPopup();
-      });
-
-      marker.on("mouseout", function () {
-        marker.closePopup();
+      // Zoom to the marker location and show popup on click
+      marker.on("click", function (e) {
+        map.flyTo([lat, lng], 15, { duration: 2, easeLinearity: 0.5 }); // Smooth animation to the clicked marker's location
+        marker.openPopup(); // Show the popup
       });
     });
 
-    // Zoom to the last marker location with smooth animation
-    if (vendors.length > 0) {
-      const lastVendor = vendors[vendors.length - 1];
-      const [lastLat,lastLng] = lastVendor.location.coordinates;
-      map.flyTo([lastLat,lastLng], 12, { duration: 2 }); // Smooth animation for 2 seconds (adjust as needed)
+    // Zoom to the searched food location with smooth animation
+    if (searchedFoodLocation) {
+      const [searchedLat, searchedLng] = searchedFoodLocation;
+      map.flyTo([searchedLat, searchedLng], 14, { duration: 2, easeLinearity: 0.5 }); // Smooth animation for 2 seconds with ease effect
+
+      // Add a marker for the searched food location
+      const foodMarker = L.marker([searchedLat, searchedLng]).addTo(map);
+      const foodPopup = L.popup({ closeButton: false }).setContent(
+        "Searched Food Location"
+      );
+      foodMarker.bindPopup(foodPopup).openPopup();
     }
 
     return () => {
       // No cleanup needed
     };
-  }, [vendors]);
+  }, [vendors, searchedFoodLocation]);
 
   return <div id="map" className={className} />;
 };
 
 export default MapComponent;
+
+
