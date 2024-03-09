@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const menuItemSchema=require('./food-model')
+const menuItemSchema = require('./food-model')
 
 
 const vendorSchema = new mongoose.Schema({
@@ -51,10 +51,13 @@ const vendorSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  openCloseHours: {
-    type: Map,
-    of: String,
-    required: false
+  openingHour: {
+    type: String,
+    required: true
+  },
+  closingHour: {
+    type: String,
+    required: true
   }
 }
 );

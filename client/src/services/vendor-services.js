@@ -2,8 +2,7 @@ import { setMenuList } from "@/store/reducers/menuSlice";
 import { setVendor, setVendorList } from "@/store/reducers/vendorSlice";
 import axios from "axios";
 
-export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) => {
-    e.preventDefault()
+export const handleShopRegistration = async (vendorInfo, dispatch, navigate) => {
     try {
         const response = await axios.post("/api/register-shop", vendorInfo);
         if (response) {
@@ -15,9 +14,8 @@ export const handleShopRegistration = async (e, vendorInfo, dispatch, navigate) 
                 location: "",
                 address: "",
                 contact: "",
-                // ratings: "",
-                // reviews: "",
-                openCloseHours: {},
+                openingHour: "",
+                closingHour: "",
                 menu: [],
             }))
             dispatch(setMenuList([]))
