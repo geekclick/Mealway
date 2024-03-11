@@ -64,7 +64,7 @@ userSchema.methods.generateToken = async function () {
                 email: this.email,
                 isAdmin: this.isAdmin,
             },
-            key,
+            "thibjbwebf",
             {
                 expiresIn: "30d",
             }
@@ -76,14 +76,23 @@ userSchema.methods.generateToken = async function () {
 }
 
 // Comapring the new password with hash_password
-userSchema.methods.comparePassword = async function (newpass) {
-    try {
-        return await bcrypt.compare(newpass, this.password);
-    } catch (error) {
-        console.log(error, "Indicating password checker");
+// userSchema.methods.comparePassword = async function (newpass) {
+//     try {
+//         return await bcrypt.compare(newpass, this.password);
+//     } catch (error) {
+//         console.log(error, "Indicating password checker");
 
+//     }
+// }
+
+userSchema.methods.comparePassword = async function (password) {
+    try {
+        return await bcrypt.compare(password, this.password);
+    } catch (error) {
+        console.error("Error comparing passwords:", error);
+        return false;
     }
-}
+};
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
