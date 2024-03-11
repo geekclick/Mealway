@@ -7,12 +7,7 @@ const signupSchema = z.object({
         .trim()
         .min({ message: "Name must be at least of 2 chars" })
         .max(255, { required_error: "Name must be at most 255 characters" }),
-
-    // lname:z
-    // .string({required_error:"lanme is required"})
-    // .trim()
-    // .min(2,{message:"Name must be at least of 2 chars"})
-    // .max(255,{required_error:"Name must be at most 255 characters"}),
+        
     phoneNumber: z
         .string({ required_error: "phone number is required" })
         .trim()
