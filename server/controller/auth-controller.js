@@ -16,7 +16,7 @@ const register = async (req, res) => {
         const userExits = await User.findOne({ email });
 
         if (userExits) {
-            res.status(400).json({ msg: "Email already registered" });
+            res.status(400).json({ error: "Email already registered" });
             console.log("User is already registered");
             return;
         }
@@ -69,13 +69,13 @@ const login = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(401).json({ message: "Invalid email or password" });
+            return res.status(400).json({ error: "Invalid email or password" });
         }
 
         // Compare passwords
         const isPasswordValid = await user.comparePassword(password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: "Invalid email or password" });
+            return res.status(400).json({ error: "Passwords don't match" });
         }
 
         // Passwords match, generate token and respond
