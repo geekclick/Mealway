@@ -77,16 +77,20 @@ const vendorSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  openingHour: {
-    type: String,
-    required: true,
-    // Add custom validation if needed
+  openingHours: {
+    type:Map,
+    of:String,
   },
-  closingHour: {
-    type: String,
-    required: true,
-    // Add custom validation if needed
-  }
+  // openingHour: {
+  //   type: String,
+  //   required: true,
+  //   // Add custom validation if needed
+  // },
+  // closingHour: {
+  //   type: String,
+  //   required: true,
+  //   // Add custom validation if needed
+  // }
 }
 );
 vendorSchema.index({ 'menu.name': 'text' });
