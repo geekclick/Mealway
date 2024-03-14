@@ -6,6 +6,7 @@ import sidebarReducer from "./reducers/sidebarSlice";
 import authReducer from "./reducers/authSlice";
 import vendorReducer from "./reducers/vendorSlice";
 import menuReducer from "./reducers/menuSlice";
+import favoriteReducer from "./reducers/favoriteSlice";
 
 const persistConfig = {
     key: "root",
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     authSlice: authReducer,
     vendorSlice: vendorReducer,
     menuSlice: menuReducer,
+    favoriteSlice: favoriteReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

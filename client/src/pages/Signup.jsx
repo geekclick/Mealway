@@ -52,7 +52,7 @@ function Signup() {
         </Link>
         <h1 className="text-center">Sign Up</h1>
       </div>
-      <div className="py-10 px-4 drop-shadow-md space-y-10">
+      <div className="py-10 max-w-[450px] m-auto px-4 drop-shadow-md space-y-10">
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className=" space-y-6">
             <FormField

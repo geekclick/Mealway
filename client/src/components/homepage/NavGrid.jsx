@@ -10,51 +10,35 @@ import { Link } from "react-router-dom";
 
 const links = [
   {
-    name: "Flash deals",
+    name: "Non-Vegetarian",
     img: FlashDeals,
   },
   {
-    name: "Nice shop",
+    name: "Vegetarian",
     img: NiceShop,
   },
   {
-    name: "Points",
+    name: "Sweet & Namkeen",
     img: Points,
   },
   {
-    name: "Rice",
+    name: "Chaat",
     img: Rice,
-  },
-  {
-    name: "Noodles",
-    img: Noodles,
-  },
-  {
-    name: "Vegetable",
-    img: Vegetable,
-  },
-  {
-    name: "BBQ",
-    img: BBQ,
-  },
-  {
-    name: "Other",
-    img: Other,
   },
 ];
 
 function NavGrid() {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
       {links.map((link, i) => {
         return (
           <Link
             to={"/"}
-            className="flex flex-col items-center justify-center"
+            className="flex flex-col items-center justify-center space-y-3"
             key={i}
           >
-            <img src={link.img} alt="" />
-            <p>{link.name}</p>
+            <img src={link.img} alt="" className="lg:w-[70px] w-[40px]" />
+            <p className="lg:text-lg">{link.name}</p>
           </Link>
         );
       })}

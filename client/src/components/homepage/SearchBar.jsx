@@ -6,7 +6,7 @@ function SearchBar() {
   return (
     <Link
       to={"/search"}
-      className=" px-4 border-input border rounded-md flex items-center justify-center"
+      className=" px-4 border-input border rounded-md flex items-center justify-center "
     >
       <LuSearch className="text-2xl text-muted-foreground" />
       <p className=" text-muted-foreground flex h-12 w-full px-3 py-4 text-sm">

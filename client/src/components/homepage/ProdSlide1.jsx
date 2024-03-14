@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 
 const menuList = await getMenuList();
 function ProdSlide1({ title, list = menuList }) {
+  const toggleFavorite = (id) => {
+    
+  };
   return (
     <section className=" space-y-4">
       <div className="flex justify-between items-center w-full">
@@ -46,7 +49,11 @@ function ProdSlide1({ title, list = menuList }) {
                             4.8(1.2k)
                           </p>
                         </div>
-                        <GoHeart className="mx-4 text-xl text-primary " />
+                        <GoHeart
+                          className="mx-4 text-xl text-primary "
+                          role="button"
+                          onClick={() => toggleFavorite(item._id)}
+                        />
                       </div>
                     </div>
                   </CarouselItem>
