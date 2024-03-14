@@ -14,6 +14,13 @@ import Order from "./pages/Order";
 import RegisterShop from "./pages/RegisterShop";
 import VendorInfo from "./pages/VendorInfo";
 import AdminDashboard from "./pages/AdminDashboard";
+import UsersTable from "./components/AdminDashboard/UsersTable";
+import VendorsTable from "./components/AdminDashboard/VendorsTable";
+import FoodsTable from "./components/AdminDashboard/FoodsTable";
+import Profile from "./components/AdminDashboard/Profile";
+import Settings from "./components/AdminDashboard/Settings";
+import LogIn from "./components/AdminDashboard/SignIn";
+import Dashboard from "./components/AdminDashboard/Dashboard";
 
 function App() {
   return (
@@ -29,7 +36,18 @@ function App() {
       <Route path="/search" element={<SearchPage />} />
       <Route path="/map" element={<Map />} />
       <Route path="/register-shop" element={<RegisterShop />} />
-      <Route path="/yehbatebatayinahijati" element={<AdminDashboard />} />
+      <Route path="/yehbatebatayinahijati" element={<AdminDashboard />}>
+        <Route path="/yehbatebatayinahijati/" element={<Dashboard />} />
+        <Route path="/yehbatebatayinahijati/users" element={<UsersTable />} />
+        <Route
+          path="/yehbatebatayinahijati/vendors"
+          element={<VendorsTable />}
+        />
+        <Route path="/yehbatebatayinahijati/foods" element={<FoodsTable />} />
+        <Route path="/yehbatebatayinahijati/profile" element={<Profile />} />
+        <Route path="/yehbatebatayinahijati/settings" element={<Settings />} />
+      </Route>
+      <Route path="/yehbatebatayinahijati/login" element={<LogIn />} />
 
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />

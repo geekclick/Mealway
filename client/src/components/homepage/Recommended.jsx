@@ -2,7 +2,7 @@ import { getMenuList } from "@/services/menu-services";
 import { FaStar } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
 
-const menuList = await getMenuList();
+const menuList = (await getMenuList()) || [];
 function Recommended({ list = menuList }) {
   return (
     <section className=" space-y-4">
