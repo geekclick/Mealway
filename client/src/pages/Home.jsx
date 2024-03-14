@@ -13,9 +13,9 @@ function Home() {
     <div className="">
       <Navbar />
       <Sidebar />
-      <div className="py-20 space-y-8 px-6">
+      <div className="py-20 space-y-8 px-4 lg:px-20">
         <SearchBar />
-        <Offers />
+        {/* <Offers /> */}
         <NavGrid />
         <ProdSlide1 title={"What's delicious around here?"} />
         <img src={""} alt="promo" />

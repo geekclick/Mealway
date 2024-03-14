@@ -34,36 +34,38 @@ function Favourite() {
             <TabsTrigger value="dishes">Dishes</TabsTrigger>
           </TabsList>
           <TabsContent value="vendors">
-            {vendorList.map((item, i) => {
-              return (
-                <div className="flex space-x-4 my-10">
-                  <img
-                    src={`https://source.unsplash.com/92x92/?shop$${i}`}
-                    alt=""
-                    className="rounded-xl"
-                  />
-                  <div className="flex flex-col justify-between items-center">
-                    <div>
-                      <h4 className="font-semibold">{item.name}</h4>
-                      <p>{item.address}</p>
+            <div className="grid grid-cols-2 gap-4">
+              {vendorList.map((item, i) => {
+                return (
+                  <div className="flex space-x-4 my-10">
+                    <img
+                      src={`https://source.unsplash.com/92x92/?shop$${i}`}
+                      alt=""
+                      className="rounded-xl"
+                    />
+                    <div className="flex flex-col justify-between items-center">
+                      <div>
+                        <h4 className="font-semibold">{item.name}</h4>
+                        <p>{item.address}</p>
+                      </div>
+                      <p className="italic w-full flex mt-1">
+                        <FaStar className="text-yellow-500 mx-1 mb-4" />{" "}
+                        4.8(1.2k) | 1.5 km
+                      </p>
                     </div>
-                    <p className="italic w-full flex mt-1">
-                      <FaStar className="text-yellow-500 mx-1 mb-4" /> 4.8(1.2k)
-                      | 1.5 km
-                    </p>
+                    <GoHeartFill className="m-2 text-primary text-xl" />
+                    <div className="flex flex-col justify-center items-center">
+                      <Link to="/" className="flex justify-center items-center">
+                        <FaChevronRight className="text-black" />
+                      </Link>
+                    </div>
                   </div>
-                  <GoHeartFill className="m-2 text-primary text-xl" />
-                  <div className="flex flex-col justify-center items-center">
-                    <Link to="/" className="flex justify-center items-center">
-                      <FaChevronRight className="text-black" />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </TabsContent>
           <TabsContent value="dishes">
-            <div className="grid grid-cols-2 gap-4 my-10">
+            <div className="grid grid-cols-3 gap-4 my-10">
               {dishList.map((item, i) => {
                 return (
                   <div>

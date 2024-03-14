@@ -68,7 +68,7 @@ function EnterOtp() {
         <h1 className="text-center">Enter OTP</h1>
       </div>
       <div className="py-2 px-4">
-        <div className="py-10 px-4 drop-shadow-md space-y-10">
+        <div className="py-10 max-w-[450px] m-auto px-4 drop-shadow-md space-y-10">
           <form
             action=""
             className="flex justify-center items-center flex-col space-y-8"

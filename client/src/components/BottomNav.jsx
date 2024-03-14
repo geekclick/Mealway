@@ -15,7 +15,7 @@ const links = [
 function BottomNav() {
   const currentPath = location.pathname.split("/");
   return (
-    <nav className="fixed w-full z-50 bottom-0 bg-white flex justify-evenly items-center py-4 shadow-md shadow-black">
+    <nav className="fixed w-full z-50 bottom-0 bg-white flex lg:hidden justify-evenly items-center py-4 shadow-md shadow-black">
       {links.map((item, i) => {
         return (
           <Link

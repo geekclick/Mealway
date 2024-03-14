@@ -13,6 +13,7 @@ import Map from "./pages/Map";
 import Order from "./pages/Order";
 import RegisterShop from "./pages/RegisterShop";
 import VendorInfo from "./pages/VendorInfo";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Route path="/search" element={<SearchPage />} />
       <Route path="/map" element={<Map />} />
       <Route path="/register-shop" element={<RegisterShop />} />
+      <Route path="/yehbatebatayinahijati" element={<AdminDashboard />} />
 
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
