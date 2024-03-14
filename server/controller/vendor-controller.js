@@ -1,10 +1,10 @@
 const Vendor = require('../models/vendor-model.js');
 const Food=require('../models/food-model.js')
 
-
+// --------------------------Register the Shop -------------------------------//
 const addVendor = async (req, res) => {
     try {
-        const { img, coverImg, name, shopname, location, address, description, menu, contact, openingHour, closingHour } = req.body;
+        const { img, coverImg, name, shopname, location, address, description,menuid, menudata, contact,openingHour,closingHour } = req.body;
 
         const vendorExist = await Vendor.findOne({ contact });
 
@@ -12,7 +12,7 @@ const addVendor = async (req, res) => {
             return res.status(400).json({ msg: "Vendor already exists" });
         }
 
-        await Vendor.create({ img, coverImg, name, shopname, address, location, description, menu, contact, openCloseHours });
+        const newVendor = await Vendor.create({ img, coverImg, name, shopname, address,menuid, location, description, menudata, contact,openingHour,closingHour });
 
         res.status(200).json({ msg: "Vendor created successfully", vendor: newVendor });
     } catch (error) {
@@ -21,6 +21,46 @@ const addVendor = async (req, res) => {
     }
 };
 
+// Add the menu in the Food Model -------------------//
+const addMenu = async(req,res)=>{
+    try {
+        const {img,coverImg,name,description,category,price,ingredients,rating,location} = req.body;
+        const newFood =  await Food.create({img,coverImg,name,description,category,price,ingredients,rating,location});
+        res.status(200).json({msg:"Menu created successfully",newFood});
+    } catch (error) {
+        res.status(404).json({msg:"Menu Error",error});  
+    }
+}
+
+// Deelete the menu if not login in-----------------------------------//
+const deleteMenu = async (req, res) => {
+    try {
+        const deleteFood = await Food.deleteOne(
+            { name: req.body.name }
+        );
+        res.json({ deleteFood });
+    } catch (error) {
+        res.status(402).send("Error");
+    }
+}
+
+// ----------------------------------- Push the Food Id in menu array in vendor model --------------------------//
+const pushMenuId  = async (req, res) => {
+    try {
+        const pushmenuId = await Vendor.findOneAndUpdate(
+            { contact: req.body.contact },
+            {
+                menuid: req.body.menuid,
+            },
+            { new: true }
+        );
+        console.log(pushmenuId);
+        res.json(pushmenuId);
+    } catch (error) {
+        console.log(error);
+        res.status(402).send("Error");
+    }
+}
 
 // --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
 
@@ -45,7 +85,7 @@ const updateSelectedVendor = async (req, res) => {
                 address: req.body.address,
                 openingHour: req.body.openingHour,
                 closingHour: req.body.closingHour,
-                menu: req.body.menu,
+                menudata: req.body.menudata,
                 ratings: req.body.ratings,
             },
             { new: true }
@@ -87,7 +127,7 @@ const getVendorsByFood = async (req, res) => {
 
 
         if (!vendors.length) {
-            return res.status(404).json({ message: 'No vendors found for the searched food item.' });
+            return res.status(404).json({ message: 'No vendors found for the searched food item' });
         }
 
         const simplifiedVendors = [];
@@ -113,11 +153,11 @@ const getVendorsByFood = async (req, res) => {
 
 const getRandomFood = async (req, res) => {
     try {
-        // Use aggregation pipeline to randomly select menu items
+        // Use aggregation pipeline to randomly select menudata items
         const menuItems = await Vendor.aggregate([
-            { $unwind: '$menu' }, // Deconstruct the menu array
-            { $sample: { size: 5 } }, // Randomly select 5 menu items
-            { $project: { _id: 0, menu: 1 } } // Project only the menu items
+            { $unwind: '$menudata' }, // Deconstruct the menudata array
+            { $sample: { size: 5 } }, // Randomly select 5 menudata items
+            { $project: { _id: 0, menudata: 1 } } // Project only the menudata items
         ]);
 
         // If no menu items found, return a 404 Not Found response
@@ -126,7 +166,7 @@ const getRandomFood = async (req, res) => {
         }
 
         // Extract the menu items from the aggregation result and return as JSON response
-        res.json(menuItems.map(item => item.menu));
+        res.json(menuItems.map(item => item.menudata));
     } catch (error) {
         // Handle errors
         console.error('Error fetching random menu items:', error);
@@ -138,4 +178,4 @@ const getRandomFood = async (req, res) => {
 
 
 
-module.exports = { addVendor, getAllVendors, deleteSelectedVendor, updateSelectedVendor, getVendorsByFood, getRandomFood };
+module.exports = { addVendor, deleteSelectedVendor, updateSelectedVendor, getVendorsByFood, getRandomFood , addMenu,deleteMenu , pushMenuId,getAllVendors};
