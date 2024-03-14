@@ -1,6 +1,29 @@
 const mongoose = require('mongoose');
 const menuItemSchema = require('./food-model')
 
+const menu1 = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum:['veg','non veg','fast food','bevrage','desert','chinese'],
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  image: {
+    type: String,
+    required: false
+  }
+});
 
 const vendorSchema = new mongoose.Schema({
   img: {
@@ -43,21 +66,26 @@ const vendorSchema = new mongoose.Schema({
     trim: true
   },
   // menu: [menuItemSchema],
-  menu: [{
+  menuID: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Food' // Assuming a model named 'Food'
   }],
+
+  menudata: [menu1],
+  
   contact: {
     type: Number,
     required: true
   },
   openingHour: {
     type: String,
-    required: true
+    required: true,
+    // Add custom validation if needed
   },
   closingHour: {
     type: String,
-    required: true
+    required: true,
+    // Add custom validation if needed
   }
 }
 );
