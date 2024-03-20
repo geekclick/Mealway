@@ -1,10 +1,7 @@
-import { motion } from "framer-motion";
 import { RiMenu2Fill } from "react-icons/ri";
-import { FcMenu } from "react-icons/fc";
 import logo from "@/assets/logo2.png";
 import { VscBell } from "react-icons/vsc";
-import { SlHandbag } from "react-icons/sl";
-import { Button } from "./ui/button";
+import { Button } from "./ui/button"; 
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebar } from "@/store/reducers/sidebarSlice";
