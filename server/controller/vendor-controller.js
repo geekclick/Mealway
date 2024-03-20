@@ -123,38 +123,105 @@ const getAllVendors = async (req, res) => {
 
 // -------------------------------------- ******Get vendor by foods *********** -----------------------------//
 
-const getVendorsByFood = async (req, res) => {
+// const getVendorsByFood = async (req, res) => {
 
+//     try {
+//         const foodItem = req.body.foodItem;
+
+//         // Search vendors by food item using the text index
+//         const vendors = await Vendor.find({ $text: { $search: foodItem } }, { _id: 0, name: 1, shopname: 1, location: 1 });
+//         const vendorName = vendors.name;
+
+
+//         if (!vendors.length) {
+//             return res.status(404).json({ message: 'No vendors found for the searched food item' });
+//         }
+
+//         const simplifiedVendors = [];
+
+//         // Iterate over each vendor and extract the required fields
+//         vendors.forEach(vendor => {
+//             const simplifiedVendor = {
+//                 name: vendor.name,
+//                 shopname: vendor.shopname,
+//                 location: vendor.location // Include location coordinates
+//             };
+//             simplifiedVendors.push(simplifiedVendor);
+//         });
+
+//         res.json(simplifiedVendors);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Server error', error });
+//     }
+// };
+
+// const findVendorByFood = async (req, res) => {
+//     try {
+//       const { foodId } = req.body; // Assuming food ID comes from a route parameter
+  
+//       // Validate food ID format
+//       if (!mongoose.Types.ObjectId.isValid(foodId)) {
+//         return res.status(400).send("Invalid food ID format");
+//       }
+  
+//       // Find the food document by ID
+//       const food = await Food.findById(foodId);
+  
+//       if (!food) {
+//         return res.status(404).json({ msg: "Food not found" });
+//       }
+  
+//       // Search for vendors with matching menu IDs (efficiently)
+//       const vendors = await Vendor.find({ menuID: food._id }); // Use $in operator for efficient match
+  
+//       if (vendors.length === 0) {
+//         return res.status(200).json({ msg: "No vendors found for this food" });
+//       }
+  
+//       // Respond with the found vendors
+//       res.status(200).json({ msg: "Vendors found", vendors }); // Include vendors data
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ msg: "Internal Server Error", error });
+//     }
+//   };
+  
+
+const findVendorByFoodName = async (req, res) => {
     try {
-        const foodItem = req.body.foodItem;
-
-        // Search vendors by food item using the text index
-        const vendors = await Vendor.find({ $text: { $search: foodItem } }, { _id: 0, name: 1, shopname: 1, location: 1 });
-        const vendorName = vendors.name;
-
-
-        if (!vendors.length) {
-            return res.status(404).json({ message: 'No vendors found for the searched food item' });
-        }
-
-        const simplifiedVendors = [];
-
-        // Iterate over each vendor and extract the required fields
-        vendors.forEach(vendor => {
-            const simplifiedVendor = {
-                name: vendor.name,
-                shopname: vendor.shopname,
-                location: vendor.location // Include location coordinates
-            };
-            simplifiedVendors.push(simplifiedVendor);
-        });
-
-        res.json(simplifiedVendors);
+      const { foodName } = req.body; // Assuming food name comes from request body
+      console.log("foodname from get vendor by name : ",foodName);
+      // Validate food name presence
+      if (!foodName) {
+        return res.status(400).send("Please provide a food name");
+      }
+  
+      // Search for foods with a case-insensitive match on the name
+      const foods = await Food.find({ name: { $regex: new RegExp(foodName, 'i') } });
+      console.log("foods after finding all foods : ",foods);
+      if (foods.length === 0) {
+        return res.status(200).json({ msg: "No food found with that name" });
+      }
+  
+      // Get all food object IDs efficiently
+      const foodIds = foods.map(food => food._id);
+      console.log("food ids from same food name : ",foodIds);
+      // Search for vendors with matching menu IDs (efficiently)
+      const vendors = await Vendor.find({ menuID: { $in: foodIds } });
+      console.log("vendors having food : ",vendors)
+      if (vendors.length === 0) {
+        return res.status(200).json({ msg: "No vendors found for this food" });
+      }
+  
+      // Respond with the found vendors
+      res.status(200).json({ msg: "Vendors found", vendors }); // Include vendors data
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error', error });
+      console.error(error);
+      res.status(500).json({ msg: "Internal Server Error", error });
     }
-};
+  };
+  
 
 const findVendorsByShopName = async (req, res) => {
     const { shopname } = req.body;
@@ -192,31 +259,76 @@ const findVendorsByShopName = async (req, res) => {
   };
 // ********************************** Randomly get the food from the database ********************************//
 
+// const getRandomFood = async (req, res) => {
+//     try {
+//         // Use aggregation pipeline to randomly select menudata items
+//         const menuItems = await Vendor.aggregate([
+//             { $unwind: '$menudata' }, // Deconstruct the menudata array
+//             { $sample: { size: 5 } }, // Randomly select 5 menudata items
+//             { $project: { _id: 0, menudata: 1 } } // Project only the menudata items
+//         ]);
+
+//         // If no menu items found, return a 404 Not Found response
+//         if (!menuItems || menuItems.length === 0) {
+//             return res.status(404).json({ message: 'No menu items found' });
+//         }
+
+//         // Extract the menu items from the aggregation result and return as JSON response
+//         res.json(menuItems.map(item => item.menudata));
+//     } catch (error) {
+//         // Handle errors
+//         console.error('Error fetching random menu items:', error);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// };
+
 const getRandomFood = async (req, res) => {
     try {
-        // Use aggregation pipeline to randomly select menudata items
-        const menuItems = await Vendor.aggregate([
-            { $unwind: '$menudata' }, // Deconstruct the menudata array
-            { $sample: { size: 5 } }, // Randomly select 5 menudata items
-            { $project: { _id: 0, menudata: 1 } } // Project only the menudata items
-        ]);
-
-        // If no menu items found, return a 404 Not Found response
-        if (!menuItems || menuItems.length === 0) {
-            return res.status(404).json({ message: 'No menu items found' });
-        }
-
-        // Extract the menu items from the aggregation result and return as JSON response
-        res.json(menuItems.map(item => item.menudata));
+      // Retrieve random vendors
+      const randomVendors = await Vendor.aggregate([{ $sample: { size: 5 } }]);
+      console.log("Random Vendors",randomVendors);
+      
+      // Extract food IDs from random vendors
+      const foodIds = randomVendors.flatMap(vendor => vendor.menuID);
+      console.log("Food ID",foodIds);
+      
+      // Retrieve random foods associated with these vendors
+      const randomFoods = await Food.aggregate([
+        { $match: { _id: { $in: foodIds } } },
+        { $sample: { size: 5 } } 
+      ]);
+      console.log("Random Food",randomFoods);
+  
+      // Prepare response data
+      const responseData = randomFoods.map(food => {
+        // Find vendor for the current food
+        const vendor = randomVendors.find(vendor => vendor.menuID.includes(food._id));
+        console.log(vendor);
+  
+        return {
+          foodName: food.name,
+          price: food.price,
+          vendor: {
+            name: vendor.shopname,
+            address: vendor.address
+          }
+        };
+      });
+  
+      // Respond with the random food items along with associated vendor information
+      res.status(200).json({ msg: "Random food items found", data: responseData });
     } catch (error) {
-        // Handle errors
-        console.error('Error fetching random menu items:', error);
-        res.status(500).json({ message: 'Internal server error' });
+      console.error(error);
+      res.status(500).json({ msg: "Internal Server Error", error });
     }
-};
+  };
+  
+  
 
 
 module.exports = {  addVendor,  addMenu,deleteMenu , pushMenuId ,
                     deleteSelectedVendor, updateSelectedVendor, 
-                    getVendorsByFood, getRandomFood , getAllVendors, 
+                    findVendorByFoodName,
+                    // findVendorByFood,getVendorsByFood,
+                     getRandomFood , getAllVendors, 
                     findVendorsByShopName, findVendorById};

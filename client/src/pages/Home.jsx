@@ -21,7 +21,7 @@ function Home() {
         <img src={""} alt="promo" />
         <ShopSlide1 title={"Nearby Restaurants"} />
         {/* <ProdSlide1 title={"Highlights of March"} /> */}
-        <Recommended />
+        {/* <Recommended /> */}
       </div>
       <BottomNav />
     </div>

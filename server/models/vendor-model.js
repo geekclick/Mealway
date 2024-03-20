@@ -66,7 +66,10 @@ const vendorSchema = new mongoose.Schema({
     trim: true
   },
   // menu: [menuItemSchema],
-  menuID: [{ type: String }],
+  menuID: [{ 
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Food'
+   }],
 
   menudata: [menu1],
   
