@@ -1,7 +1,7 @@
 import { RiMenu2Fill } from "react-icons/ri";
 import logo from "@/assets/logo2.png";
 import { VscBell } from "react-icons/vsc";
-import { Button } from "./ui/button"; 
+import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebar } from "@/store/reducers/sidebarSlice";
@@ -62,7 +62,7 @@ function Navbar() {
         <ul className="hidden lg:flex space-x-4">
           {links.map((item, i) => {
             return (
-              <Link to={item.link}>
+              <Link to={item.link} key={i}>
                 <li
                   key={i}
                   className={`${activePath == item.link && "text-primary"}`}

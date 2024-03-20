@@ -18,7 +18,7 @@ function Home() {
         {/* <Offers /> */}
         <NavGrid />
         <ProdSlide1 title={"What's delicious around here?"} />
-        <img src={""} alt="promo" />
+        {/* <img src={""} alt="promo" /> */}
         <ShopSlide1 title={"Nearby Restaurants"} />
         {/* <ProdSlide1 title={"Highlights of March"} /> */}
         <Recommended />
@@ -29,8 +29,3 @@ function Home() {
 }
 
 export default Home;
-
-
-
-
-
