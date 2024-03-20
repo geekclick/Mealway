@@ -1,19 +1,19 @@
-const mongoose = require('mongoose');
 const Vendor = require('../models/vendor-model.js');
 const Food=require('../models/food-model.js')
 
-// --------------------------Register the Shop -------------------------------//
+//-------------------------------- ********addVendor********* ----------------------------- //
+
 const addVendor = async (req, res) => {
     try {
-        const { img, coverImg, name, shopname, location, address, description,menuid, menudata, contact,openingHour,closingHour } = req.body;
+        const { img, coverImg, name, shopname, location, address, description, menu, contact, openingHour, closingHour } = req.body;
 
-        const vendorExist = await Vendor.findOne({ contact });
+        const vendorExist = await Vendor.findOne({ contact }); // contact is coming from vendor model
 
         if (vendorExist) {
             return res.status(400).json({ msg: "Vendor already exists" });
         }
 
-        const newVendor = await Vendor.create({ img, coverImg, name, shopname, address,menuid, location, description, menudata, contact,openingHour,closingHour });
+        await Vendor.create({ img, coverImg, name, shopname, address, location, description, menu, contact, openCloseHours });
 
         res.status(200).json({ msg: "Vendor created successfully", vendor: newVendor });
     } catch (error) {
@@ -22,61 +22,8 @@ const addVendor = async (req, res) => {
     }
 };
 
-// Add the menu in the Food Model -------------------//
-const addMenu = async(req,res)=>{
-    try {
-        const {img,coverImg,name,description,category,price,ingredients,rating,location} = req.body;
-        const newFood =  await Food.create({img,coverImg,name,description,category,price,ingredients,rating,location});
-        res.status(200).json({msg:"Menu created successfully",newFood});
-    } catch (error) {
-        res.status(404).json({msg:"Menu Error",error});  
-    }
-}
 
-// Deelete the menu if not login in-----------------------------------//
-const deleteMenu = async (req, res) => {
-    try {
-        const deleteFood = await Food.deleteOne(
-            { name: req.body.name }
-        );
-        res.json({ deleteFood });
-    } catch (error) {
-        res.status(402).send("Error");
-    }
-}
-
-// ----------------------------------- Push the Food Id in menu array in vendor model --------------------------//
-
-const pushMenuId = async (req, res) => {
-    try {
-      const { vendorId, menuID } = req.body; // Assuming the request body has `vendorId`
-        
-      
-      if (!mongoose.Types.ObjectId.isValid(vendorId)) {
-        return res.status(400).send("Invalid vendor ID format");
-      }
-  
-      const vendor = await Vendor.findById(vendorId);
-      console.log("Vendor id fetch from database : ",vendorId);
-
-      if (!vendor) {
-        return res.status(404).send("Vendor not found");
-      }
-  
-      vendor.menuID = menuID; // Assuming menuid is an array
-      await vendor.save(); // Save changes to the database
-      console.log("Menu ID is : \n",menuID); //
-      console.log("Push menu ID successful:", vendor);
-      res.json(vendor);
-    } catch (error) {
-      console.error("Error updating vendor menu ID:", error);
-      res.status(500).send("Internal Server Error");
-    }
-  };
-  
-  
-  
-// --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
+// -------------------------- ********deleteSelectedVendor********* -------------------- //
 
 const deleteSelectedVendor = async (req, res) => {
     const deleteVendor = await Vendor.deleteOne(
@@ -85,7 +32,7 @@ const deleteSelectedVendor = async (req, res) => {
     res.json({ deleteVendor });
 };
 
-// --------------------------------- ********updateSelectedVendor********* ----------------------------- //
+// -------------------------- ********updateSelectedVendor********* ----------------------------- //
 
 const updateSelectedVendor = async (req, res) => {
     try {
@@ -99,7 +46,7 @@ const updateSelectedVendor = async (req, res) => {
                 address: req.body.address,
                 openingHour: req.body.openingHour,
                 closingHour: req.body.closingHour,
-                menudata: req.body.menudata,
+                menu: req.body.menu,
                 ratings: req.body.ratings,
             },
             { new: true }
@@ -112,7 +59,7 @@ const updateSelectedVendor = async (req, res) => {
     }
 };
 
-// --------------------------------- ********getAllVendors********* ----------------------------- //
+// ---------------------------- ********getAllVendors********* ----------------------------- //
 
 const getAllVendors = async (req, res) => {
     try {
@@ -128,7 +75,7 @@ const getAllVendors = async (req, res) => {
     }
 };
 
-// -------------------------------------- ******Get vendor by foods *********** -----------------------------//
+// --------------------------- ******Get vendor by foods *********** ---------------------------//
 
 const getVendorsByFood = async (req, res) => {
 
@@ -141,7 +88,7 @@ const getVendorsByFood = async (req, res) => {
 
 
         if (!vendors.length) {
-            return res.status(404).json({ message: 'No vendors found for the searched food item' });
+            return res.status(404).json({ message: 'No vendors found for the searched food item.' });
         }
 
         const simplifiedVendors = [];
@@ -163,6 +110,8 @@ const getVendorsByFood = async (req, res) => {
     }
 };
 
+// --------------------------- ******Get vendor by shop name *********** ---------------------------//
+
 const findVendorsByShopName = async (req, res) => {
     const { shopname } = req.body;
   
@@ -181,6 +130,7 @@ const findVendorsByShopName = async (req, res) => {
   };
 
 
+
   const findVendorById = async (req, res) => {
     const { vendorId } = req.body;
   
@@ -197,15 +147,15 @@ const findVendorsByShopName = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-// ********************************** Randomly get the food from the database ********************************//
+// -------------------------****** Randomly get the food from the database ******----------------//
 
 const getRandomFood = async (req, res) => {
     try {
-        // Use aggregation pipeline to randomly select menudata items
+        // Use aggregation pipeline to randomly select menu items
         const menuItems = await Vendor.aggregate([
-            { $unwind: '$menudata' }, // Deconstruct the menudata array
-            { $sample: { size: 5 } }, // Randomly select 5 menudata items
-            { $project: { _id: 0, menudata: 1 } } // Project only the menudata items
+            { $unwind: '$menu' }, // Deconstruct the menu array
+            { $sample: { size: 5 } }, // Randomly select 5 menu items
+            { $project: { _id: 0, menu: 1 } } // Project only the menu items
         ]);
 
         // If no menu items found, return a 404 Not Found response
@@ -214,7 +164,7 @@ const getRandomFood = async (req, res) => {
         }
 
         // Extract the menu items from the aggregation result and return as JSON response
-        res.json(menuItems.map(item => item.menudata));
+        res.json(menuItems.map(item => item.menu));
     } catch (error) {
         // Handle errors
         console.error('Error fetching random menu items:', error);
@@ -223,7 +173,27 @@ const getRandomFood = async (req, res) => {
 };
 
 
-module.exports = {  addVendor,  addMenu,deleteMenu , pushMenuId,
-                    deleteSelectedVendor, updateSelectedVendor, 
-                    getVendorsByFood, getRandomFood , getAllVendors, 
-                    findVendorsByShopName, findVendorById};
+const getVendorCount = async (req, res) => {
+    try {
+      const vendorCount = await Vendor.countDocuments();
+      res.status(200).json({ vendorCount });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+const getMenuItemCount = async (req, res) => {
+    try {
+      const menuItemCount = await Food.countDocuments();
+      res.status(200).json({ menuItemCount });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+module.exports = {  addVendor, getAllVendors, deleteSelectedVendor, updateSelectedVendor, 
+                    getVendorsByFood, findVendorsByShopName, findVendorById, getRandomFood,
+                    getVendorCount, getMenuItemCount
+                 };

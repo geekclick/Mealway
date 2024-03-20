@@ -20,7 +20,7 @@ function Home() {
         <ProdSlide1 title={"What's delicious around here?"} />
         <img src={""} alt="promo" />
         <ShopSlide1 title={"Nearby Restaurants"} />
-        <ProdSlide1 title={"Highlights of March"} />
+        {/* <ProdSlide1 title={"Highlights of March"} /> */}
         <Recommended />
       </div>
       <BottomNav />
@@ -29,3 +29,8 @@ function Home() {
 }
 
 export default Home;
+
+
+
+
+

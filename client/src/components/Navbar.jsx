@@ -58,7 +58,7 @@ function Navbar() {
           role="button"
           onClick={() => dispatch(setSidebar(true))}
         />
-        <img src={logo} alt="" className="w-20 h-full" />
+        <img src={logo} alt="" className="w-20 h-full scale-150" />
         <ul className="hidden lg:flex space-x-4">
           {links.map((item, i) => {
             return (
