@@ -25,8 +25,8 @@ const addVendor = async (req, res) => {
 // Add the menu in the Food Model -------------------//
 const addMenu = async(req,res)=>{
     try {
-        const {img,coverImg,name,description,category,price,ingredients,rating,location} = req.body;
-        const newFood =  await Food.create({img,coverImg,name,description,category,price,ingredients,rating,location});
+        const {name,description,category,price,image} = req.body;
+        const newFood =  await Food.create({name,description,category,price,image});
         res.status(200).json({msg:"Menu created successfully",newFood});
     } catch (error) {
         res.status(404).json({msg:"Menu Error",error});  
@@ -46,36 +46,29 @@ const deleteMenu = async (req, res) => {
 }
 
 // ----------------------------------- Push the Food Id in menu array in vendor model --------------------------//
-
 const pushMenuId = async (req, res) => {
     try {
-      const { vendorId, menuID } = req.body; // Assuming the request body has `vendorId`
-        
-      
-      if (!mongoose.Types.ObjectId.isValid(vendorId)) {
-        return res.status(400).send("Invalid vendor ID format");
-      }
-  
-      const vendor = await Vendor.findById(vendorId);
-      console.log("Vendor id fetch from database : ",vendorId);
+        const { vendorId, menuId } = req.body;
 
-      if (!vendor) {
-        return res.status(404).send("Vendor not found");
-      }
-  
-      vendor.menuID = menuID; // Assuming menuid is an array
-      await vendor.save(); // Save changes to the database
-      console.log("Menu ID is : \n",menuID); //
-      console.log("Push menu ID successful:", vendor);
-      res.json(vendor);
+        // Find the vendor by its ID
+        const vendor = await Vendor.findById(vendorId);
+
+        if (!vendor) {
+            return res.status(404).json({ msg: "Vendor not found" });
+        }
+
+        // Push the menu ID into the menuid array
+        vendor.menuID.push(menuId);
+        await vendor.save();
+
+        res.status(200).json({ msg: "MenuId pushed successfully", vendor });
     } catch (error) {
-      console.error("Error updating vendor menu ID:", error);
-      res.status(500).send("Internal Server Error");
+        console.error(error);
+        res.status(500).json({ msg: "Internal Server Error", error });
     }
-  };
-  
-  
-  
+};
+
+
 // --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
 
 const deleteSelectedVendor = async (req, res) => {
@@ -223,7 +216,7 @@ const getRandomFood = async (req, res) => {
 };
 
 
-module.exports = {  addVendor,  addMenu,deleteMenu , pushMenuId,
+module.exports = {  addVendor,  addMenu,deleteMenu , pushMenuId ,
                     deleteSelectedVendor, updateSelectedVendor, 
                     getVendorsByFood, getRandomFood , getAllVendors, 
                     findVendorsByShopName, findVendorById};

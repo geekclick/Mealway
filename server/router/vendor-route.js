@@ -15,6 +15,7 @@ router.route("/updateVendor").post(vendorForm.updateSelectedVendor );
 
 router.route('/searchVendor').post(vendorForm.getVendorsByFood);
 router.route('/getRandomFood').get(vendorForm.getRandomFood);
+
 router.route('/searchVendorById').get(vendorForm.findVendorById);
 router.route('/searchVendorByShop').get(vendorForm.findVendorsByShopName);
 
