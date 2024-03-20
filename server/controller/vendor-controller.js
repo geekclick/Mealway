@@ -303,17 +303,31 @@ const getRandomFood = async (req, res) => {
       const responseData = randomFoods.map(food => {
         // Find vendor for the current food
         const vendor = randomVendors.find(vendor => vendor.menuID.includes(food._id));
-        console.log(vendor);
-  
-        return {
-          foodName: food.name,
-          price: food.price,
-          vendor: {
-            name: vendor.shopname,
-            address: vendor.address
-          }
-        };
-      });
+    
+        // Check if vendor is found
+        if (vendor) {
+            return {
+                foodName: food.name,
+                price: food.price,
+                vendor: {
+                    name: vendor.shopname,
+                    address: vendor.address
+                }
+            };
+        } else {
+            // Handle case where vendor is not found
+            console.log("Vendor not found for food:", food);
+            return {
+                foodName: food.name,
+                price: food.price,
+                vendor: {
+                    name: "Vendor Not Found",
+                    address: "Address Not Found"
+                }
+            };
+        }
+    });
+    
   
       // Respond with the random food items along with associated vendor information
       res.status(200).json({ msg: "Random food items found", data: responseData });
