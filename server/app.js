@@ -4,6 +4,7 @@ const authRoute = require('./router/auth-router');
 const vandorRoute = require('./router/vendor-route');
 const foodRoute = require('./router/food-route');
 const cors = require('cors');
+const performBothActions = require('./middleware/performBothAction');
 
 const corsoptions = {
     origin: 'http://localhost:5173/',
@@ -13,6 +14,7 @@ const corsoptions = {
 
 app.use(cors(corsoptions))
 app.use(express.json());
+app.use('/addMenu',performBothActions);
 app.use("/api", authRoute);
 app.use("/api", vandorRoute);
 app.use("/api", foodRoute);

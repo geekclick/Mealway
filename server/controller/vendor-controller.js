@@ -24,8 +24,8 @@ const addVendor = async (req, res) => {
 // Add the menu in the Food Model -------------------//
 const addMenu = async(req,res)=>{
     try {
-        const {img,coverImg,name,description,category,price,ingredients,rating,location} = req.body;
-        const newFood =  await Food.create({img,coverImg,name,description,category,price,ingredients,rating,location});
+        const {name,description,category,price,image} = req.body;
+        const newFood =  await Food.create({name,description,category,price,image});
         res.status(200).json({msg:"Menu created successfully",newFood});
     } catch (error) {
         res.status(404).json({msg:"Menu Error",error});  
@@ -45,22 +45,27 @@ const deleteMenu = async (req, res) => {
 }
 
 // ----------------------------------- Push the Food Id in menu array in vendor model --------------------------//
-const pushMenuId  = async (req, res) => {
+const pushMenuId = async (req, res) => {
     try {
-        const pushmenuId = await Vendor.findOneAndUpdate(
-            { contact: req.body.contact },
-            {
-                menuid: req.body.menuid,
-            },
-            { new: true }
-        );
-        console.log(pushmenuId);
-        res.json(pushmenuId);
+        const { vendorId, menuId } = req.body;
+
+        // Find the vendor by its ID
+        const vendor = await Vendor.findById(vendorId);
+
+        if (!vendor) {
+            return res.status(404).json({ msg: "Vendor not found" });
+        }
+
+        // Push the menu ID into the menuid array
+        vendor.menuID.push(menuId);
+        await vendor.save();
+
+        res.status(200).json({ msg: "MenuId pushed successfully", vendor });
     } catch (error) {
-        console.log(error);
-        res.status(402).send("Error");
+        console.error(error);
+        res.status(500).json({ msg: "Internal Server Error", error });
     }
-}
+};
 
 // --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
 

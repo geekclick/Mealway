@@ -66,10 +66,7 @@ const vendorSchema = new mongoose.Schema({
     trim: true
   },
   // menu: [menuItemSchema],
-  menuID: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Food' // Assuming a model named 'Food'
-  }],
+  menuID: [{ type: String }],
 
   menudata: [menu1],
   
@@ -81,16 +78,6 @@ const vendorSchema = new mongoose.Schema({
     type:Map,
     of:String,
   },
-  // openingHour: {
-  //   type: String,
-  //   required: true,
-  //   // Add custom validation if needed
-  // },
-  // closingHour: {
-  //   type: String,
-  //   required: true,
-  //   // Add custom validation if needed
-  // }
 }
 );
 vendorSchema.index({ 'menu.name': 'text' });
