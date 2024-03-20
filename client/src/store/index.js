@@ -11,7 +11,7 @@ import favoriteReducer from "./reducers/favoriteSlice";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["authSlice", "vendorSlice"], // List of reducers to persist (optional)
+    whitelist: ["authSlice"],
     // blacklist: ["sidebarSlice"],
 };
 

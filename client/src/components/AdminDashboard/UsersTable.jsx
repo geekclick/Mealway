@@ -124,7 +124,7 @@ const UsersTable = () => {
         </h4>
         <Link
           to="#"
-          className="inline-flex items-center justify-center rounded-md border border-black mb-6 py-2.5 px-10 text-center font-medium text-black hover:bg-opacity-90 lg:px-8 xl:px-10"
+          className="inline-flex items-center justify-center rounded-md border dark:border-white dark:text-white border-black mb-6 py-2.5 px-10 text-center font-medium text-black hover:bg-opacity-90 lg:px-8 xl:px-10"
         >
           Add
         </Link>

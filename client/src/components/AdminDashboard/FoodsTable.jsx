@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const productData = [
   {
     image: "",
@@ -68,17 +70,26 @@ const productData = [
 const FoodsTable = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="py-6 px-4 md:px-6 xl:px-7.5">
+      <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center">
         <h4 className="text-xl font-semibold text-black dark:text-white">
           All Foods
         </h4>
+        <Link
+          to="#"
+          className="inline-flex items-center justify-center rounded-md border dark:border-white dark:text-white border-black mb-6 py-2.5 px-10 text-center font-medium text-black hover:bg-opacity-90 lg:px-8 xl:px-10"
+        >
+          Add
+        </Link>
       </div>
 
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
+        <div className="col-span-1 flex items-center">
+          <p className="font-medium"></p>
+        </div>
         <div className="col-span-2 flex items-center">
           <p className="font-medium">Food Name</p>
         </div>
-        <div className="col-span-2 hidden items-center sm:flex">
+        <div className="col-span-1 hidden items-center sm:flex">
           <p className="font-medium">Category</p>
         </div>
         <div className="col-span-1 flex items-center">
@@ -100,17 +111,17 @@ const FoodsTable = () => {
           className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
           key={key}
         >
+          <div className="h-12.5 w-15 rounded-md">
+            <img src={product.image} alt="Image" />
+          </div>
           <div className="col-span-2 flex items-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <div className="h-12.5 w-15 rounded-md">
-                <img src={product.image} alt="Image" />
-              </div>
               <p className="text-sm text-black dark:text-white">
                 {product.name}
               </p>
             </div>
           </div>
-          <div className="col-span-2 hidden items-center sm:flex">
+          <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black dark:text-white">
               {product.category}
             </p>
