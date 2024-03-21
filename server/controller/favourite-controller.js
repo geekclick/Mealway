@@ -15,8 +15,7 @@ const addVendorToFavorites = async (req, res) => {
 
     console.log("Received request to add vendor:", vendorId, "to favorites for user:", userId);
 
-
-    // Find or create the favorite record for the user
+    // Find or create the favorite record for the user.
     let favorite = await Favourite.findOne({ user: userId });
 
     if (!favorite) {
