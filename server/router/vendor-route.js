@@ -12,8 +12,6 @@ router.route("/getAllVendors").get(vendorForm.getAllVendors );
 router.route("/deleteVendor").delete(vendorForm.deleteSelectedVendor );
 router.route("/updateVendor").post(vendorForm.updateSelectedVendor );
 
-// router.route('/searchVendor').post(vendorForm.getVendorsByFood);
-// router.route('/searchVendorbyFood').post(vendorForm.findVendorByFood);
 router.route('/searchVendorbyFoodName').post(vendorForm.findVendorByFoodName);
 router.route('/getRandomFood').get(vendorForm.getRandomFood);
 
