@@ -34,7 +34,7 @@ function Favourite() {
             <TabsTrigger value="dishes">Dishes</TabsTrigger>
           </TabsList>
           <TabsContent value="vendors">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
               {vendorList.map((item, i) => {
                 return (
                   <div className="flex space-x-4 my-10">
@@ -65,7 +65,7 @@ function Favourite() {
             </div>
           </TabsContent>
           <TabsContent value="dishes">
-            <div className="grid grid-cols-3 gap-4 my-10">
+            <div className="grid md:grid-cols-3 grid-cols-2 gap-4 my-10">
               {dishList.map((item, i) => {
                 return (
                   <div>

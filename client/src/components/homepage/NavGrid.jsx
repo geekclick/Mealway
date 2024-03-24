@@ -2,10 +2,6 @@ import FlashDeals from "@/assets/homepage/NavGrid/1.png";
 import NiceShop from "@/assets/homepage/NavGrid/2.png";
 import Points from "@/assets/homepage/NavGrid/3.png";
 import Rice from "@/assets/homepage/NavGrid/4.png";
-import Noodles from "@/assets/homepage/NavGrid/5.png";
-import Vegetable from "@/assets/homepage/NavGrid/6.png";
-import BBQ from "@/assets/homepage/NavGrid/7.png";
-import Other from "@/assets/homepage/NavGrid/8.png";
 import { Link } from "react-router-dom";
 
 const links = [

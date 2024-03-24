@@ -4,6 +4,7 @@ import { GoHeart } from "react-icons/go";
 
 const menuList = (await getMenuList()) || [];
 function Recommended({ list = menuList }) {
+  console.log(list)
   return (
     <section className=" space-y-4">
       <h2 className="text-[20px] italic text-left">Recommended For You </h2>
