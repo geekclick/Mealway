@@ -132,7 +132,7 @@ function ProdSlide1({ title, list = menuList }) {
   };
 
   return (
-    <section className=" space-y-16 py-16">
+    <section className=" space-y-16">
       <div className="flex justify-between items-center w-full">
         <h2 className="text-xl md:text-2xl italic text-left">{title}</h2>
         <Link to={"/"}>

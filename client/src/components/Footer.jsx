@@ -4,11 +4,11 @@ import { BsFacebook, BsInstagram, BsTwitterX } from "react-icons/bs";
 
 function Footer() {
   return (
-    <footer className="flex flex-col justify-center items-center">
+    <footer className="flex relative flex-col justify-center items-center pb-52 lg:pb-0">
       <div>
         <img src={footerImg} alt="" className="h-full w-full" />
       </div>
-      <div className="lg:flex lg:justify-evenly lg:p-20 items-center relative -top-28 lg:-top-48 lg:h-[400px] bg-footerBg bg-cover bg-center rounded-xl text-white w-11/12 h-full pb-10">
+      <div className="lg:flex lg:justify-evenly lg:p-20 items-center absolute lg:top-30 top-10 lg:h-[300px] h-fit bg-footerBg bg-cover bg-center rounded-xl text-white w-11/12 pb-10">
         <div className="flex lg:flex-col justify-around text-2xl items-center">
           <img src={logo} alt="" className="w-[150px]" />
           <div className="flex space-x-4">

@@ -26,7 +26,7 @@ const links = [
 
 function NavGrid() {
   return (
-    <section className="py-10 space-y-10">
+    <section className="space-y-10">
       <div className="flex justify-between items-center w-full">
         <h1 className="text-xl md:text-2xl italic">
           What are you looking for ?
