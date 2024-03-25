@@ -29,20 +29,12 @@ const links = [
     link: "/contact",
   },
   {
-    name: "Notification",
-    link: "/notification",
-  },
-  {
-    name: "Language",
-    link: "/language",
+    name: "About",
+    link: "/about",
   },
   {
     name: "Help",
     link: "/help",
-  },
-  {
-    name: "Term and Policies",
-    link: "/term-and-policies",
   },
 ];
 
@@ -52,14 +44,14 @@ function Navbar() {
   const isLoggedIn = useSelector((state) => state.authSlice.isLoggedIn);
   return (
     <nav className=" fixed w-full z-20 bg-white flex justify-between items-center p-5 py-3 shadow-md">
-      <div className="flex items-center justify-center space-x-6">
+      <div className="flex items-center justify-center space-x-10">
         <RiMenu2Fill
           className="text-black text-3xl lg:hidden"
           role="button"
           onClick={() => dispatch(setSidebar(true))}
         />
         <img src={logo} alt="" className="w-20 h-full scale-150" />
-        <ul className="hidden lg:flex space-x-4">
+        <ul className="hidden lg:flex space-x-8">
           {links.map((item, i) => {
             return (
               <Link to={item.link} key={i}>
@@ -88,9 +80,9 @@ function Navbar() {
         {/* <Link to={"/cart"}>
           <SlHandbag />
         </Link> */}
-        <Link to={"/contact"}>
+        {/* <Link to={"/contact"}>
           <IoCallOutline />
-        </Link>
+        </Link> */}
         {isLoggedIn ? (
           <DropdownMenu>
             <DropdownMenuTrigger>

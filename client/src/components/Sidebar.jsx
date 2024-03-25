@@ -54,9 +54,9 @@ function Sidebar() {
         )}
         <div>
           <ul className="flex flex-col space-y-4">
-            <li className=" font-medium flex italic">
+            {/* <li className=" font-medium flex italic">
               <IoWalletOutline className="text-primary text-2xl mx-2" /> Wallet
-            </li>
+            </li> */}
             <li className=" font-medium flex italic">
               <HiOutlineLocationMarker className="text-primary text-2xl mx-2" />{" "}
               My Address
@@ -71,7 +71,6 @@ function Sidebar() {
         </div>
         <div className="bg-[#BFC6CC] w-full h-px"></div>
         <div className="flex flex-col space-y-5 px-3">
-          <Link>Notification</Link>
           <Link>Contact</Link>
           <Link>Language</Link>
           {/* <Link>Order history</Link> */}

@@ -12,7 +12,7 @@
 // const menuList = await getMenuList();
 // function ProdSlide1({ title, list = menuList }) {
 //   const toggleFavorite = (id) => {
-    
+
 //   };
 //   return (
 //     <section className=" space-y-4">
@@ -48,7 +48,7 @@
 //                             1.5 km | <FaStar className="text-yellow-500 mx-1" />{" "}
 //                             4.8(1.2k)
 //                           </p>
-                        
+
 //                         </div>
 //                         <GoHeart
 //                           className="mx-4 text-xl text-primary "
@@ -68,8 +68,6 @@
 // }
 
 // export default ProdSlide1;
-
-
 
 import React from "react";
 import Slider from "react-slick";
@@ -134,9 +132,9 @@ function ProdSlide1({ title, list = menuList }) {
   };
 
   return (
-    <section className="space-y-4">
+    <section className=" space-y-16 py-16">
       <div className="flex justify-between items-center w-full">
-        <h2 className="text-[20px] italic text-left">{title}</h2>
+        <h2 className="text-xl md:text-2xl italic text-left">{title}</h2>
         <Link to={"/"}>
           <AiOutlineRight />
         </Link>
@@ -154,9 +152,7 @@ function ProdSlide1({ title, list = menuList }) {
                 />
                 <div className="mt-2 text-sm text-black">{dish.name}</div>
                 <div className="flex justify-between items-center">
-                  <div>
-                 
-                  </div>
+                  <div></div>
                 </div>
               </div>
             </div>

@@ -7,13 +7,16 @@ import ShopSlide1 from "@/components/homepage/ShopSlide1";
 import BottomNav from "@/components/BottomNav";
 import Recommended from "@/components/homepage/Recommended";
 import Sidebar from "@/components/Sidebar";
+import Hero from "@/components/homepage/Hero";
+import Footer from "@/components/Footer";
 
 function Home() {
   return (
     <div className="">
       <Navbar />
       <Sidebar />
-      <div className="py-20 space-y-8 px-4 lg:px-20">
+      <Hero />
+      <div className="pt-16 pb-20 space-y-16 px-4 lg:px-20 bg-[#FAF6F6]">
         <SearchBar />
         {/* <Offers /> */}
         <NavGrid />
@@ -23,6 +26,7 @@ function Home() {
         {/* <ProdSlide1 title={"Highlights of March"} /> */}
         {/* <Recommended /> */}
       </div>
+      <Footer />
       <BottomNav />
     </div>
   );

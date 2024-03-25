@@ -314,7 +314,10 @@ module.exports = {
         'spin-3': 'spin 3s linear infinite',
       },
       backgroundImage: {
-        "map": "url('/src/assets/map.png')"
+        "map": "url('/src/assets/map.png')",
+        "hero": "url('/src/assets/homepage/hero.png')",
+        "backPhoto": "url('/src/assets/homepage/backPhoto.png')",
+        "footerBg": "url('/src/assets/footer/footerBg.png')"
       }
     },
   },

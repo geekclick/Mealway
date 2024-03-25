@@ -1,15 +1,14 @@
 import { GoHomeFill } from "react-icons/go";
 import { GoHeart } from "react-icons/go";
-import { MdOutlineReceiptLong } from "react-icons/md";
 import { LuCompass } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { FaRegUser } from "react-icons/fa";
 
 const links = [
   { name: "Home", icon: <GoHomeFill />, link: "" },
   { name: "Map", icon: <LuCompass />, link: "map" },
   { name: "Favourite", icon: <GoHeart />, link: "favourite" },
-  { name: "Order", icon: <MdOutlineReceiptLong />, link: "order" },
+  { name: "My Profile", icon: <FaRegUser />, link: "profile" },
 ];
 
 function BottomNav() {
