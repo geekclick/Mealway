@@ -4,12 +4,12 @@ import { GoHeart } from "react-icons/go";
 
 const menuList = (await getMenuList()) || [];
 function Recommended({ list = menuList }) {
-  console.log(list)
+  console.log(list);
   return (
     <section className=" space-y-4">
       <h2 className="text-[20px] italic text-left">Recommended For You </h2>
       <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-        {list.map((item, i) => {
+        {/* {list.map((item, i) => {
           return (
             <div key={item._id || i}>
               <div className="space-y-2">
@@ -32,7 +32,7 @@ function Recommended({ list = menuList }) {
               <hr />
             </div>
           );
-        })}
+        })} */}
       </div>
     </section>
   );

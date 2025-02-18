@@ -44,7 +44,8 @@ export const handleLogin = async (userInfo, dispatch, navigate, setError) => {
     try {
         const response = await axios.post("/api/login", userInfo);
         if (response) {
-            dispatch(setUser({ email: "", password: "" }))
+            const data = response.data;
+            dispatch(setUser({ fullName: data.name, email: data.email }))
             dispatch(setIsLoggedIn(true));
             navigate("/");
             toast.success("Login Success");
@@ -54,19 +55,18 @@ export const handleLogin = async (userInfo, dispatch, navigate, setError) => {
         if (error.response.status === 400 || error.response.data.error === "Password doesn't match") {
             toast.error("Password doesn't match");
         }
-        setError('root', { message: error.response.data.msg });  
+        setError('root', { message: error.response.data.msg });
     }
 }
 
 export const handleSignUp = async (userInfo, dispatch, navigate, setError) => {
     try {
+        console.log(userInfo)
         const response = await axios.post("/api/register", userInfo);
         if (response) {
             dispatch(setUser({
-                fullName: "",
-                phoneNumber: "",
-                email: "",
-                password: "",
+                fullName: response.data.name,
+                email: response.data.email
             }));
             dispatch(setIsLoggedIn(true));
             navigate("/");

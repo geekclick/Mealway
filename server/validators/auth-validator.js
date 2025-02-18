@@ -2,13 +2,13 @@ const { z } = require('zod')
 
 const signupSchema = z.object({
 
-    fullName: z
+    name: z
         .string({ required_error: "name is required" })
         .trim()
         .min({ message: "Name must be at least of 2 chars" })
         .max(255, { required_error: "Name must be at most 255 characters" }),
-        
-    phoneNumber: z
+
+    phone: z
         .string({ required_error: "phone number is required" })
         .trim()
         .min(10, { message: "Phone number must be at least of 10 digits" })

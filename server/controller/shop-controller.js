@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const Vendor = require('../models/vendor-model.js');
+const Vendor = require('../models/shop-model.js');
 const Food = require('../models/food-model.js')
 
 // --------------------------Register the Shop -------------------------------//
-const addVendor = async (req, res) => {
+const addShop = async (req, res) => {
     try {
         const { img, coverImg, name, shopname, location, address, description, menuid, menudata, contact, openingHour, closingHour } = req.body;
 
@@ -308,7 +308,7 @@ const getRandomFood = async (req, res) => {
 
 
 module.exports = {
-    addVendor, addMenu, deleteMenu, pushMenuId,
+    addShop, addMenu, deleteMenu, pushMenuId,
     deleteSelectedVendor, updateSelectedVendor,
     findVendorByFoodName, getRandomFood, getAllVendors,
     findVendorsByShopName, findVendorById

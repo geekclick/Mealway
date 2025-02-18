@@ -1,4 +1,4 @@
-const Vendor = require('../models/vendor-model.js');
+const Vendor = require('../models/shop-model.js');
 const Food=require('../models/food-model.js')
 
 //-------------------------------- ********addVendor********* ----------------------------- //

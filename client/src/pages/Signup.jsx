@@ -29,8 +29,8 @@ function Signup() {
   const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      fullName: "",
-      phoneNumber: "",
+      name: "",
+      phone: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -57,7 +57,7 @@ function Signup() {
           <form onSubmit={handleSubmit(onSubmit)} className=" space-y-6">
             <FormField
               control={form.control}
-              name="fullName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
@@ -70,7 +70,7 @@ function Signup() {
             />
             <FormField
               control={form.control}
-              name="phoneNumber"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>

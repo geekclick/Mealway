@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 function Sidebar() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.authSlice.isLoggedIn);
+  const user = useSelector((state) => state.authSlice.user);
   const sidebarOpen = useSelector((state) => state.sidebarSlice.sidebarOpen);
   const sidebarRef = useRef(null);
 
@@ -41,10 +42,10 @@ function Sidebar() {
       <div className=" space-y-8">
         {isLoggedIn ? (
           <div className="flex space-x-2">
-            <img src={""} alt="" className="w-[48px] h-[48px]" />
+            {/* <img src={""} alt="" className="w-[48px] h-[48px]" /> */}
             <div className="flex flex-col -space-y-1">
-              <h2 className="font-medium italic">Anuj Ghom</h2>
-              <small>habhainakliemailhai@gmail.com</small>
+              <h2 className="font-medium italic">{user.fullName}</h2>
+              <small>{user.email}</small>
             </div>
           </div>
         ) : (

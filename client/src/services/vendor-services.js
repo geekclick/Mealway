@@ -32,6 +32,7 @@ export const getVendorList = async (dispatch, navigate) => {
     try {
         const response = await axios.get("api/getAllVendors")
         if (response) {
+            console.log(response)
             dispatch(setVendorList(response.data))
             navigate("/")
         }

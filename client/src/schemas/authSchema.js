@@ -21,11 +21,11 @@ export const loginSchema = z.object({
 });
 
 export const signupSchema = z.object({
-    fullName: z
+    name: z
         .string()
         .min(4, { message: "Enter a valid name" })
         .max(100, { message: "Name is too long" }),
-    phoneNumber: z
+    phone: z
         .string()
         .refine((value) => value.length === 10, {
             message: "Phone number must be 10 digits",

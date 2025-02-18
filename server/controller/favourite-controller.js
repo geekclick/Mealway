@@ -1,5 +1,5 @@
-const Favourite = require('../models/favouriteSchema');
-const Vendor = require('../models/vendor-model');
+const Favourite = require('../models/favourite-model');
+const Vendor = require('../models/shop-model');
 const Food = require('../models/food-model');
 
 //------------------------ addVendorToFavorites -----------------------------//
@@ -152,3 +152,18 @@ const removeFoodFromFavorites = async (req, res) => {
 };
 
 module.exports = { addVendorToFavorites, removeVendorFromFavorites, addFoodToFavorites, removeFoodFromFavorites };
+
+
+// const favorite = await Favourite.findOneAndUpdate({ user_id: "userid" })
+// const mix = [{food,null}, {null,shop}, {food_id:"sadadadasdasd",shop_id:null}, {}, {}, {}, {}, {}, {}]
+// const food = [{name:'',price:'',description:''}]
+// const shop = [{}]
+// mix.forEach((fav) => {
+//   if (food_id != null) {
+//     const data = food.findById(id)
+//     food.append(data)
+//   } else {
+//     const shop = shop.findById(id)
+//     shop.append(shop)
+//   }
+// })

@@ -40,9 +40,13 @@ function ShopSlide1({ title }) {
   const navigate = useNavigate();
   const vendorList = useSelector((state) => state.vendorSlice.vendorList) || [];
 
+  const getVendorAysnc = async () => {
+    await getVendorList(dispatch, navigate);
+  };
+
   useEffect(() => {
-    getVendorList(dispatch, navigate);
-  }, [dispatch]);
+    getVendorAysnc();
+  }, []);
   return (
     <section className=" space-y-4">
       <div className="flex justify-between items-center w-full">

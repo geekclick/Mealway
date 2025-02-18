@@ -12,7 +12,7 @@ const home = (req, res) => {
 
 const register = async (req, res) => {
     try {
-        const { fullName, phoneNumber, email, password } = req.body;
+        const { name, phone, email, password } = req.body;
         const userExits = await User.findOne({ email });
 
         if (userExits) {
@@ -21,12 +21,14 @@ const register = async (req, res) => {
             return;
         }
 
-        const data = await User.create({ fullName, phoneNumber, email, password });
+        const data = await User.create({ name, phone, email, password });
         const token = await data.generateToken();
 
         res.status(201).json({
             msg: "User created successfully",
             token,
+            email: email,
+            name: name,
             userId: data._id.toString(),
         });
         console.log(data);
@@ -80,7 +82,7 @@ const login = async (req, res) => {
 
         // Passwords match, generate token and respond
         const token = await user.generateToken();
-        return res.status(200).json({ message: "Login successful", token });
+        return res.status(200).json({ message: "Login successful", email: user.email, name: user.name, token });
     } catch (error) {
         console.error("Error in login:", error);
         return res.status(500).json({ message: "Internal Server Error" });

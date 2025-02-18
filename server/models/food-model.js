@@ -1,29 +1,32 @@
-// menuItemModel.js
-
 const mongoose = require('mongoose');
 
-const menuItemSchema = new mongoose.Schema({
+const foodModel = new mongoose.Schema({
+  shop_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Shop',
+    required: true
+  },
   name: {
     type: String,
     required: true
   },
+  image: {
+    type: String
+  },
   description: {
-    type: String,
-    required: true
+    type: String
   },
   category: {
     type: String,
-    enum:['veg','non veg','fast food','bevrage','desert','chinese'],
+    enum: ['veg', 'non-veg', 'dessert', 'beverage'],
     required: true
   },
   price: {
     type: Number,
     required: true
-  },
-  image: {
-    type: String,
-    required: false
   }
+}, {
+  timestamps: true
 });
 
-module.exports = mongoose.model('Food', menuItemSchema);
+module.exports = mongoose.model('Food', foodModel);
