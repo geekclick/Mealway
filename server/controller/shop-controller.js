@@ -4,8 +4,10 @@ const Food = require('../models/food-model.js')
 
 // --------------------------Register the Shop -------------------------------//
 const addShop = async (req, res) => {
+    console.log(req.body)
+
     try {
-        const { img, coverImg, name, shopname, location, address, description, menuid, menudata, contact, openingHour, closingHour } = req.body;
+        const { img, coverImg, name, shopname, location, address, menu, contact, openingHour, closingHour } = req.body;
 
         const vendorExist = await Vendor.findOne({ contact });
 
@@ -13,7 +15,7 @@ const addShop = async (req, res) => {
             return res.status(400).json({ msg: "Vendor already exists" });
         }
 
-        const newVendor = await Vendor.create({ img, coverImg, name, shopname, address, menuid, location, description, menudata, contact, openingHour, closingHour });
+        const newVendor = await Vendor.create({ img, coverImg, name, shopname, address, location, menu, contact, openingHour, closingHour });
 
         res.status(200).json({ msg: "Vendor created successfully", vendor: newVendor });
     } catch (error) {

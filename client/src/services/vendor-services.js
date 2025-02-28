@@ -21,6 +21,7 @@ export const handleShopRegistration = async (vendorInfo, dispatch, navigate) => 
             dispatch(setMenuList([]))
             navigate("/");
             console.log("Vendor Added!")
+            localStorage.removeItem("menu")
         }
     } catch (error) {
         dispatch(setMenuList([]))
@@ -46,7 +47,7 @@ export const sendImagetoCloud = async (image, folderName) => {
     data.append("file", image)
     data.append("upload_preset", "mealway")
     data.append("cloud_name", "dxn3cmvet")
-    data.append("folder", folderName);
+    data.append("folder", `mealway/${folderName}`);
 
     try {
         const response = await axios.post("https://api.cloudinary.com/v1_1/dxn3cmvet/image/upload", data)

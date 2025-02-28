@@ -33,9 +33,8 @@ function RegisterShop() {
   const imgRef = useRef(null);
   const coverImgRef = useRef(null);
   const [loc, setLoc] = useState({});
-  const { menuList } = useSelector((state) => state.menuSlice);
   const [image, setImage] = useState({ img: "", coverImg: "" });
-
+  const menuList = JSON.parse(localStorage.getItem("menu"));
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const name = e.target.name;
@@ -264,9 +263,12 @@ function RegisterShop() {
                   </Button>
                 </MenuDialog>
                 {menuList &&
-                  menuList.map((item) => {
+                  menuList.map((item, i) => {
                     return (
-                      <Badge className="w-fit h-[35px] flex justify-center m-auto font-medium capitalize">
+                      <Badge
+                        key={i}
+                        className="w-fit h-[35px] flex justify-center m-auto font-medium capitalize"
+                      >
                         {item.name}
                       </Badge>
                     );
@@ -274,7 +276,7 @@ function RegisterShop() {
               </div>
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Loading..." : "Log in"}
+              {isSubmitting ? "Loading..." : "Register Shop"}
             </Button>
             {errors.root && (
               <p className=" text-red-500 text-center mt-0">

@@ -29,8 +29,15 @@ function MenuDialog({ children }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = await sendImagetoCloud(image, "menu-images");
-    dispatch(addMenu({ ...formData, image: imgUrl }));
+    console.log(image);
+    const menu = JSON.parse(localStorage.getItem("menu")) || [];
+    menu.push({ ...formData, image: image });
+    localStorage.setItem("menu", JSON.stringify(menu));
+
+    // Uncomment and implement the image upload if needed
+    // const imgUrl = await sendImagetoCloud(image, "menu-images");
+    // dispatch(addMenu({ ...formData, image: imgUrl }));
+
     setFormData({
       name: "",
       description: "",
@@ -39,7 +46,6 @@ function MenuDialog({ children }) {
       image: "",
     });
   };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
