@@ -33,8 +33,9 @@ function RegisterShop() {
   const imgRef = useRef(null);
   const coverImgRef = useRef(null);
   const [loc, setLoc] = useState({});
-  const { menuList } = useSelector((state) => state.menuSlice);
   const [image, setImage] = useState({ img: "", coverImg: "" });
+  const { menuList } = useSelector((state) => state.menuSlice);
+  const { user } = useSelector((state) => state.authSlice);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -58,9 +59,9 @@ function RegisterShop() {
     resolver: zodResolver(vendorSchema),
     defaultValues: {
       name: "",
-      shopname: "",
+      // shopname: "",
       address: "",
-      contact: "",
+      customer_care_number: "",
       openingHour: "",
       closingHour: "",
     },
@@ -84,9 +85,10 @@ function RegisterShop() {
         values.coverImg = coverImgUrl;
         values.location = loc;
         values.menu = menuList;
+        values.service_time = `${values.openingHour} - ${values.closingHour}`;
       }
       console.log(values);
-      handleShopRegistration(values, dispatch, navigate);
+      handleShopRegistration(values, dispatch, navigate, user.email);
     } catch (error) {
       console.error("Error occurred during image upload:", error);
     }
@@ -157,7 +159,7 @@ function RegisterShop() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Owner Name</FormLabel>
+                  <FormLabel>Shop Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter menu name" {...field} />
                   </FormControl>
@@ -165,7 +167,7 @@ function RegisterShop() {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="shopname"
               render={({ field }) => (
@@ -177,7 +179,7 @@ function RegisterShop() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <div className="w-full flex flex-col space-y-2">
               <Label>Location</Label>
               <Input
@@ -264,9 +266,11 @@ function RegisterShop() {
                   </Button>
                 </MenuDialog>
                 {menuList &&
-                  menuList.map((item) => {
+                  menuList.map((item, index) => {
                     return (
-                      <Badge className="w-fit h-[35px] flex justify-center m-auto font-medium capitalize">
+                      <Badge 
+                        key={item.id || index}
+                        className="w-fit h-[35px] flex justify-center m-auto font-medium capitalize">
                         {item.name}
                       </Badge>
                     );

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const authRoute = require('./router/auth-router');
-const vandorRoute = require('./router/vendor-route');
+const shopRoute = require('./router/shop-route');
 const foodRoute = require('./router/food-route');
 const adminRoute = require('./router/admin-route');
 const cors = require('cors');
@@ -17,7 +17,7 @@ app.use(cors(corsoptions))
 app.use(express.json());
 app.use('/addMenu',performBothActions);
 app.use("/api", authRoute);
-app.use("/api", vandorRoute);
+app.use("/api", shopRoute);
 app.use("/api", foodRoute);
 app.use("/api/admin", adminRoute);
 

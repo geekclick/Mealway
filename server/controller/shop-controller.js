@@ -1,21 +1,24 @@
 const mongoose = require('mongoose');
-const Vendor = require('../models/shop-model.js');
+const Shop = require('../models/shop-model.js');
 const Food = require('../models/food-model.js')
+const User = require('../models/user-model.js')
 
 // --------------------------Register the Shop -------------------------------//
 const addShop = async (req, res) => {
     try {
-        const { img, coverImg, name, shopname, location, address, description, menuid, menudata, contact, openingHour, closingHour } = req.body;
+        const {shopInfo, user_email} = req.body;
+        const { shop_pic, shop_cover, name, address, description, customer_care_number, service_time } = shopInfo;
+        
+        const user = await User.findOne({email: user_email });
+        const user_id = user._id;
+        const shopExist = await Shop.findOne({ user_id:user_id });
 
-        const vendorExist = await Vendor.findOne({ contact });
-
-        if (vendorExist) {
+        if (shopExist) {
             return res.status(400).json({ msg: "Vendor already exists" });
         }
+        const newShop = await Shop.create({ shop_pic, shop_cover, name, address, description, customer_care_number, service_time, user_id });
 
-        const newVendor = await Vendor.create({ img, coverImg, name, shopname, address, menuid, location, description, menudata, contact, openingHour, closingHour });
-
-        res.status(200).json({ msg: "Vendor created successfully", vendor: newVendor });
+        res.status(200).json({ msg: "Vendor created successfully", Shop: newShop });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Internal Server Error", error });
@@ -81,7 +84,7 @@ const deleteSelectedVendor = async (req, res) => {
 
 const updateSelectedVendor = async (req, res) => {
     try {
-        const updatedResult = await Vendor.findOneAndUpdate(
+        const updatedResult = await Shop.findOneAndUpdate(
             { contact: req.body.contact },
             {
                 img: req.body.img,
@@ -96,7 +99,7 @@ const updateSelectedVendor = async (req, res) => {
             },
             { new: true }
         );
-        console.log(updatedResult);
+        console.log("From updateSelectedVendor : \n \n",updatedResult);
         res.json(updatedResult);
     } catch (error) {
         console.log(error);
@@ -108,15 +111,16 @@ const updateSelectedVendor = async (req, res) => {
 
 const getAllVendors = async (req, res) => {
     try {
-        const vendors = await Vendor.find();
-        console.log(vendors);
+        const shops = await Shop.find();
+        // console.log("From getAllVendors : \n \n",shops);
 
-        if (!vendors || vendors.length === 0) {
-            return res.status(404).json({ msg: "No vendors found" });
+        if (!shops || shops.length === 0) {
+            return res.status(404).json({ msg: "No shops found" });
         }
-        res.status(200).json(vendors);
+        res.status(200).json(shops);
     } catch (error) {
-        next(error);
+        // next(error);
+        console.log(error);
     }
 };
 
@@ -175,14 +179,14 @@ const findVendorByFoodName = async (req, res) => {
         const foodIds = foods.map(food => food._id);
         console.log("food ids from same food name : ", foodIds);
         // Search for vendors with matching menu IDs (efficiently)
-        const vendors = await Vendor.find({ menuID: { $in: foodIds } });
-        console.log("vendors having food : ", vendors)
-        if (vendors.length === 0) {
-            return res.status(200).json({ msg: "No vendors found for this food" });
+        const shops = await Shop.find({ menuID: { $in: foodIds } });
+        console.log("shops having food : ", shops)
+        if (shops.length === 0) {
+            return res.status(200).json({ msg: "No shops found for this food" });
         }
 
         // Respond with the found vendors
-        res.status(200).json({ msg: "Vendors found", vendors }); // Include vendors data
+        res.status(200).json({ msg: "Shops found", shops }); // Include vendors data
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Internal Server Error", error });
@@ -195,13 +199,13 @@ const findVendorsByShopName = async (req, res) => {
     const { shopname } = req.body;
 
     try {
-        const vendors = await Vendor.find({ shopname });
+        const shops = await Shop.find({ shopname });
 
-        if (vendors.length === 0) {
-            return res.status(404).json({ error: 'No vendors found with the specified shop name' });
+        if (shops.length === 0) {
+            return res.status(404).json({ error: 'No shops found with the specified shop name' });
         }
 
-        res.status(200).json(vendors);
+        res.status(200).json(shops);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -211,16 +215,16 @@ const findVendorsByShopName = async (req, res) => {
 // --------------------------------- ********Find vendor by food Id********* ----------------------------- //
 
 const findVendorById = async (req, res) => {
-    const { vendorId } = req.body;
+    const { shopId } = req.body;
 
     try {
-        const vendor = await Vendor.findById(vendorId);
+        const shop = await Shop.findById(shopId);
 
-        if (!vendor) {
-            return res.status(404).json({ error: 'Vendor not found' });
+        if (!shop) {
+            return res.status(404).json({ error: 'Shop not found' });
         }
 
-        res.status(200).json(vendor);
+        res.status(200).json(shop);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -254,43 +258,43 @@ const findVendorById = async (req, res) => {
 const getRandomFood = async (req, res) => {
     try {
         // Retrieve random vendors
-        const randomVendors = await Vendor.aggregate([{ $sample: { size: 5 } }]);
-        console.log("Random Vendors", randomVendors);
+        const randomShop = await Shop.aggregate([{ $sample: { size: 5 } }]);
+        // console.log("Random Shops ", randomShop);
 
         // Extract food IDs from random vendors
-        const foodIds = randomVendors.flatMap(vendor => vendor.menuID);
-        console.log("Food ID", foodIds);
+        const foodIds = randomShop.flatMap(shop => shop.menuID);
+        // console.log("Food ID", foodIds);
 
         // Retrieve random foods associated with these vendors
         const randomFoods = await Food.aggregate([
             { $match: { _id: { $in: foodIds } } },
             { $sample: { size: 5 } }
         ]);
-        console.log("Random Food", randomFoods);
+        // console.log("Random Food", randomFoods);
 
         // Prepare response data
         const responseData = randomFoods.map(food => {
             // Find vendor for the current food
-            const vendor = randomVendors.find(vendor => vendor.menuID.includes(food._id));
+            const shop = randomShop.find(shop => shop.menuID.includes(food._id));
 
             // Check if vendor is found
-            if (vendor) {
+            if (shop) {
                 return {
                     foodName: food.name,
                     price: food.price,
-                    vendor: {
-                        name: vendor.shopname,
-                        address: vendor.address
+                    shop: {
+                        name: shop.shopname,
+                        address: shop.address
                     }
                 };
             } else {
                 // Handle case where vendor is not found
-                console.log("Vendor not found for food:", food);
+                console.log("Shop not found for food:", food);
                 return {
                     foodName: food.name,
                     price: food.price,
-                    vendor: {
-                        name: "Vendor Not Found",
+                    shop: {
+                        name: "Shop Not Found",
                         address: "Address Not Found"
                     }
                 };

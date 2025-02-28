@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const vendorForm = require('../controller/vendor-controller');
+const vendorForm = require('../controller/shop-controller');
 
 
-router.route('/register-shop').post(vendorForm.addVendor);
-router.route('/addmenu').post(vendorForm.addMenu)
+router.route('/register-shop').post(vendorForm.addShop);
+router.route('/addmenu').post(vendorForm.addMenu);
 router.route('/deleteMenu').post(vendorForm.deleteMenu);
 router.route('/pushMenuId').post(vendorForm.pushMenuId);
 
