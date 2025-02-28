@@ -57,9 +57,9 @@ function RegisterShop() {
     resolver: zodResolver(vendorSchema),
     defaultValues: {
       name: "",
-      shopname: "",
+      // shopname: "",
       address: "",
-      contact: "",
+      customer_care_number: "",
       openingHour: "",
       closingHour: "",
     },
@@ -83,9 +83,10 @@ function RegisterShop() {
         values.coverImg = coverImgUrl;
         values.location = loc;
         values.menu = menuList;
+        values.service_time = `${values.openingHour} - ${values.closingHour}`;
       }
       console.log(values);
-      handleShopRegistration(values, dispatch, navigate);
+      handleShopRegistration(values, dispatch, navigate, user.email);
     } catch (error) {
       console.error("Error occurred during image upload:", error);
     }
@@ -156,7 +157,7 @@ function RegisterShop() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Owner Name</FormLabel>
+                  <FormLabel>Shop Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter menu name" {...field} />
                   </FormControl>
@@ -164,7 +165,7 @@ function RegisterShop() {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="shopname"
               render={({ field }) => (
@@ -176,7 +177,7 @@ function RegisterShop() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <div className="w-full flex flex-col space-y-2">
               <Label>Location</Label>
               <Input
