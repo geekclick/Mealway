@@ -4,9 +4,9 @@ const vendorForm = require('../controller/shop-controller');
 
 
 router.route('/register-shop').post(vendorForm.addShop);
-router.route('/addmenu').post(vendorForm.addMenu);
-router.route('/deleteMenu').post(vendorForm.deleteMenu);
-router.route('/pushMenuId').post(vendorForm.pushMenuId);
+// router.route('/addmenu').post(vendorForm.addMenu);
+// router.route('/deleteMenu').post(vendorForm.deleteMenu);
+// router.route('/pushMenuId').post(vendorForm.pushMenuId);
 
 router.route("/getAllVendors").get(vendorForm.getAllVendors);
 router.route("/deleteVendor").delete(vendorForm.deleteSelectedVendor);

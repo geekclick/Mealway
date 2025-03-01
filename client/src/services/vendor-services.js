@@ -1,31 +1,14 @@
-import { setMenuList } from "@/store/reducers/menuSlice";
 import { setVendor, setVendorList } from "@/store/reducers/vendorSlice";
 import axios from "axios";
 
-export const handleShopRegistration = async (shopInfo, dispatch, navigate, user) => {
+export const handleShopRegistration = async (shopInfo, user) => {
     try {
-        const response = await axios.post("/api/register-shop", {shopInfo:shopInfo, user_email:user});
-        console.log("handleShopRegistration : ",response)
+        const response = await axios.post("/api/register-shop", { shopInfo: shopInfo, user_email: user });
         if (response) {
-            dispatch(setVendor({
-                img: "",
-                coverImg: "",
-                name: "",
-                shopname: "",
-                location: "",
-                address: "",
-                customer_care_number: "",
-                openingHour: "",
-                closingHour: "",
-                menu: [],
-            }))
-            dispatch(setMenuList([]))
-            navigate("/");
             console.log("Vendor Added!")
             localStorage.removeItem("menu")
         }
     } catch (error) {
-        dispatch(setMenuList([]))
         console.log("Error in Shop Registration", error);
     }
 }
@@ -34,7 +17,6 @@ export const getVendorList = async (dispatch, navigate) => {
     try {
         const response = await axios.get("api/getAllVendors")
         if (response) {
-            console.log(response)
             dispatch(setVendorList(response.data))
             navigate("/")
         }

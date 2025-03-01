@@ -25,7 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { shopSchema } from "@/schemas/vendorSchema";
+import { vendorSchema } from "@/schemas/vendorSchema";
 
 function RegisterShop() {
   const dispatch = useDispatch();
@@ -33,10 +33,8 @@ function RegisterShop() {
   const imgRef = useRef(null);
   const coverImgRef = useRef(null);
   const [loc, setLoc] = useState({});
-  const menuList = JSON.parse(localStorage.getItem("menu"));
   const [image, setImage] = useState({ img: "", coverImg: "" });
-  const { user } = useSelector((state) => state.authSlice);
-
+  const menuList = JSON.parse(localStorage.getItem("menu"));
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const name = e.target.name;
@@ -56,17 +54,14 @@ function RegisterShop() {
   };
 
   const form = useForm({
-    resolver: zodResolver(shopSchema),
+    resolver: zodResolver(vendorSchema),
     defaultValues: {
       name: "",
-      description: "",
+      // shopname: "",
       address: "",
+      customer_care_number: "",
       openingHour: "",
       closingHour: "",
-      contact: "",
-      shop_pic: "",
-      shop_cover: "",
-      holiday: "",
     },
   });
 
@@ -84,13 +79,14 @@ function RegisterShop() {
           image.coverImg,
           "vendor-cover"
         );
-        values.shop_pic = imgUrl;
-        values.shop_cover = coverImgUrl;
+        values.img = imgUrl;
+        values.coverImg = coverImgUrl;
         values.location = loc;
-        values.menuList = menuList;
+        values.menu = menuList;
+        values.service_time = `${values.openingHour} - ${values.closingHour}`;
       }
-      handleShopRegistration(values, user.email);
-      navigate("/");
+      console.log(values);
+      handleShopRegistration(values, dispatch, navigate, user.email);
     } catch (error) {
       console.error("Error occurred during image upload:", error);
     }
@@ -163,25 +159,25 @@ function RegisterShop() {
                 <FormItem>
                   <FormLabel>Shop Name</FormLabel>
                   <FormControl>
+                    <Input placeholder="Enter menu name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* <FormField
+              control={form.control}
+              name="shopname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Shop Name</FormLabel>
+                  <FormControl>
                     <Input placeholder="Enter shop name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Shop Description</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter shop description" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            /> */}
             <div className="w-full flex flex-col space-y-2">
               <Label>Location</Label>
               <Input
@@ -281,7 +277,7 @@ function RegisterShop() {
               </div>
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Please wait.." : "Register Shop"}
+              {isSubmitting ? "Loading..." : "Register Shop"}
             </Button>
             {errors.root && (
               <p className=" text-red-500 text-center mt-0">

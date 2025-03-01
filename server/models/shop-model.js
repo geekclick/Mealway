@@ -118,7 +118,7 @@ const shopModel = new mongoose.Schema({
   shop_cover: {
     type: String
   },
-  customer_care_number: {
+  contact: {
     type: Number
   },
   holiday: {

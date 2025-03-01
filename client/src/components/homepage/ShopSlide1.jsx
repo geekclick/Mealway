@@ -70,14 +70,14 @@ function ShopSlide1({ title }) {
                   <Link to={`/vendor/${item._id}`} className=" space-y-2">
                     <img
                       src={
-                        item.coverImg ||
+                        item.shop_cover ||
                         "https://imgs.search.brave.com/ToyQYoj6YnON9BI_e-yWUeFl1MxWK6Q56fComCLqEuw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAzLzQ1LzA1Lzky/LzM2MF9GXzM0NTA1/OTIzMl9DUGllVDhS/SVdPVWs0SnFCa2tX/a0lFVFlBa216MmI3/NS5qcGc"
                       }
                       alt=""
                       className="rounded-sm rounded-b-none w-[210px] h-[140px] m-auto md:basis-1/2 lg:basis-1/3"
                     />
                     <div>
-                      <h4 className="font-semibold">{item.shopname} </h4>
+                      <h4 className="font-semibold">{item.name} </h4>
                       <p className="italic w-full flex mt-1">
                         <IoLocationOutline className="mx-1" /> {item.address}
                       </p>

@@ -1,77 +1,81 @@
 const mongoose = require('mongoose');
 const Shop = require('../models/shop-model.js');
 const Food = require('../models/food-model.js')
-const User = require('../models/user-model.js')
+const User = require('../models/user-model.js');
+const { addfood } = require('./food-controller.js');
 
 // --------------------------Register the Shop -------------------------------//
 const addShop = async (req, res) => {
     console.log(req.body)
 
     try {
-        const {shopInfo, user_email} = req.body;
-        const { shop_pic, shop_cover, name, address, description, customer_care_number, service_time } = shopInfo;
-        
-        const user = await User.findOne({email: user_email });
+        const { shopInfo, user_email } = req.body;
+        const { shop_pic, shop_cover, name, address, description, contact, menuList } = shopInfo;
+        const service_time = `${shopInfo.openingHour} - ${shopInfo.closingHour}`
+
+        const user = await User.findOne({ email: user_email });
         const user_id = user._id;
-        const shopExist = await Shop.findOne({ user_id:user_id });
+        const shopExist = await Shop.findOne({ user_id: user_id });
 
         if (shopExist) {
             return res.status(400).json({ msg: "Vendor already exists" });
         }
-        const newShop = await Shop.create({ shop_pic, shop_cover, name, address, description, customer_care_number, service_time, user_id });
+        const newShop = await Shop.create({ shop_pic, shop_cover, name, address, description, contact, service_time, user_id });
+        req.body = { menuList: menuList, shop_id: newShop._id.toString() };
+        await addfood(req, res);
 
-        res.status(200).json({ msg: "Vendor created successfully", Shop: newShop });
+        return res.status(200).json({ msg: "Vendor created successfully", Shop: newShop });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: "Internal Server Error", error });
+        return res.status(500).json({ msg: "Internal Server Error", error });
     }
 };
 
 // --------------------- Add the menu in the Food Model --------------------//
-const addMenu = async (req, res) => {
-    try {
-        const { name, description, category, price, image } = req.body;
-        const newFood = await Food.create({ name, description, category, price, image });
-        res.status(200).json({ msg: "Menu created successfully", newFood });
-    } catch (error) {
-        res.status(404).json({ msg: "Menu Error", error });
-    }
-}
+// const addMenu = async (req, res) => {
+//     try {
+//         const { name, description, category, price, image } = req.body;
+//         const newFood = await Food.create({ name, description, category, price, image });
+//         res.status(200).json({ msg: "Menu created successfully", newFood });
+//     } catch (error) {
+//         res.status(404).json({ msg: "Menu Error", error });
+//     }
+// }
 
 // ------------------Delete the menu if not login in---------------------------//
-const deleteMenu = async (req, res) => {
-    try {
-        const deleteFood = await Food.deleteOne(
-            { name: req.body.name }
-        );
-        res.json({ deleteFood });
-    } catch (error) {
-        res.status(402).send("Error");
-    }
-}
+// const deleteMenu = async (req, res) => {
+//     try {
+//         const deleteFood = await Food.deleteOne(
+//             { name: req.body.name }
+//         );
+//         res.json({ deleteFood });
+//     } catch (error) {
+//         res.status(402).send("Error");
+//     }
+// }
 
 // ----------------- Push the Food Id in menu array in vendor model ----------------//
-const pushMenuId = async (req, res) => {
-    try {
-        const { vendorId, menuId } = req.body;
+// const pushMenuId = async (req, res) => {
+//     try {
+//         const { vendorId, menuId } = req.body;
 
-        // Find the vendor by its ID
-        const vendor = await Vendor.findById(vendorId);
+//         // Find the vendor by its ID
+//         const vendor = await Vendor.findById(vendorId);
 
-        if (!vendor) {
-            return res.status(404).json({ msg: "Vendor not found" });
-        }
+//         if (!vendor) {
+//             return res.status(404).json({ msg: "Vendor not found" });
+//         }
 
-        // Push the menu ID into the menuid array
-        vendor.menuID.push(menuId);
-        await vendor.save();
+//         // Push the menu ID into the menuid array
+//         vendor.menuID.push(menuId);
+//         await vendor.save();
 
-        res.status(200).json({ msg: "MenuId pushed successfully", vendor });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: "Internal Server Error", error });
-    }
-};
+//         res.status(200).json({ msg: "MenuId pushed successfully", vendor });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ msg: "Internal Server Error", error });
+//     }
+// };
 
 // --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
 
@@ -101,7 +105,7 @@ const updateSelectedVendor = async (req, res) => {
             },
             { new: true }
         );
-        console.log("From updateSelectedVendor : \n \n",updatedResult);
+        console.log("From updateSelectedVendor : \n \n", updatedResult);
         res.json(updatedResult);
     } catch (error) {
         console.log(error);
@@ -314,7 +318,7 @@ const getRandomFood = async (req, res) => {
 
 
 module.exports = {
-    addShop, addMenu, deleteMenu, pushMenuId,
+    addShop,
     deleteSelectedVendor, updateSelectedVendor,
     findVendorByFoodName, getRandomFood, getAllVendors,
     findVendorsByShopName, findVendorById

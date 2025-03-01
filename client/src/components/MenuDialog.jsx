@@ -90,6 +90,7 @@ function MenuDialog({ children }) {
             <Input
               placeholder="price"
               name="price"
+              type="number"
               value={formData.price}
               onChange={(e) => handleChange(e, setFormData)}
             />

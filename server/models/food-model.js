@@ -22,7 +22,7 @@ const foodModel = new mongoose.Schema({
     required: true
   },
   price: {
-    type: Number,
+    type: String,
     required: true
   }
 }, {
@@ -30,3 +30,33 @@ const foodModel = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Food', foodModel);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
