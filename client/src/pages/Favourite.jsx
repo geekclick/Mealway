@@ -3,6 +3,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FaChevronRight, FaStar } from "react-icons/fa";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 
 const vendorList = [
   { name: "Grandma's shop", address: "NYC, Broadway ave 79" },
@@ -22,7 +25,22 @@ const dishList = [
 ];
 
 function Favourite() {
-  const data = axios.get("/api/v1/favourites") || { food: [], shop: [] };
+  // const data = axios.get("/api/v1/favourites") || { food: [], shop: [] };
+  const [data, setData] = useState({ food: [], shop: [] });
+
+
+  useEffect(() => {
+    axios.get("/api/v1/favourites")
+      .then((response) => {
+        if (response.data && response.data.shop && response.data.food) {
+          setData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+  
   return (
     <section>
       <div className="flex justify-center items-center py-6">
@@ -36,7 +54,7 @@ function Favourite() {
           </TabsList>
           <TabsContent value="vendors">
             <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-              {data.shop.map((item, i) => {
+              {data?.shop?.map((item, i) => {
                 return (
                   <div className="flex space-x-4 my-10">
                     <img
@@ -67,7 +85,7 @@ function Favourite() {
           </TabsContent>
           <TabsContent value="dishes">
             <div className="grid md:grid-cols-3 grid-cols-2 gap-4 my-10">
-              {data.food.map((item, i) => {
+              {data?.food?.map((item, i) => {
                 return (
                   <div>
                     <img
