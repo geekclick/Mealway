@@ -6,19 +6,38 @@ import ProdSlide1 from "@/components/homepage/ProdSlide1";
 import Recommended from "@/components/homepage/Recommended";
 import BottomNav from "@/components/BottomNav";
 import { SlHandbag } from "react-icons/sl";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { getFoods } from "@/services/food-services";
 
 function Vendor() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const { vendorList } = useSelector((state) => state.vendorSlice);
-  const thisVendor = vendorList.filter((item) => item._id == id)[0];
-  console.log(thisVendor);
+  const { menuList } = useSelector((state) => state.menuSlice);
+  const thisVendor = useMemo(
+    () => vendorList.filter((item) => item._id == id)[0],
+    [vendorList]
+  );
+
+  const handleGetFood = async () => {
+    try {
+      console.log(thisVendor);
+      await getFoods(thisVendor._id, dispatch);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetFood();
+  }, [thisVendor]);
   return (
     <section>
       <div className="relative">
         <img
-          src={thisVendor?.coverImg}
+          src={thisVendor?.shop_cover}
           alt=""
           className="w-[375px] h-[180px]"
         />
@@ -27,13 +46,13 @@ function Vendor() {
         </Link>
       </div>
       <img
-        src={thisVendor?.img}
+        src={thisVendor?.shop_pic}
         alt=""
         className="relative -top-10 left-8 w-[80px] h-[80px]"
       />
       <div className="flex flex-col w-full px-6 m-auto -mt-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl">{thisVendor?.shopname}</h1>
+          <h1 className="text-3xl">{thisVendor?.name}</h1>
           <GoHeart className="text-2xl text-muted-freground" />
         </div>
         <div className="flex justify-between items-center">
@@ -54,8 +73,8 @@ function Vendor() {
         </div>
       </div>
       <div className="p-6 space-y-8 pb-20">
-        <ProdSlide1 title="For You" list={thisVendor?.menu} />
-        <Recommended list={thisVendor?.menu} />
+        <ProdSlide1 title={"For You"} list={menuList} />
+        <Recommended list={menuList} />
       </div>
       <BottomNav />
     </section>

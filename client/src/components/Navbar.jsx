@@ -42,11 +42,9 @@ function Navbar() {
   const activePath = location.pathname.split("/")[1];
   const dispatch = useDispatch();
   const { user, isLoggedIn } = useSelector((state) => state.authSlice);
-  console.log(user);
   const initials = user.fullName?.split(" ").reduce((acc, name) => {
     return acc + name.charAt(0).toUpperCase();
   }, "");
-  console.log(initials);
   return (
     <nav className=" fixed w-full z-20 bg-white flex justify-between items-center p-5 py-3 shadow-md">
       <div className="flex items-center justify-center space-x-10">
