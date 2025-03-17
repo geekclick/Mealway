@@ -17,9 +17,9 @@ const addShop = async (req, res) => {
         const user_id = user._id;
         const shopExist = await Shop.findOne({ user_id: user_id });
 
-        if (shopExist) {
-            return res.status(400).json({ msg: "Vendor already exists" });
-        }
+        // if (shopExist) {
+        //     return res.status(400).json({ msg: "Vendor already exists" });
+        // }
         const newShop = await Shop.create({ shop_pic, shop_cover, name, address, description, contact, service_time, user_id });
         req.body = { menuList: menuList, shop_id: newShop._id.toString() };
         await addfood(req, res);

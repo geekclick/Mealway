@@ -10,16 +10,16 @@ const Food = require('../models/food-model')
 // 6. Respond with registration successfull or handle error
 
 const addfood = async (req, res) => {
-  console.log(req.body);
   try {
     const duplicate = [];
     const { menuList, shop_id } = req.body;
-
+    
     // Create an array of promises for each menu item
     const foodPromises = menuList.map(async (menu) => {
       const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
       if (!foodExist) {
         const { name, description, category, price, image } = menu;
+        console.log("from food api menu ",menu)
         return Food.create({ shop_id, name, description, category, price, image });
       } else {
         console.log("Food already exists:", foodExist.name);

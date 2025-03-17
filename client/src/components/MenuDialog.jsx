@@ -5,6 +5,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import { Input } from "./ui/input";
 import { handleChange } from "@/helpers/handleChange";
 import { Label } from "./ui/label";
@@ -78,12 +86,18 @@ function MenuDialog({ children }) {
           </div>
           <div>
             <Label>Category</Label>
-            <Input
-              placeholder="category"
-              name="category"
-              value={formData.category}
-              onChange={(e) => handleChange(e, setFormData)}
-            />
+            <Select name="category" onChange={(e) => handleChange(e, setFormData)} defaultValue={formData.category}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="veg">veg</SelectItem>
+                <SelectItem value="non-veg">non-veg</SelectItem>
+                <SelectItem value="dessert">dessert</SelectItem>
+                <SelectItem value="beverage">beverage</SelectItem>
+              </SelectContent>
+            </Select>
+
           </div>
           <div>
             <Label>Price</Label>
