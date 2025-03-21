@@ -5,42 +5,45 @@ import { GoHeart, GoHeartFill } from "react-icons/go";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-
-const vendorList = [
-  { name: "Grandma's shop", address: "NYC, Broadway ave 79" },
-  { name: "Grandma's shop", address: "NYC, Broadway ave 79" },
-  { name: "Grandma's shop", address: "NYC, Broadway ave 79" },
-  { name: "Grandma's shop", address: "NYC, Broadway ave 79" },
-  { name: "Grandma's shop", address: "NYC, Broadway ave 79" },
-];
-
-const dishList = [
-  { name: "Hamburger" },
-  { name: "Hamburger" },
-  { name: "Hamburger" },
-  { name: "Hamburger" },
-  { name: "Hamburger" },
-  { name: "Hamburger" },
-];
+import { handleAddShopToFavourites, handleAddFoodToFavourites, handleGetFavourites, handleRemoveShopFromFavourite } from "../services/favourite-services";
+import { useDispatch, useSelector } from "react-redux";
 
 function Favourite() {
-  // const data = axios.get("/api/v1/favourites") || { food: [], shop: [] };
   const [data, setData] = useState({ food: [], shop: [] });
+  const { user } = useSelector((state) => state.authSlice)
+  const { shopFavList } = useSelector((state) => state.favoriteSlice)
+  console.log(shopFavList)
+  const dispatch = useDispatch();
+
+  const handleGetFavourite = async () => {
+    try {
+      await handleGetFavourites(user.id, dispatch)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleFavourite = async (itemId, type) => {
+    if (!user.id) return;
+
+    await handleAddShopToFavourites(itemId, user.id, dispatch, (name, error) => console.error(error));
+  };
+
+  const handleRemoveFavourite = async (itemId) => {
+    if (!user.id) return;
+
+    try {
+      await handleRemoveShopFromFavourite(itemId, user.id, dispatch, (name, error) => console.error(error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
   useEffect(() => {
-    axios.get("/api/v1/favourites")
-      .then((response) => {
-        if (response.data && response.data.shop && response.data.food) {
-          setData(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    handleGetFavourite();
   }, []);
-  
+
   return (
     <section>
       <div className="flex justify-center items-center py-6">
@@ -54,27 +57,44 @@ function Favourite() {
           </TabsList>
           <TabsContent value="vendors">
             <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-              {data?.shop?.map((item, i) => {
+              {shopFavList.map(({ shop_id }, i) => {
                 return (
-                  <div className="flex space-x-4 my-10">
+                  <div key={shop_id._id} className="flex space-x-4 my-10 mx-2 w-full">
                     <img
-                      src={`https://source.unsplash.com/92x92/?shop$${i}`}
+                      src={`${shop_id.shop_pic}`}
                       alt=""
-                      className="rounded-xl"
+                      className="rounded-xl w-20 aspect-square"
                     />
                     <div className="flex flex-col justify-between items-center">
                       <div>
-                        <h4 className="font-semibold">{item.name}</h4>
-                        <p>{item.address}</p>
+                        <h4 className="font-semibold">{shop_id.name}</h4>
+                        <p>{shop_id.address}</p>
                       </div>
                       <p className="italic w-full flex mt-1">
                         <FaStar className="text-yellow-500 mx-1 mb-4" />{" "}
                         4.8(1.2k) | 1.5 km
                       </p>
                     </div>
-                    <GoHeartFill className="m-2 text-primary text-xl" />
+                    {/* <button onClick={() => handleFavourite(shop_id._id, "shop")}>
+                      <GoHeartFill className="m-2 text-primary text-xl" />
+                    </button> */}
+                    <button onClick={() => {
+                      const isFavourite = shopFavList.some((fav) => fav.shop_id._id === shop_id._id);
+                      if (isFavourite) {
+                        handleRemoveFavourite(shop_id._id);
+                      } else {
+                        handleFavourite(shop_id._id, "shop");
+                      }
+                    }}>
+                      {shopFavList.some((fav) => fav.shop_id._id === shop_id._id) ? (
+                        <GoHeartFill className="m-2 text-primary text-xl" />
+                      ) : (
+                        <GoHeart className="m-2 text-primary text-xl" />
+                      )}
+                    </button>
+
                     <div className="flex flex-col justify-center items-center">
-                      <Link to="/" className="flex justify-center items-center">
+                      <Link to={`/vendor/${shop_id._id}`} className="flex justify-center items-center">
                         <FaChevronRight className="text-black" />
                       </Link>
                     </div>
@@ -87,7 +107,7 @@ function Favourite() {
             <div className="grid md:grid-cols-3 grid-cols-2 gap-4 my-10">
               {data?.food?.map((item, i) => {
                 return (
-                  <div>
+                  <div key={item._id}>
                     <img
                       src={`https://source.unsplash.com/155x126/?food$${i}`}
                       alt=""
@@ -99,7 +119,9 @@ function Favourite() {
                         <FaStar className="text-yellow-500 mx-1 mb-4" /> 4.8
                         (1.2k)
                       </p>
-                      <GoHeartFill className="text-primary text-xl" />
+                      <button onClick={() => handleFavourite(item._id, "food")}>
+                        <GoHeartFill className="text-primary text-xl" />
+                      </button>
                     </div>
                   </div>
                 );

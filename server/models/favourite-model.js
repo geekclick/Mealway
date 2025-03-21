@@ -9,12 +9,12 @@ const favouriteModel = new mongoose.Schema({
   food_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Food',
-    required: true
+    required: false
   },
   shop_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Shop',
-    required: true
+    required: false
   }
 }, {
   timestamps: true

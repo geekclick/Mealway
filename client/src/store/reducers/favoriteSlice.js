@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     menuFavList: [],
-    vendorFavList: [],
+    shopFavList: [],
     // fav: {}
 };
 
@@ -16,15 +16,20 @@ const favoriteSlice = createSlice({
         addMenuFav: (state, action) => {
             state.menuFavList.push(action.payload)
         },
-        setVendorFavList: (state, action) => {
-            state.vendorFavList = action.payload;
+        setShopFavList: (state, action) => {
+            state.shopFavList = action.payload;
         },
-        addVendorFav: (state, action) => {
-            state.vendorFavList.push(action.payload)
+        addShopFav: (state, action) => {
+            state.shopFavList.push(action.payload)
         },
+        removeShopFav: (state, action) => {
+            state.shopFavList = state.shopFavList.filter(
+                (shop) => shop.shop_id !== action.payload
+            );
+        },        
     },
 });
 
-export const { setMenuFavList, addMenuFav, setVendorFavList, addVendorFav } = favoriteSlice.actions;
+export const { setMenuFavList, addMenuFav, setShopFavList, addShopFav, removeShopFav } = favoriteSlice.actions;
 
 export default favoriteSlice.reducer;

@@ -51,7 +51,7 @@ const updateSelectedVendor = async (req, res) => {
             },
             { new: true }
         );
-        console.log(updatedResult);
+        // console.log(updatedResult);
         res.json(updatedResult);
     } catch (error) {
         console.log(error);
@@ -64,7 +64,7 @@ const updateSelectedVendor = async (req, res) => {
 const getAllVendors = async (req, res) => {
     try {
         const vendors = await Vendor.find();
-        console.log(vendors);
+        // console.log(vendors);
 
         if (!vendors || vendors.length === 0) {
             return res.status(404).json({ msg: "No vendors found" });

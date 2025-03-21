@@ -1,169 +1,96 @@
 const Favourite = require('../models/favourite-model');
-const Vendor = require('../models/shop-model');
-const Food = require('../models/food-model');
 
-//------------------------ addVendorToFavorites -----------------------------//
-
-const addVendorToFavorites = async (req, res) => {
-  // const { vendorId } = req.params;
-  const { vendorId } = req.body;
-  console.log("Received vendor ID:", vendorId);
-
-  const { userId } = req.body;
-
+exports.addShopToFavourites = async (req, res) => {
   try {
+    const { user_id, shop_id } = req.body;
 
-    console.log("Received request to add vendor:", vendorId, "to favorites for user:", userId);
-
-    // Find or create the favorite record for the user.
-    let favorite = await Favourite.findOne({ user: userId });
-
-    if (!favorite) {
-
-      console.warn("Creating favorite without initial vendor. Consider validation logic.");
-      favorite = new Favourite({
-        user: userId,
-        vendors: [] // Empty array to satisfy validation
-      });
-    } else {
-      console.log("vendor already exists");// Check if the vendor already exists in the user's favorites
-      if (!favorite.vendors.includes(vendorId)) {
-        favorite.vendors.push(vendorId);
-      }
+    if (!user_id || !shop_id) {
+      return res.status(400).json({ message: "User ID and Shop ID are required." });
     }
 
-    // Save the changes to the favorite record
-    await favorite.save();
-    console.log("Ids of the favorite vendors", favorite.vendors);
+    const existingFavourite = await Favourite.findOne({ user_id, shop_id });
 
-    // Populate the vendor details in the favorite record
-    favorite = await Favourite.findById(favorite._id).populate('vendors');
-
-    // If you want to return only the added vendor details, you can use:
-    // const addedVendor = await Vendor.findById(vendorId);
-
-    // Return the updated favorite list with vendor details
-    res.status(200).json(favorite);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal Server Error: ' + err.message });
-  }
-};
-
-//-------------------------- removeVendorFromFavorites -----------------------------//
-const removeVendorFromFavorites = async (req, res) => {
-  const { vendorId } = req.body; // Assuming vendorId is in request body
-  const { userId } = req.body;
-
-  try {
-    console.log("Received request to remove vendor:", vendorId, "from favorites for user:", userId);
-
-    const favorite = await Favourite.findOne({ user: userId });
-
-    if (!favorite) {
-      return res.status(404).json({ error: 'Favorites not found for user' });
+    if (existingFavourite) {
+      return res.status(400).json({ message: "Shop already added to favourites." });
     }
 
-    const vendorIndex = favorite.vendors.indexOf(vendorId);
+    const favourite = new Favourite({ user_id, shop_id });
+    await favourite.save();
 
-    if (vendorIndex === -1) {
-      return res.status(404).json({ error: 'Vendor not found in favorites' });
-    }
+    const populatedFavourite = await Favourite.findById(favourite._id).populate('shop_id');
 
-    favorite.vendors.splice(vendorIndex, 1);
-
-    await favorite.save();
-
-    // Populate the updated vendor list
-    let favourite = await Favourite.findById(favorite._id).populate('vendors');
-
-    res.status(200).json(favourite);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal Server Error: ' + err.message });
-  }
-};
-
-//-------------------------- addFoodToFavorites -----------------------------//
-
-const addFoodToFavorites = async (req, res) => {
-  const { foodId } = req.body; // Assuming food ID is in request body
-  const { userId } = req.body;
-
-  try {
-    console.log("Received request to add food:", foodId, "to favorites for user:", userId);
-
-    // Find or create the favorite record for the user
-    let favorite = await Favourite.findOne({ user: userId });
-
-    // Handle case where favorite doesn't exist yet
-    if (!favorite || !favorite.foods) {
-      console.warn("Creating favorite without initial food. Consider validation logic.");
-      favorite = new Favourite({
-        user: userId,
-        foods: [] // Empty array to satisfy validation
-      });
-    } else {
-      // Existing favorite with foods array
-      console.log("Food section already exists");
-      if (!favorite.foods.includes(foodId)) {
-        favorite.foods.push(foodId);
-      }
-    }
-
-    // Save the changes to the favorite record
-    await favorite.save();
-
-
-    // favorite = await Favourite.findById(favorite._id).populate('foods');
-    favorite = await Favourite.findById(favorite._id).populate('foods');
-
-    // Return the favorite object with populated food details
-    res.status(200).json(favorite);
-
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal Server Error: ' + err.message });
-  }
-};
-
-//-------------------------- removeFoodFromFavorites -----------------------------//
-
-const removeFoodFromFavorites = async (req, res) => {
-  const { foodId, userId } = req.body;
-
-  try {
-    const favorite = await Favourite.findOneAndUpdate(
-      { user: userId },
-      { $pull: { foods: foodId } },
-      { new: true }
-    );
-
-    if (!favorite) {
-      return res.status(404).json({ error: 'Favorite not found' });
-    }
-
-    res.status(200).json(favorite);
+    res.status(201).json({ message: "Shop added to favourites.", favourite: populatedFavourite });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
-module.exports = { addVendorToFavorites, removeVendorFromFavorites, addFoodToFavorites, removeFoodFromFavorites };
+exports.removeShopFromFavourite = async (req, res) => {
+  try {
+    const {user_id, shop_id} = req.body;
 
+    console.log(req.body)
+    if(!user_id || !shop_id){
+      return res.status(400).json({ message: "User ID and Shop ID are required."});
+    }
 
-// const favorite = await Favourite.findOneAndUpdate({ user_id: "userid" })
-// const mix = [{food,null}, {null,shop}, {food_id:"sadadadasdasd",shop_id:null}, {}, {}, {}, {}, {}, {}]
-// const food = [{name:'',price:'',description:''}]
-// const shop = [{}]
-// mix.forEach((fav) => {
-//   if (food_id != null) {
-//     const data = food.findById(id)
-//     food.append(data)
-//   } else {
-//     const shop = shop.findById(id)
-//     shop.append(shop)
-//   }
-// })
+    const existingFavourite = await Favourite.findOneAndDelete({ user_id, shop_id });
+
+    if(!existingFavourite){
+      // return res.status(400).json({ message: "Shop does not exist in the favourite "});
+      console.log("Shop does not exist in the favourite");
+    }
+
+    console.log(existingFavourite);
+
+    res.status(200).json({ message: "Shop removed from favourites.", Favourite });
+
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error: error.message});
+  }
+}
+
+// Add Food to Favourites
+exports.addFoodToFavourites = async (req, res) => {
+  try {
+    const { user_id, food_id } = req.body;
+
+    if (!user_id || !food_id) {
+      return res.status(400).json({ message: "User ID and Food ID are required." });
+    }
+
+    const existingFavourite = await Favourite.findOne({ user_id, food_id });
+
+    if (existingFavourite) {
+      return res.status(400).json({ message: "Food item already added to favourites." });
+    }
+
+    const favourite = new Favourite({ user_id, food_id });
+    await favourite.save();
+
+    const populatedFavourite = await Favourite.findById(favourite._id).populate('food_id');
+
+    res.status(201).json({ message: "Food added to favourites.", favourite: populatedFavourite });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+exports.getFavourites = async (req, res) => {
+  try {
+    console.log(req.body)
+    const { user_id } = req.body; // Get user_id from request body
+
+    if (!user_id) {
+      return res.status(400).json({ message: "Bad Request: user_id is required." });
+    }
+
+    const favourites = await Favourite.find({ user_id })
+      .populate('shop_id')
+      .populate('food_id');
+    console.log(favourites)
+    res.status(200).json(favourites );
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};

@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect, useMemo } from "react";
 import { getFoods } from "@/services/food-services";
+import { handleAddShopToFavourites } from "@/services/favourite-services";
+import { toast } from "react-toastify";
 
 function Vendor() {
   const { id } = useParams();
@@ -23,13 +25,22 @@ function Vendor() {
 
   const handleGetFood = async () => {
     try {
-      console.log(thisVendor);
+      console.log("Coming from handleGetFood : ",thisVendor);
       await getFoods(thisVendor._id, dispatch);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleFavourite = async () => {
+    try {
+      await handleAddShopToFavourites( thisVendor._id, thisVendor.user_id, dispatch);
+      toast.info("Added to favourite from handle favourite")
+      // console.log(thisVendor)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     handleGetFood();
   }, [thisVendor]);
@@ -53,7 +64,7 @@ function Vendor() {
       <div className="flex flex-col w-full px-6 m-auto -mt-8">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl">{thisVendor?.name}</h1>
-          <GoHeart className="text-2xl text-muted-freground" />
+          <GoHeart onClick={handleFavourite} className="text-2xl text-muted-freground" />
         </div>
         <div className="flex justify-between items-center">
           <div className=" space-y-1 my-1">

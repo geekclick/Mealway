@@ -4,8 +4,9 @@ const authRoute = require('./router/auth-router');
 const shopRoute = require('./router/shop-route');
 const foodRoute = require('./router/food-route');
 const adminRoute = require('./router/admin-route');
+const favouriteRoute = require('./router/favourite-route');
 const cors = require('cors');
-const performBothActions = require('./middleware/performBothAction');
+// const performBothActions = require('./middleware/performBothAction');
 
 const corsoptions = {
     origin: 'http://localhost:5173/',
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/api", authRoute);
 app.use("/api", shopRoute);
 app.use("/api", foodRoute);
+app.use("/api", favouriteRoute);
 app.use("/api/admin", adminRoute);
 
 const bodyParser = require('body-parser');

@@ -31,7 +31,7 @@ const register = async (req, res) => {
             name: name,
             userId: data._id.toString(),
         });
-        console.log(data);
+        // console.log(data);
     } catch (error) {
         res.status(error.status)
         console.error(error);
@@ -82,7 +82,7 @@ const login = async (req, res) => {
 
         // Passwords match, generate token and respond
         const token = await user.generateToken();
-        return res.status(200).json({ message: "Login successful", email: user.email, name: user.name, token });
+        return res.status(200).json({ message: "Login successful",user:{email:user.email,id:user._id, name:user.name}, token });
     } catch (error) {
         console.error("Error in login:", error);
         return res.status(500).json({ message: "Internal Server Error" });

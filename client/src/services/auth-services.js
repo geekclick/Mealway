@@ -44,8 +44,9 @@ export const handleLogin = async (userInfo, dispatch, navigate, setError) => {
     try {
         const response = await axios.post("/api/login", userInfo);
         if (response) {
-            const data = response.data;
-            dispatch(setUser({ fullName: data.name, email: data.email }))
+            const data = response.data.user;
+            console.log("Coming from handle Login: ",data)
+            dispatch(setUser({ fullName: data.name, email: data.email, id: data.id }))
             dispatch(setIsLoggedIn(true));
             navigate("/");
             toast.success("Login Success");

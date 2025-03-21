@@ -6,7 +6,7 @@ const { addfood } = require('./food-controller.js');
 
 // --------------------------Register the Shop -------------------------------//
 const addShop = async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
 
     try {
         const { shopInfo, user_email } = req.body;
@@ -105,7 +105,7 @@ const updateSelectedVendor = async (req, res) => {
             },
             { new: true }
         );
-        console.log("From updateSelectedVendor : \n \n", updatedResult);
+        // console.log("From updateSelectedVendor : \n \n", updatedResult);
         res.json(updatedResult);
     } catch (error) {
         console.log(error);
@@ -168,7 +168,7 @@ const getAllVendors = async (req, res) => {
 const findVendorByFoodName = async (req, res) => {
     try {
         const { foodName } = req.body; // Assuming food name comes from request body
-        console.log("foodname from get vendor by name : ", foodName);
+        // console.log("foodname from get vendor by name : ", foodName);
         // Validate food name presence
         if (!foodName) {
             return res.status(400).send("Please provide a food name");
@@ -176,17 +176,17 @@ const findVendorByFoodName = async (req, res) => {
 
         // Search for foods with a case-insensitive match on the name
         const foods = await Food.find({ name: { $regex: new RegExp(foodName, 'i') } });
-        console.log("foods after finding all foods : ", foods);
+        // console.log("foods after finding all foods : ", foods);
         if (foods.length === 0) {
             return res.status(200).json({ msg: "No food found with that name" });
         }
 
         // Get all food object IDs efficiently
         const foodIds = foods.map(food => food._id);
-        console.log("food ids from same food name : ", foodIds);
+        // console.log("food ids from same food name : ", foodIds);
         // Search for vendors with matching menu IDs (efficiently)
         const shops = await Shop.find({ menuID: { $in: foodIds } });
-        console.log("shops having food : ", shops)
+        // console.log("shops having food : ", shops)
         if (shops.length === 0) {
             return res.status(200).json({ msg: "No shops found for this food" });
         }
@@ -295,7 +295,7 @@ const getRandomFood = async (req, res) => {
                 };
             } else {
                 // Handle case where vendor is not found
-                console.log("Shop not found for food:", food);
+                // console.log("Shop not found for food:", food);
                 return {
                     foodName: food.name,
                     price: food.price,

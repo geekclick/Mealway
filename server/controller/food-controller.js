@@ -71,7 +71,7 @@ const updateSelectedFood = async (req, res) => {
       },
       { new: true }
     );
-    console.log(updatedResult);
+    // console.log(updatedResult);
     res.json(updatedResult);
   } catch (error) {
     console.log(error);
@@ -83,9 +83,9 @@ const updateSelectedFood = async (req, res) => {
 
 const getAllFoods = async (req, res) => {
   try {
-    console.log(req)
+    // console.log(req)
     const foods = await Food.find(req.body.shop_id);
-    console.log(foods);
+    // console.log(foods);
 
     if (!foods || foods.length === 0) {
       return res.status(404).json({ msg: "No foods found" });
