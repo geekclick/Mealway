@@ -37,7 +37,6 @@ function MenuDialog({ children }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(image);
     const menu = JSON.parse(localStorage.getItem("menu")) || [];
     menu.push({ ...formData, image: image });
     localStorage.setItem("menu", JSON.stringify(menu));

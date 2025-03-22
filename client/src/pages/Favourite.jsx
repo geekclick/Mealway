@@ -4,45 +4,56 @@ import { FaChevronRight, FaStar } from "react-icons/fa";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { handleAddShopToFavourites, handleAddFoodToFavourites, handleGetFavourites, handleRemoveShopFromFavourite } from "../services/favourite-services";
+import { useCallback, useEffect, useState } from "react";
+import {
+  handleAddShopToFavourites,
+  handleAddFoodToFavourites,
+  handleGetFavourites,
+  handleRemoveShopFromFavourite,
+} from "../services/favourite-services";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function Favourite() {
   const [data, setData] = useState({ food: [], shop: [] });
-  const { user } = useSelector((state) => state.authSlice)
-  const { shopFavList } = useSelector((state) => state.favoriteSlice)
-  console.log(shopFavList)
+  const { user } = useSelector((state) => state.authSlice);
+  const { shopFavList } = useSelector((state) => state.favoriteSlice);
   const dispatch = useDispatch();
 
-  const handleGetFavourite = async () => {
+  const handleGetFavourite = useCallback(async () => {
     try {
-      await handleGetFavourites(user.id, dispatch)
+      await handleGetFavourites(user.id, dispatch);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  }, [shopFavList]);
 
   const handleFavourite = async (itemId, type) => {
     if (!user.id) return;
 
-    await handleAddShopToFavourites(itemId, user.id, dispatch, (name, error) => console.error(error));
+    await handleAddShopToFavourites(itemId, user.id, dispatch, (name, error) =>
+      console.error(error)
+    );
   };
 
   const handleRemoveFavourite = async (itemId) => {
     if (!user.id) return;
 
     try {
-      await handleRemoveShopFromFavourite(itemId, user.id, dispatch, (name, error) => console.error(error));
+      await handleRemoveShopFromFavourite(
+        itemId,
+        user.id,
+        dispatch,
+        (name, error) => console.error(error)
+      );
     } catch (error) {
       console.log(error);
     }
   };
 
-
   useEffect(() => {
     handleGetFavourite();
-  }, []);
+  }, [shopFavList]);
 
   return (
     <section>
@@ -59,7 +70,10 @@ function Favourite() {
             <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
               {shopFavList.map(({ shop_id }, i) => {
                 return (
-                  <div key={shop_id._id} className="flex space-x-4 my-10 mx-2 w-full">
+                  <div
+                    key={shop_id._id}
+                    className="flex space-x-4 my-10 mx-2 w-full"
+                  >
                     <img
                       src={`${shop_id.shop_pic}`}
                       alt=""
@@ -78,15 +92,21 @@ function Favourite() {
                     {/* <button onClick={() => handleFavourite(shop_id._id, "shop")}>
                       <GoHeartFill className="m-2 text-primary text-xl" />
                     </button> */}
-                    <button onClick={() => {
-                      const isFavourite = shopFavList.some((fav) => fav.shop_id._id === shop_id._id);
-                      if (isFavourite) {
-                        handleRemoveFavourite(shop_id._id);
-                      } else {
-                        handleFavourite(shop_id._id, "shop");
-                      }
-                    }}>
-                      {shopFavList.some((fav) => fav.shop_id._id === shop_id._id) ? (
+                    <button
+                      onClick={() => {
+                        const isFavourite = shopFavList.some(
+                          (fav) => fav.shop_id._id === shop_id._id
+                        );
+                        if (isFavourite) {
+                          handleRemoveFavourite(shop_id._id);
+                        } else {
+                          handleFavourite(shop_id._id, "shop");
+                        }
+                      }}
+                    >
+                      {shopFavList.some(
+                        (fav) => fav.shop_id._id === shop_id._id
+                      ) ? (
                         <GoHeartFill className="m-2 text-primary text-xl" />
                       ) : (
                         <GoHeart className="m-2 text-primary text-xl" />
@@ -94,7 +114,10 @@ function Favourite() {
                     </button>
 
                     <div className="flex flex-col justify-center items-center">
-                      <Link to={`/vendor/${shop_id._id}`} className="flex justify-center items-center">
+                      <Link
+                        to={`/vendor/${shop_id._id}`}
+                        className="flex justify-center items-center"
+                      >
                         <FaChevronRight className="text-black" />
                       </Link>
                     </div>

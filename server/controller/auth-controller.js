@@ -31,7 +31,6 @@ const register = async (req, res) => {
             name: name,
             userId: data._id.toString(),
         });
-        // console.log(data);
     } catch (error) {
         res.status(error.status)
         console.error(error);

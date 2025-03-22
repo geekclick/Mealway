@@ -3,7 +3,6 @@ import { FaStar } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
 
 function Recommended({ list }) {
-  console.log(list);
   return (
     <section className=" space-y-4">
       <h2 className="text-[20px] italic text-left">Recommended For You </h2>

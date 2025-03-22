@@ -13,13 +13,12 @@ const addfood = async (req, res) => {
   try {
     const duplicate = [];
     const { menuList, shop_id } = req.body;
-    
+
     // Create an array of promises for each menu item
     const foodPromises = menuList.map(async (menu) => {
       const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
       if (!foodExist) {
         const { name, description, category, price, image } = menu;
-        console.log("from food api menu ",menu)
         return Food.create({ shop_id, name, description, category, price, image });
       } else {
         console.log("Food already exists:", foodExist.name);
@@ -83,9 +82,7 @@ const updateSelectedFood = async (req, res) => {
 
 const getAllFoods = async (req, res) => {
   try {
-    // console.log(req)
     const foods = await Food.find(req.body.shop_id);
-    // console.log(foods);
 
     if (!foods || foods.length === 0) {
       return res.status(404).json({ msg: "No foods found" });

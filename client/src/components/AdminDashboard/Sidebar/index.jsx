@@ -11,7 +11,6 @@ import { FiMenu } from "react-icons/fi";
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { pathname } = location;
-  console.log(pathname);
 
   const trigger = useRef(null);
   const sidebar = useRef(null);

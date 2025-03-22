@@ -9,8 +9,16 @@ import Recommended from "@/components/homepage/Recommended";
 import Sidebar from "@/components/Sidebar";
 import Hero from "@/components/homepage/Hero";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
+import { getFoods } from "@/services/food-services";
+import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
+  const dispatch = useDispatch();
+  const { menuList } = useSelector((state) => state.menuSlice);
+  useEffect(() => {
+    getFoods("", dispatch);
+  }, []);
   return (
     <div className="">
       <Navbar />
@@ -20,7 +28,7 @@ function Home() {
         <SearchBar />
         {/* <Offers /> */}
         <NavGrid />
-        <ProdSlide1 title={"What's delicious around here?"} />
+        <ProdSlide1 title={"What's delicious around here?"} list={menuList} />
         {/* <img src={""} alt="promo" /> */}
         <ShopSlide1 title={"Nearby Restaurants"} />
         {/* <ProdSlide1 title={"Highlights of March"} /> */}

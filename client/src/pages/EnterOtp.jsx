@@ -42,8 +42,6 @@ function EnterOtp() {
         },
         body: JSON.stringify(formData),
       });
-
-      console.log(response);
     } catch (error) {
       console.log("Api coonection error", error);
     }

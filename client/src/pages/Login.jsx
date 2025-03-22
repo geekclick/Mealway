@@ -38,7 +38,6 @@ function Login() {
   } = form;
 
   function onSubmit(values) {
-    console.log("object");
     handleLogin(values, dispatch, navigate, setError);
   }
 

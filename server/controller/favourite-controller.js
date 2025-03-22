@@ -27,26 +27,24 @@ exports.addShopToFavourites = async (req, res) => {
 
 exports.removeShopFromFavourite = async (req, res) => {
   try {
-    const {user_id, shop_id} = req.body;
+    const { user_id, shop_id } = req.body;
 
-    console.log(req.body)
-    if(!user_id || !shop_id){
-      return res.status(400).json({ message: "User ID and Shop ID are required."});
+    if (!user_id || !shop_id) {
+      return res.status(400).json({ message: "User ID and Shop ID are required." });
     }
 
     const existingFavourite = await Favourite.findOneAndDelete({ user_id, shop_id });
 
-    if(!existingFavourite){
+    if (!existingFavourite) {
       // return res.status(400).json({ message: "Shop does not exist in the favourite "});
       console.log("Shop does not exist in the favourite");
     }
 
-    console.log(existingFavourite);
 
     res.status(200).json({ message: "Shop removed from favourites.", Favourite });
 
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error", error: error.message});
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 }
 
@@ -78,9 +76,7 @@ exports.addFoodToFavourites = async (req, res) => {
 
 exports.getFavourites = async (req, res) => {
   try {
-    console.log(req.body)
-    const { user_id } = req.body; // Get user_id from request body
-
+    const { user_id } = req.query;
     if (!user_id) {
       return res.status(400).json({ message: "Bad Request: user_id is required." });
     }
@@ -88,8 +84,7 @@ exports.getFavourites = async (req, res) => {
     const favourites = await Favourite.find({ user_id })
       .populate('shop_id')
       .populate('food_id');
-    console.log(favourites)
-    res.status(200).json(favourites );
+    res.status(200).json(favourites);
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }

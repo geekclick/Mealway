@@ -36,7 +36,6 @@ function Vendor() {
     try {
       await handleAddShopToFavourites( thisVendor._id, thisVendor.user_id, dispatch);
       toast.info("Added to favourite from handle favourite")
-      // console.log(thisVendor)
     } catch (error) {
       console.error(error);
     }

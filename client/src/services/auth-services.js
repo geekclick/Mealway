@@ -45,7 +45,6 @@ export const handleLogin = async (userInfo, dispatch, navigate, setError) => {
         const response = await axios.post("/api/login", userInfo);
         if (response) {
             const data = response.data.user;
-            console.log("Coming from handle Login: ",data)
             dispatch(setUser({ fullName: data.name, email: data.email, id: data.id }))
             dispatch(setIsLoggedIn(true));
             navigate("/");
@@ -62,7 +61,6 @@ export const handleLogin = async (userInfo, dispatch, navigate, setError) => {
 
 export const handleSignUp = async (userInfo, dispatch, navigate, setError) => {
     try {
-        console.log(userInfo)
         const response = await axios.post("/api/register", userInfo);
         if (response) {
             dispatch(setUser({

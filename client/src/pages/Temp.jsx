@@ -85,7 +85,6 @@ function RegisterShop() {
         values.menu = menuList;
         values.service_time = `${values.openingHour} - ${values.closingHour}`;
       }
-      console.log(values);
       handleShopRegistration(values, dispatch, navigate, user.email);
     } catch (error) {
       console.error("Error occurred during image upload:", error);

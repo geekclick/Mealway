@@ -8,7 +8,6 @@ export const handleAddShopToFavourites = async (shopId, userId, dispatch) => {
         const response = await axios.post("/api/addShopToFavourite", { user_id: userId, shop_id: shopId });
 
         if (response) {
-            console.log("\n \n from favourite services : \n \n",response.data)
             toast.success("Shop added to favourites!");
             console.log("Shop added to favourites", response.data);
         }
@@ -38,8 +37,11 @@ export const handleAddFoodToFavourites = async (foodId, userId, dispatch, setErr
 
 export const handleGetFavourites = async (userId, dispatch) => {
     try {
-        console.log(userId)
-        const response = await axios.post("/api/getFavourite", {user_id: userId});
+        const response = await axios.get("/api/getFavourite", {
+            params: {
+                user_id: userId,
+            }
+        });
 
         if (response) {
             console.log(response.data);
@@ -54,20 +56,15 @@ export const handleGetFavourites = async (userId, dispatch) => {
 
 export const handleRemoveShopFromFavourite = async (shopId, userId, dispatch) => {
     try {
-        
-        // console.log("\n User ID From Remove Shop From Favourite : \n",userId);
-        // console.log("\n Shop ID From Remove Shop From Favourite : \n",shopId);
-        
         const response = await axios.delete("/api/removeShopFromFavourite", {
             data: { user_id: userId, shop_id: shopId },
         });
 
 
-        if(response){
-            console.log("\n Response From favourite services : ",response)
+        if (response) {
             dispatch(removeShopFav(shopId));
         }
-        
+
     } catch (error) {
         if (error.response?.status === 400) {
             toast.error(error.response.data.message || "Failed to remove from favourites");

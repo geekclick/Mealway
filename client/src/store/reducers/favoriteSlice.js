@@ -26,7 +26,7 @@ const favoriteSlice = createSlice({
             state.shopFavList = state.shopFavList.filter(
                 (shop) => shop.shop_id !== action.payload
             );
-        },        
+        },
     },
 });
 

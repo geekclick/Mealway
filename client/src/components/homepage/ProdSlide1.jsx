@@ -82,7 +82,6 @@ import { Link } from "react-router-dom";
 
 function ProdSlide1({ list = [], title }) {
   const toggleFavorite = (id) => {};
-  console.log(list);
   // Slider settings
   const sliderSettings = {
     dots: false,
