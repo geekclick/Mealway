@@ -78,43 +78,43 @@ import { getMenuList } from "@/services/menu-services";
 import { AiOutlineRight } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { getFoodByFoodId } from "@/services/food-services";
 
 function ProdSlide1({ list = [], title }) {
-  const toggleFavorite = (id) => {};
-  // Slider settings
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const menuList = useSelector((state) => state.menuSlice.menuList) || [];
+
+  // console.log("prod slide : ",menuList)
+
+  const handleImageClick = async (foodId) => {
+    await getFoodByFoodId(foodId, dispatch);
+    navigate(`/getFoodByFoodId/${foodId}`); 
+  };  
+
   const sliderSettings = {
     dots: false,
     infinite: true,
-    speed: 4000, // Animation speed (2 seconds)
-    autoplay: true, // Autoplay enabled
-    autoplaySpeed: 1000, // Delay between slides (4 seconds)
-    slidesToShow: 5, // Show 5 images at a time
+    speed: 4000,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    slidesToShow: 5,
     slidesToScroll: 1,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
+      { breakpoint: 1024, settings: { slidesToShow: 4 } },
+      { breakpoint: 768, settings: { slidesToShow: 3 } },
+      { breakpoint: 480, settings: { slidesToShow: 2 } },
     ],
   };
 
+  if(!menuList){
+    return <h1>Loading...</h1>
+  }
   return (
-    <section className=" space-y-4">
+    <section className="space-y-4">
       <div className="flex justify-between items-center w-full">
         <h2 className="text-xl md:text-2xl italic text-left">{title}</h2>
         <Link to={"/"}>
@@ -123,19 +123,18 @@ function ProdSlide1({ list = [], title }) {
       </div>
       <div>
         <Slider {...sliderSettings}>
-          {list.map((dish, i) => (
-            <div key={i}>
+
+          {Array.isArray(menuList) && menuList?.map((dish, i) => (
+            <div key={dish._id || i}>
               <div className="space-y-2 text-center">
                 <img
                   src={dish.image}
                   alt={dish.name}
-                  className="rounded-lg rounded-b-none mx-auto"
+                  className="rounded-lg rounded-b-none mx-auto cursor-pointer"
                   style={{ maxWidth: "150px", height: "150px" }}
+                  onClick={() => handleImageClick(dish._id)} 
                 />
                 <div className="mt-2 text-sm text-black">{dish.name}</div>
-                <div className="flex justify-between items-center">
-                  <div></div>
-                </div>
               </div>
             </div>
           ))}

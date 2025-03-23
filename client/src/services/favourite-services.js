@@ -9,11 +9,10 @@ export const handleAddShopToFavourites = async (shopId, userId, dispatch) => {
 
         if (response) {
             toast.success("Shop added to favourites!");
-            console.log("Shop added to favourites", response.data);
         }
     } catch (error) {
         if (error.response?.status === 400) {
-            toast.error(error.response.data.message || "Failed to add shop to favourites");
+            toast.error(error.response.data.message || "Failed to add <s></s>hop to favourites");
         }
     }
 };
@@ -62,6 +61,7 @@ export const handleRemoveShopFromFavourite = async (shopId, userId, dispatch) =>
 
 
         if (response) {
+            toast.success("Shop Remove From favourites!");
             dispatch(removeShopFav(shopId));
         }
 

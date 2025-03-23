@@ -21,6 +21,8 @@ import Profile from "./components/AdminDashboard/Profile";
 import Settings from "./components/AdminDashboard/Settings";
 import LogIn from "./components/AdminDashboard/SignIn";
 import Dashboard from "./components/AdminDashboard/Dashboard";
+import CategoryFoods from "./components/homepage/CategoryFoods";
+import FoodDetails from "./components/homepage/FoodDetails";
 
 function App() {
   return (
@@ -29,6 +31,10 @@ function App() {
       <Route path="/vendor/:id" element={<Vendor />} />
       <Route path="/vendor-info/:id" element={<VendorInfo />} />
       <Route path="/favourite" element={<Favourite />} />
+
+      <Route path="/category/:category" element={<CategoryFoods />} />
+      <Route path="/getFoodByFoodId/:id" element={<FoodDetails />} />
+
       <Route path="/order" element={<Order />} />
       <Route path="/reward" element={<Home />} />
       <Route path="/notification" element={<Notification />} />

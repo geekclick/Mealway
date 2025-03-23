@@ -8,6 +8,8 @@ router.route('/addFood').post(foodForm.addfood);
 router.route("/getAllFoods").get(foodForm.getAllFoods );
 router.route("/deleteFood").delete(foodForm.deleteSelectedFood );
 router.route("/updateFood").post(foodForm.updateSelectedFood );
+router.route("/getFoodByCategory/:category").get(foodForm.getFoodByCategory);
+router.route("/getFoodByFoodId/:id").get(foodForm.getFoodByFoodId);
 
 //----------------------- Favourite --------------------------//
 

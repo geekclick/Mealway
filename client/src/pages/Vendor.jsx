@@ -25,7 +25,6 @@ function Vendor() {
 
   const handleGetFood = async () => {
     try {
-      console.log("Coming from handleGetFood : ",thisVendor);
       await getFoods(thisVendor._id, dispatch);
     } catch (error) {
       console.error(error);
@@ -35,7 +34,6 @@ function Vendor() {
   const handleFavourite = async () => {
     try {
       await handleAddShopToFavourites( thisVendor._id, thisVendor.user_id, dispatch);
-      toast.info("Added to favourite from handle favourite")
     } catch (error) {
       console.error(error);
     }

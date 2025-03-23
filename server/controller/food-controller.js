@@ -1,20 +1,10 @@
 const Food = require('../models/food-model')
-// const multer = require('multer');
-// const path = require('path')
-
-// 1. Get Data
-// 2. Check email Existence
-// 3. Hash Password
-// 4. Create user/Food
-// 5. Save to DB
-// 6. Respond with registration successfull or handle error
 
 const addfood = async (req, res) => {
   try {
     const duplicate = [];
     const { menuList, shop_id } = req.body;
 
-    // Create an array of promises for each menu item
     const foodPromises = menuList.map(async (menu) => {
       const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
       if (!foodExist) {
@@ -23,14 +13,12 @@ const addfood = async (req, res) => {
       } else {
         console.log("Food already exists:", foodExist.name);
         duplicate.push(foodExist);
-        return null; // Return null for duplicates
+        return null;
       }
     });
 
-    // Wait for all promises to resolve
     const results = await Promise.all(foodPromises);
 
-    // Filter out null values (duplicates)
     const createdFoods = results.filter(food => food !== null);
 
     return res.status(200).json({
@@ -93,6 +81,39 @@ const getAllFoods = async (req, res) => {
   }
 };
 
+// --------------------------------- ********getFoodByCategory********* ----------------------------- //
+
+const getFoodByCategory = async (req, res) => {
+
+  const category = req.params;
+
+  try {
+    const foods = await Food.find(category);
+    res.status(200).json(foods);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch foods.", error });
+  }
+}
+
+// --------------------------------- ********get food by food id********* ----------------------------- //
+
+const getFoodByFoodId = async (req, res) => {
+
+  const { id } = req.params;
+
+  try {
+    const foods = await Food.findById(id);
+
+    if (!foods) {
+      return res.status(404).json({ error: "Food not found" });
+    }
+
+    res.status(200).json(foods);
+
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch foods.", error });
+  }
+}
 
 
-module.exports = { addfood, getAllFoods, deleteSelectedFood, updateSelectedFood };
+module.exports = { addfood, getAllFoods, deleteSelectedFood, updateSelectedFood, getFoodByCategory, getFoodByFoodId };

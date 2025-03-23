@@ -23,7 +23,30 @@ export const getFoods = async (shop_id, dispatch) => {
         }
     } catch (error) {
         dispatch(setMenuList([]))
-        console.log("Error in Add Food", error);
+        console.log("Error in Get Food", error);
     }
 }
 
+export const getFoodByCategory = async (category, dispatch) => {
+    try {
+        const response = await axios.get(`/api/getFoodByCategory/${category}`)
+        if(response.data){
+            dispatch(setMenuList(response.data));
+        }
+    } catch (error) {
+        dispatch(setMenuList([]));
+        console.error("Error in fetching foods by category:", error);
+    }
+}
+
+export const getFoodByFoodId = async (Id, dispatch) => {
+    try {
+        const response = await axios.get(`/api/getFoodByFoodId/${Id}`)
+        if(response.data){
+            dispatch(setMenuList(response.data))
+        }
+    } catch (error) {
+        dispatch(setMenuList([]));
+        console.error("Error in fetching foods by id:", error);
+    }
+}
