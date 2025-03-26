@@ -30,6 +30,7 @@ export const getFoods = async (shop_id, dispatch) => {
 export const getFoodByCategory = async (category, dispatch) => {
     try {
         const response = await axios.get(`/api/getFoodByCategory/${category}`)
+        
         if(response.data){
             dispatch(setMenuList(response.data));
         }

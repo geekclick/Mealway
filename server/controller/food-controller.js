@@ -85,10 +85,10 @@ const getAllFoods = async (req, res) => {
 
 const getFoodByCategory = async (req, res) => {
 
-  const category = req.params;
+  const {category} = req.params;
 
   try {
-    const foods = await Food.find(category);
+    const foods = await Food.find({category}).populate('shop_id');
     res.status(200).json(foods);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch foods.", error });
