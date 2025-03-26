@@ -45,12 +45,12 @@ const CategoryFoods = () => {
 
                             {/* Food Details */}
                             <div className="p-4 border-t text-black border-gray-700">
-                                <h2 className="text-xl  font-bold text-gray-100">{food.name}</h2>
-                                <p className="text-gray-400 mt-1">{food.description}</p>
+                                <h2 className="text-2xl  font-bold text-gray-100">{food.name}</h2>
+                                <p className="text-xl text-gray-400 mt-1">{food.description}</p>
                                 <p className="mt-3 text-lg font-semibold text-gray-200">
                                     Category: <span className="font-normal">{food.category}</span>
                                 </p>
-                                <p className="mt-2 text-lg font-bold text-green-400">
+                                <p className="mt-2 text-lg font-bold text-sky-900">
                                     Price: ${food.price}
                                 </p>
                             </div>

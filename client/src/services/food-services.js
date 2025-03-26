@@ -1,4 +1,4 @@
-import { setMenuList } from "@/store/reducers/menuSlice";
+import { setMenuList, setShopDetails, setShopFoods } from "@/store/reducers/menuSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -42,9 +42,11 @@ export const getFoodByCategory = async (category, dispatch) => {
 
 export const getFoodByFoodId = async (Id, dispatch) => {
     try {
-        const response = await axios.get(`/api/getFoodByFoodId/${Id}`)
-        if(response.data){
-            dispatch(setMenuList(response.data))
+        const response = await axios.get(`/api/getFoodByFoodId/${Id}`);
+        if (response.data) {           
+            dispatch(setMenuList(response.data.food))
+            dispatch(setShopDetails(response.data.shop))
+            dispatch(setShopFoods(response.data.shopFoods))
         }
     } catch (error) {
         dispatch(setMenuList([]));

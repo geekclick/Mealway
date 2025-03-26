@@ -98,20 +98,20 @@ const getFoodByCategory = async (req, res) => {
 // --------------------------------- ********get food by food id********* ----------------------------- //
 
 const getFoodByFoodId = async (req, res) => {
-
   const { id } = req.params;
 
   try {
-    const foods = await Food.findById(id);
-
-    if (!foods) {
+    const food = await Food.findById(id).populate('shop_id'); 
+    if (!food) {
       return res.status(404).json({ error: "Food not found" });
     }
 
-    res.status(200).json(foods);
+    const shopFoods = await Food.find({ shop_id: food.shop_id });
+
+    res.status(200).json({ food, shop: food.shop_id, shopFoods });
 
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch foods.", error });
+    res.status(500).json({ message: "Failed to fetch food details.", error });
   }
 }
 
