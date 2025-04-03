@@ -5,30 +5,84 @@ const User = require('../models/user-model.js');
 const { addfood } = require('./food-controller.js');
 
 // --------------------------Register the Shop -------------------------------//
+// const addShop = async (req, res) => {
+
+//     try {
+//         const { shopInfo, user_email } = req.body;
+//         const { shop_pic, shop_cover, name, address, description, contact, menuList } = shopInfo;
+//         const service_time = `${shopInfo.openingHour} - ${shopInfo.closingHour}`
+
+//         const user = await User.findOne({ email: user_email });
+//         const user_id = user._id;
+//         const shopExist = await Shop.findOne({ user_id: user_id });
+
+//         // if (shopExist) {
+//         //     return res.status(400).json({ msg: "Vendor already exists" });
+//         // }
+//         const newShop = await Shop.create({ shop_pic, shop_cover, name, address, description, contact, service_time, user_id });
+//         req.body = { menuList: menuList, shop_id: newShop._id.toString() };
+//         await addfood(req, res);
+
+//         return res.status(200).json({ msg: "Vendor created successfully", Shop: newShop });
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ msg: "Internal Server Error", error });
+//     }
+// };
+
 const addShop = async (req, res) => {
-
     try {
-        const { shopInfo, user_email } = req.body;
-        const { shop_pic, shop_cover, name, address, description, contact, menuList } = shopInfo;
-        const service_time = `${shopInfo.openingHour} - ${shopInfo.closingHour}`
-
-        const user = await User.findOne({ email: user_email });
-        const user_id = user._id;
-        const shopExist = await Shop.findOne({ user_id: user_id });
-
-        // if (shopExist) {
-        //     return res.status(400).json({ msg: "Vendor already exists" });
-        // }
-        const newShop = await Shop.create({ shop_pic, shop_cover, name, address, description, contact, service_time, user_id });
-        req.body = { menuList: menuList, shop_id: newShop._id.toString() };
-        await addfood(req, res);
-
-        return res.status(200).json({ msg: "Vendor created successfully", Shop: newShop });
+      const { shopInfo, user_email } = req.body;
+      const { shop_pic, shop_cover, name, address, description, contact, menuList } = shopInfo;
+      const service_time = `${shopInfo.openingHour} - ${shopInfo.closingHour}`;
+  
+      // Find user by email
+      const user = await User.findOne({ email: user_email });
+      console.log(user);
+      
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+      const user_id = user._id;
+  
+      // Check if shop already exists
+    //   const shopExist = await Shop.findOne({ user_id: user_id });
+    //   if (shopExist) {
+    //     return res.status(400).json({ msg: "Vendor already exists" });
+    //   }
+  
+      // Create the shop
+      const newShop = await Shop.create({
+        shop_pic,
+        shop_cover,
+        name,
+        address,
+        description,
+        contact,
+        service_time,
+        user_id,
+      });
+  
+      // Call addfood but handle the result instead of letting it send a response
+      const foodResponse = await addfood({
+        menuList: menuList,
+        shop_id: newShop._id.toString(),
+      });
+  
+      console.log("Food response : ",foodResponse);
+      
+      // Send the final response
+      return res.status(200).json({
+        msg: "Vendor created successfully",
+        shop: newShop,
+        foodResponse,
+      });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ msg: "Internal Server Error", error });
+      console.error(error);
+      return res.status(500).json({ msg: "Internal Server Error", error });
     }
-};
+  };
+  
 
 // --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
 
@@ -80,9 +134,6 @@ const getAllVendors = async (req, res) => {
         console.log(error);
     }
 };
-
-// -------------------------------------- ******Get vendor by foods *********** -----------------------------//
-
 
 // --------------------------------- ********Find vendor by food name********* ----------------------------- //
 

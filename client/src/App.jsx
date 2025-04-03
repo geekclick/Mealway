@@ -22,7 +22,7 @@ import Settings from "./components/AdminDashboard/Settings";
 import LogIn from "./components/AdminDashboard/SignIn";
 import Dashboard from "./components/AdminDashboard/Dashboard";
 import CategoryFoods from "./components/homepage/CategoryFoods";
-import FoodDetails from "./components/homepage/FoodDetails";
+import SimilarFoods from "./components/homepage/SimilarFoods";
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
       <Route path="/favourite" element={<Favourite />} />
 
       <Route path="/category/:category" element={<CategoryFoods />} />
-      <Route path="/getFoodByFoodId/:id" element={<FoodDetails />} />
+      <Route path="/getFoodByFoodName/:foodName" element={<SimilarFoods />} />
 
       <Route path="/order" element={<Order />} />
       <Route path="/reward" element={<Home />} />

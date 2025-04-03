@@ -1,10 +1,54 @@
 const Food = require('../models/food-model')
 
-const addfood = async (req, res) => {
-  try {
-    const duplicate = [];
-    const { menuList, shop_id } = req.body;
+// const addfood = async (req, res) => {
+//   try {
+//     const duplicate = [];
+//     const { menuList, shop_id } = req.body;
 
+//     const foodPromises = menuList.map(async (menu) => {
+//       const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
+//       if (!foodExist) {
+//         const { name, description, category, price, image } = menu;
+//         return Food.create({ shop_id, name, description, category, price, image });
+//       } else {
+//         console.log("Food already exists:", foodExist.name);
+//         duplicate.push(foodExist);
+//         return null;
+//       }
+//     });
+
+//     const results = await Promise.all(foodPromises);
+
+//     const createdFoods = results.filter(food => food !== null);
+
+//     return res.status(200).json({
+//       msg: "Food created successfully",
+//       createdFoods,
+//       duplicates: duplicate
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ msg: "Internal Server Error", error: error.message });
+//   }
+// };
+
+// --------------------------------- ********deleteSelectedFood********* ----------------------------- //
+
+const addfood = async ({ menuList, shop_id }) => {
+  try {
+
+    console.log(menuList);
+
+    console.log("request : ",req.body);
+    
+    
+    if (!menuList || !Array.isArray(menuList)) {
+      throw new Error("Invalid or missing menuList");
+    }
+
+    const duplicate = [];
+
+    // Process each menu item
     const foodPromises = menuList.map(async (menu) => {
       const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
       if (!foodExist) {
@@ -17,22 +61,22 @@ const addfood = async (req, res) => {
       }
     });
 
+    // Wait for all promises to resolve
     const results = await Promise.all(foodPromises);
 
-    const createdFoods = results.filter(food => food !== null);
+    const createdFoods = results.filter((food) => food !== null);
 
-    return res.status(200).json({
+    // Return the created foods and duplicates
+    return {
       msg: "Food created successfully",
       createdFoods,
-      duplicates: duplicate
-    });
+      duplicates: duplicate,
+    };
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: "Internal Server Error", error: error.message });
+    throw new Error("Error adding food items: " + error.message);
   }
 };
-
-// --------------------------------- ********deleteSelectedFood********* ----------------------------- //
 
 const deleteSelectedFood = async (req, res) => {
   const deleteFood = await Food.deleteOne(
@@ -115,5 +159,23 @@ const getFoodByFoodId = async (req, res) => {
   }
 }
 
+const getFoodByFoodName = async (req, res) => {
+  const { name } = req.params;
+  
+  try {
+    const foods = await Food.find({
+      name: { $regex: new RegExp(`^${name}$`, "i") } 
+    });
 
-module.exports = { addfood, getAllFoods, deleteSelectedFood, updateSelectedFood, getFoodByCategory, getFoodByFoodId };
+    if(!foods) {
+      return res.status(404).json({ error: "Food not found" });
+    }
+
+    res.status(200).json(foods)
+  } catch (error) {
+    res.status(500).json({message: "Failed to fetch foods", error})
+  }
+}
+
+
+module.exports = { addfood, getAllFoods, deleteSelectedFood, updateSelectedFood, getFoodByCategory, getFoodByFoodId, getFoodByFoodName };

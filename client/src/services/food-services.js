@@ -53,3 +53,17 @@ export const getFoodByFoodId = async (Id, dispatch) => {
         console.error("Error in fetching foods by id:", error);
     }
 }
+
+export const getFoodByFoodName = async (foodName, dispatch) => {
+    try {        
+        const response = await axios.get(`/api/getFoodByFoodName/${foodName}`)
+
+        if (response.data) {
+            dispatch(setMenuList(response.data))
+        }
+
+    } catch (error) {
+        dispatch(setMenuList([]));
+        console.error("Error in fetching food from food name", error);
+    }
+}
