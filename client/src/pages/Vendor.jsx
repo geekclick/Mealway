@@ -1,6 +1,6 @@
 import { FaChevronLeft, FaStar } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
-import { BsExclamationCircle } from "react-icons/bs";
+import { BsExclamationCircle, BsPlus } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import ProdSlide1 from "@/components/homepage/ProdSlide1";
 import Recommended from "@/components/homepage/Recommended";
@@ -12,6 +12,8 @@ import { useEffect, useMemo } from "react";
 import { getFoods } from "@/services/food-services";
 import { handleAddShopToFavourites } from "@/services/favourite-services";
 import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
+import MenuDialog from "@/components/MenuDialog";
 
 function Vendor() {
   const { id } = useParams();
@@ -23,6 +25,10 @@ function Vendor() {
     [vendorList]
   );
 
+  const shop_menuList =
+    useMemo(() => menuList.filter((item) => item.shop_id == thisVendor._id)) ||
+    null;
+
   const handleGetFood = async () => {
     try {
       await getFoods(thisVendor._id, dispatch);
@@ -33,11 +39,16 @@ function Vendor() {
 
   const handleFavourite = async () => {
     try {
-      await handleAddShopToFavourites( thisVendor._id, thisVendor.user_id, dispatch);
+      await handleAddShopToFavourites(
+        thisVendor._id,
+        thisVendor.user_id,
+        dispatch
+      );
     } catch (error) {
       console.error(error);
     }
-  }
+  };
+
   useEffect(() => {
     handleGetFood();
   }, [thisVendor]);
@@ -61,7 +72,10 @@ function Vendor() {
       <div className="flex flex-col w-full px-6 m-auto -mt-8">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl">{thisVendor?.name}</h1>
-          <GoHeart onClick={handleFavourite} className="text-2xl text-muted-freground" />
+          <GoHeart
+            onClick={handleFavourite}
+            className="text-2xl text-muted-freground"
+          />
         </div>
         <div className="flex justify-between items-center">
           <div className=" space-y-1 my-1">
@@ -80,9 +94,18 @@ function Vendor() {
           <p className="font-medium underline">Reviews</p>
         </div>
       </div>
+      <div className="p-3">
+        <MenuDialog>
+          <Button className="w-full">Add New Menu</Button>
+        </MenuDialog>
+      </div>
       <div className="p-6 space-y-8 pb-20">
-        <ProdSlide1 title={"For You"} list={menuList} />
-        <Recommended list={menuList} />
+        {shop_menuList.length != 0 && (
+          <>
+            <ProdSlide1 title={"For You"} list={shop_menuList} />
+            <Recommended list={shop_menuList} />
+          </>
+        )}
       </div>
       <BottomNav />
     </section>

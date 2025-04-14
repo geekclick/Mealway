@@ -5,15 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { BsPlus } from "react-icons/bs";
+import { useSelector } from "react-redux";
 import {
   handleShopRegistration,
   sendImagetoCloud,
 } from "@/services/vendor-services";
 import { MdEdit } from "react-icons/md";
-import MenuDialog from "@/components/MenuDialog";
-import { Badge } from "@/components/ui/badge";
 import { getLocation } from "@/helpers/getLocation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,12 +25,10 @@ import {
 import { shopSchema } from "@/schemas/vendorSchema";
 
 function RegisterShop() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const imgRef = useRef(null);
   const coverImgRef = useRef(null);
   const [loc, setLoc] = useState({});
-  const menuList = JSON.parse(localStorage.getItem("menu"));
   const [image, setImage] = useState({ img: "", coverImg: "" });
   const { user } = useSelector((state) => state.authSlice);
 
@@ -87,10 +82,9 @@ function RegisterShop() {
         values.shop_pic = imgUrl;
         values.shop_cover = coverImgUrl;
         values.location = loc;
-        values.menuList = menuList;
       }
-      handleShopRegistration(values, user.email);
-      navigate("/");
+      const shop_id = handleShopRegistration(values, user.email);
+      navigate(`/vendor/${shop_id}`);
     } catch (error) {
       console.error("Error occurred during image upload:", error);
     }
@@ -257,27 +251,6 @@ function RegisterShop() {
                     </FormItem>
                   )}
                 />
-              </div>
-            </div>
-            <div className="w-full justify-start items-start flex flex-col space-y-2">
-              <Label>Menu</Label>
-              <div className="flex space-x-3 flex-wrap space-y-2">
-                <MenuDialog>
-                  <Button variant="outline">
-                    <BsPlus className="text-xl mx-1" /> Add Menu
-                  </Button>
-                </MenuDialog>
-                {menuList &&
-                  menuList.map((item, i) => {
-                    return (
-                      <Badge
-                        key={i}
-                        className="w-fit h-[35px] flex justify-center m-auto font-medium capitalize"
-                      >
-                        {item.name}
-                      </Badge>
-                    );
-                  })}
               </div>
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>

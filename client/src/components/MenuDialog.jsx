@@ -11,7 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import { Input } from "./ui/input";
 import { handleChange } from "@/helpers/handleChange";
@@ -22,8 +22,12 @@ import { sendImagetoCloud } from "@/services/vendor-services";
 import { useDispatch } from "react-redux";
 import { addMenu } from "@/store/reducers/menuSlice";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { handleAddFood } from "@/services/food-services";
+import { useParams } from "react-router-dom";
+import { set } from "react-hook-form";
 
 function MenuDialog({ children }) {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const imgRef = useRef(null);
   const [image, setImage] = useState("");
@@ -34,16 +38,13 @@ function MenuDialog({ children }) {
     price: "",
     image: "",
   });
+  const [loader, setLoader] = useState(false);
 
   const handleSubmit = async (e) => {
+    setLoader(true);
     e.preventDefault();
-    const menu = JSON.parse(localStorage.getItem("menu")) || [];
-    menu.push({ ...formData, image: image });
-    localStorage.setItem("menu", JSON.stringify(menu));
-
-    // Uncomment and implement the image upload if needed
-    // const imgUrl = await sendImagetoCloud(image, "menu-images");
-    // dispatch(addMenu({ ...formData, image: imgUrl }));
+    const imgUrl = await sendImagetoCloud(image, "menu");
+    await handleAddFood({ ...formData, image: imgUrl }, id);
 
     setFormData({
       name: "",
@@ -52,6 +53,7 @@ function MenuDialog({ children }) {
       price: "",
       image: "",
     });
+    setLoader(false);
   };
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -85,7 +87,13 @@ function MenuDialog({ children }) {
           </div>
           <div>
             <Label>Category</Label>
-            <Select name="category" onChange={(e) => handleChange(e, setFormData)} defaultValue={formData.category}>
+            <Select
+              name="category"
+              onValueChange={(val) =>
+                setFormData({ ...formData, category: val })
+              }
+              defaultValue={formData.category}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="category" />
               </SelectTrigger>
@@ -96,7 +104,6 @@ function MenuDialog({ children }) {
                 <SelectItem value="beverage">beverage</SelectItem>
               </SelectContent>
             </Select>
-
           </div>
           <div>
             <Label>Price</Label>
@@ -126,7 +133,9 @@ function MenuDialog({ children }) {
             </Button>
           </div>
           <Button className="w-full" type="button" onClick={handleSubmit}>
-            <DialogClose className="w-full">Add menu</DialogClose>
+            <DialogClose className="w-full">
+              {loader ? "Please wait processing.." : "Add menu"}
+            </DialogClose>
           </Button>
         </form>
       </DialogContent>

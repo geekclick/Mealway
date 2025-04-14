@@ -3,9 +3,9 @@ const Food = require('../models/food-model')
 // const addfood = async (req, res) => {
 //   try {
 //     const duplicate = [];
-//     const { menuList, shop_id } = req.body;
+//     const { menu, shop_id } = req.body;
 
-//     const foodPromises = menuList.map(async (menu) => {
+//     const foodPromises = menu.map(async (menu) => {
 //       const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
 //       if (!foodExist) {
 //         const { name, description, category, price, image } = menu;
@@ -34,44 +34,31 @@ const Food = require('../models/food-model')
 
 // --------------------------------- ********deleteSelectedFood********* ----------------------------- //
 
-const addfood = async ({ menuList, shop_id }) => {
+const addfood = async (req, res) => {
   try {
 
-    console.log(menuList);
 
-    console.log("request : ",req.body);
-    
-    
-    if (!menuList || !Array.isArray(menuList)) {
-      throw new Error("Invalid or missing menuList");
+    console.log("request : ", req.body);
+
+    const { menu, shop_id } = req.body;
+    if (!menu) {
+      throw new Error("Invalid or missing menu");
     }
 
-    const duplicate = [];
-
-    // Process each menu item
-    const foodPromises = menuList.map(async (menu) => {
-      const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
-      if (!foodExist) {
-        const { name, description, category, price, image } = menu;
-        return Food.create({ shop_id, name, description, category, price, image });
-      } else {
-        console.log("Food already exists:", foodExist.name);
-        duplicate.push(foodExist);
-        return null;
-      }
-    });
-
-    // Wait for all promises to resolve
-    const results = await Promise.all(foodPromises);
-
-    const createdFoods = results.filter((food) => food !== null);
-
-    // Return the created foods and duplicates
-    return {
-      msg: "Food created successfully",
-      createdFoods,
-      duplicates: duplicate,
-    };
+    const foodExist = await Food.findOne({ name: menu.name, shop_id: shop_id });
+    if (!foodExist) {
+      const { name, description, category, price, image } = menu;
+      const createdFoods = Food.create({ shop_id, name, description, category, price, image });
+      return res.status(200).json({
+        msg: "Food created successfully",
+        createdFoods,
+      });
+    } else {
+      console.log("Food already exists:", foodExist.name);
+      return res.status(400).json({
+        msg: "Food already exists"
+      })
+    }
   } catch (error) {
     console.error(error);
     throw new Error("Error adding food items: " + error.message);
@@ -129,10 +116,10 @@ const getAllFoods = async (req, res) => {
 
 const getFoodByCategory = async (req, res) => {
 
-  const {category} = req.params;
+  const { category } = req.params;
 
   try {
-    const foods = await Food.find({category}).populate('shop_id');
+    const foods = await Food.find({ category }).populate('shop_id');
     res.status(200).json(foods);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch foods.", error });
@@ -145,7 +132,7 @@ const getFoodByFoodId = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const food = await Food.findById(id).populate('shop_id'); 
+    const food = await Food.findById(id).populate('shop_id');
     if (!food) {
       return res.status(404).json({ error: "Food not found" });
     }
@@ -161,19 +148,19 @@ const getFoodByFoodId = async (req, res) => {
 
 const getFoodByFoodName = async (req, res) => {
   const { name } = req.params;
-  
+
   try {
     const foods = await Food.find({
-      name: { $regex: new RegExp(`^${name}$`, "i") } 
+      name: { $regex: new RegExp(`^${name}$`, "i") }
     });
 
-    if(!foods) {
+    if (!foods) {
       return res.status(404).json({ error: "Food not found" });
     }
 
     res.status(200).json(foods)
   } catch (error) {
-    res.status(500).json({message: "Failed to fetch foods", error})
+    res.status(500).json({ message: "Failed to fetch foods", error })
   }
 }
 

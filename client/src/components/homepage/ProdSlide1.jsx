@@ -3,12 +3,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { getMenuList } from "@/services/menu-services";
 import { AiOutlineRight } from "react-icons/ai";
-import { FaStar } from "react-icons/fa";
-import { GoHeart } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
-import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getFoodByFoodName } from "@/services/food-services";
 
@@ -21,8 +17,8 @@ function ProdSlide1({ list = [], title }) {
 
   const handleImageClick = async (foodName) => {
     await getFoodByFoodName(foodName, dispatch);
-    navigate(`/getFoodByFoodName/${foodName}`); 
-  };  
+    navigate(`/getFoodByFoodName/${foodName}`);
+  };
 
   const sliderSettings = {
     dots: false,
@@ -39,8 +35,8 @@ function ProdSlide1({ list = [], title }) {
     ],
   };
 
-  if(!menuList){
-    return <h1>Loading...</h1>
+  if (!menuList) {
+    return <h1>Loading...</h1>;
   }
   return (
     <section className="space-y-4">
@@ -52,21 +48,21 @@ function ProdSlide1({ list = [], title }) {
       </div>
       <div>
         <Slider {...sliderSettings}>
-
-          {Array.isArray(menuList) && menuList?.map((dish, i) => (
-            <div key={dish._id || i}>
-              <div className="space-y-2 text-center">
-                <img
-                  src={dish.image}
-                  alt={dish.name}
-                  className="rounded-lg rounded-b-none mx-auto cursor-pointer"
-                  style={{ maxWidth: "150px", height: "150px" }}
-                  onClick={() => handleImageClick(dish.name)} 
-                />
-                <div className="mt-2 text-sm text-black">{dish.name}</div>
+          {Array.isArray(menuList) &&
+            list?.map((dish, i) => (
+              <div key={dish._id || i}>
+                <div className="space-y-2 text-center">
+                  <img
+                    src={dish.image}
+                    alt={dish.name}
+                    className="rounded-lg rounded-b-none mx-auto cursor-pointer"
+                    style={{ maxWidth: "150px", height: "150px" }}
+                    onClick={() => handleImageClick(dish.name)}
+                  />
+                  <div className="mt-2 text-sm text-black">{dish.name}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </Slider>
       </div>
     </section>

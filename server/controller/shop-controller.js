@@ -32,57 +32,50 @@ const { addfood } = require('./food-controller.js');
 
 const addShop = async (req, res) => {
     try {
-      const { shopInfo, user_email } = req.body;
-      const { shop_pic, shop_cover, name, address, description, contact, menuList } = shopInfo;
-      const service_time = `${shopInfo.openingHour} - ${shopInfo.closingHour}`;
-  
-      // Find user by email
-      const user = await User.findOne({ email: user_email });
-      console.log(user);
-      
-      if (!user) {
-        return res.status(404).json({ msg: "User not found" });
-      }
-      const user_id = user._id;
-  
-      // Check if shop already exists
-    //   const shopExist = await Shop.findOne({ user_id: user_id });
-    //   if (shopExist) {
-    //     return res.status(400).json({ msg: "Vendor already exists" });
-    //   }
-  
-      // Create the shop
-      const newShop = await Shop.create({
-        shop_pic,
-        shop_cover,
-        name,
-        address,
-        description,
-        contact,
-        service_time,
-        user_id,
-      });
-  
-      // Call addfood but handle the result instead of letting it send a response
-      const foodResponse = await addfood({
-        menuList: menuList,
-        shop_id: newShop._id.toString(),
-      });
-  
-      console.log("Food response : ",foodResponse);
-      
-      // Send the final response
-      return res.status(200).json({
-        msg: "Vendor created successfully",
-        shop: newShop,
-        foodResponse,
-      });
+        const { shopInfo, user_email } = req.body;
+        const { shop_pic, shop_cover, name, address, description, contact } = shopInfo;
+        const service_time = `${shopInfo.openingHour} - ${shopInfo.closingHour}`;
+
+        // Find user by email
+        const user = await User.findOne({ email: user_email });
+        console.log(user);
+
+        if (!user) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+        const user_id = user._id;
+
+        // Check if shop already exists
+        //   const shopExist = await Shop.findOne({ user_id: user_id });
+        //   if (shopExist) {
+        //     return res.status(400).json({ msg: "Vendor already exists" });
+        //   }
+
+        // Create the shop
+        const newShop = await Shop.create({
+            shop_pic,
+            shop_cover,
+            name,
+            address,
+            description,
+            contact,
+            service_time,
+            user_id,
+        });
+
+
+        // Send the final response
+        return res.status(200).json({
+            msg: "Vendor created successfully",
+            shop: newShop._id,
+            foodResponse,
+        });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ msg: "Internal Server Error", error });
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error", error });
     }
-  };
-  
+};
+
 
 // --------------------------------- ********deleteSelectedVendor********* ----------------------------- //
 
@@ -139,14 +132,14 @@ const getAllVendors = async (req, res) => {
 
 const findVendorByFoodName = async (req, res) => {
     try {
-        const { foodName } = req.body; 
-        
+        const { foodName } = req.body;
+
         if (!foodName) {
             return res.status(400).send("Please provide a food name");
         }
 
         const foods = await Food.find({ name: { $regex: new RegExp(foodName, 'i') } });
-        
+
         if (foods.length === 0) {
             return res.status(200).json({ msg: "No food found with that name" });
         }
@@ -154,12 +147,12 @@ const findVendorByFoodName = async (req, res) => {
         const foodIds = foods.map(food => food._id);
 
         const shops = await Shop.find({ menuID: { $in: foodIds } });
-        
+
         if (shops.length === 0) {
             return res.status(200).json({ msg: "No shops found for this food" });
         }
 
-        res.status(200).json({ msg: "Shops found", shops }); 
+        res.status(200).json({ msg: "Shops found", shops });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Internal Server Error", error });
@@ -208,7 +201,7 @@ const findVendorById = async (req, res) => {
 
 const getRandomFood = async (req, res) => {
     try {
-    
+
         const randomShop = await Shop.aggregate([{ $sample: { size: 5 } }]);
 
         const foodIds = randomShop.flatMap(shop => shop.menuID);

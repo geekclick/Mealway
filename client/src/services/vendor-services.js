@@ -4,14 +4,16 @@ import axios from "axios";
 export const handleShopRegistration = async (shopInfo, user) => {
     try {
         console.log(shopInfo);
-        
+
         const response = await axios.post("/api/register-shop", { shopInfo: shopInfo, user_email: user });
-        console.log("Response : ",response);
-        
+        console.log("Response : ", response);
+
         if (response) {
             console.log("Vendor Added!")
             localStorage.removeItem("menu")
         }
+        console.log(response)
+        return response.data.shop;
     } catch (error) {
         console.log("Error in Shop Registration", error.response ? error.response.data : error.message);
     }
